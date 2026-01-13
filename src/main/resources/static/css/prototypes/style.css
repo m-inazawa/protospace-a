@@ -2,22 +2,7 @@
   text-align: center; /* タイトルや画像を中央寄せ */
 }
 
-.prototype-name {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.catchcopy-title {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.concept-title {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.comments-title {
+.prototype-name,.catchcopy-title,.concept-title,.comments-title {
   font-size: 20px;
   font-weight: bold;
 }
@@ -58,7 +43,7 @@
   text-align: center;
 }
 
-.comments-list {
+.comments-lists {
   list-style: none;
 }
 
