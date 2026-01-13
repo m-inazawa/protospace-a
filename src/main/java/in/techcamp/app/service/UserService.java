@@ -1,5 +1,5 @@
 package in.techcamp.app.service;
 
-public class userService {
+public class UserService {
   
 }
