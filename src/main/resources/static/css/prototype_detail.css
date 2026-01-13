@@ -1,0 +1,69 @@
+.contents-row {
+  text-align: center; /* タイトルや画像を中央寄せ */
+}
+
+.prototype-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.catchcopy-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.concept-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.comments-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.prototype-user {
+  text-decoration: none;
+  color: #999;
+  font-size: 16px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  gap: 10px;
+}
+
+.edit-button {
+  width: 70px;
+  color: #999;
+  border: 1px solid #999;
+  padding: 5px 6px;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.delete-btn {
+  width: 70px;
+  color: #999;
+  border: 1px solid #999;
+  padding: 5px 6px;
+  background-color: #fff;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.comments-row{
+  text-align: center;
+}
+
+.comments-list {
+  list-style: none;
+}
+
+.comment-user {
+  text-decoration: none;
+  color: #999;
+  font-size: 10px;
+}

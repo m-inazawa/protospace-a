@@ -3,61 +3,60 @@
 
 <head>
   <meta charset="UTF-8">
-  <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/css/prototype_detail.css}" rel="stylesheet" type="text/css">
+  <link href="../../static/css/prototype_detail.css" rel="stylesheet" type="text/css">
   <title>ProtoSpace</title>
 </head>
 
 <body>
-  <div class="contents row">
+  <div class="contents-row">
     <div class="content_post">
 
-      <h1 class="prototype_name">ウェブアプリ名</h1>
-      <a href="#" class="user_name">by ユーザー名</a>
+      <h1 class="prototype-name">ウェブアプリ名</h1>
+      <a href="#" class="prototype-user">by ユーザー名</a>
 
-      <div class="bottan">
+      <div class="button">
           <div class="edit-button">
-            <a href="#">編集する</a>
+            <a>編集する</a>
           </div>
-          //<form th:action="@{/tweets/{tweetId}/delete(tweetId=${tweet.id})}" th:method="post">
+          <form th:action="@{/tweets/{tweetId}/delete(tweetId=${tweet.id})}" th:method="post">
           <form action="#" method="post">
             <input type="submit" class="delete-btn" value="削除する">
           </form>
       </div>
 
-      <div class="image">
+      <div class="prototype-image">
         <span><img src="" /></span>
       </div>
 
-      <div class="prototype_details">
+      <div class="prototype-detail">
         <h2 class="catchcopy-title">キャッチコピー</h2>
-        <p>キャッチコピーテキスト</p>
+        <p class="catchcopy-text">キャッチコピーテキスト</p>
 
         <h2 class="concept-title">コンセプト</h2>
-        <p>コンセプトテキスト</p>
+        <p class="concept-text">コンセプトテキスト</p>
       </div>
     </div>
   </div>
 
-  <div class="comments">
-    <div class="comments_form">
-      <h2>コメント</h2>
-      <form action="#" method="get">
+  <div class="comments-row">
+      <h2 class="comments-title">コメント</h2>
+      <form class="comments-form" action="#" method="get">
         <textarea name="text" placeholder="コメントを入力してください" rows="2"></textarea>
         <div class="comment-btn-container">
           <input type="submit" class="comment-btn" value="送信する">
         </div>
       </form>
-    </div>
 
     <div class="comment-list">
-      <ul class="comments_lists">
-        <li class="comments_list">
+      <ul class="comments-lists">
+        <li class="comments-list">
           コメント１
-          <a href="#" class="comment_user">コメント１（名前）</a>
+          <a href="#" class="comment-user">コメント１（名前）</a>
         </li>
-        <li class="comments_list">
+        <li class="comments-list">
           コメント２
-          <a href="#" class="comment_user">コメント２（名前）</a>
+          <a href="#" class="comment-user">コメント２（名前）</a>
         </li>
       </ul>
     </div>
