@@ -1,5 +1,5 @@
 package in.techcamp.app.validation;
 
-public class ValidationPriority2 {
+public interface  ValidationPriority2 {
   
 }
