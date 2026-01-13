@@ -12,23 +12,23 @@
 
 <div class="contents row">
   <div class="container">
-    <h2>Log in</h2>
-   <p th:if="${loginError}" class="login-error" th:text="${loginError}"></p>
+    <h2>ユーザーログイン</h2>
+   <p  class="login-error" th:if="${loginError}" th:text="${loginError}"></p>
 
-    <form th:method="post" th:action="@{/users/login}" class="new_user">
+    <form class="new-user" th:method="post" th:action="@{/users/login}" >
 
       <div class="field">
-        <label class="column-title">Email</label><br />
+        <label class="column-title">メールアドレス</label><br />
         <input type="text" id="email" name="email" autofocus="autofocus" required="required" />
       </div>
 
       <div class="field">
-        <label class="password">Password</label><br />
+        <label class="password">パスワード（6文字以上）</label><br />
         <input type="password" name="password" required="required" autocomplete="off" />
       </div>
 
       <div class="actions">
-        <input type="submit" value="Log in">
+        <input type="submit" value="ログイン">
       </div>
     </form>
   </div>
