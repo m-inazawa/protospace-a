@@ -23,6 +23,10 @@ public class CustomUserDetail implements UserDetails {
         return Collections.emptyList();//権限設定なし
     }
 
+    public Integer getUserId() {
+      return user.getId();
+    }
+
     @Override
     public String getUsername() {
         return user.getEmail();

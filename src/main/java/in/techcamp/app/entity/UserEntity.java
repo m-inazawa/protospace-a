@@ -8,10 +8,10 @@ import lombok.Data;
 public class UserEntity {
   private Integer id;
   private String email;
-  private String user_name;
+  private String userName;
   private String password;
   private String profile;
   private String affiliation;
   private String position;
-  private LocalDateTime created_at;
+  private LocalDateTime createdAt;
 }
