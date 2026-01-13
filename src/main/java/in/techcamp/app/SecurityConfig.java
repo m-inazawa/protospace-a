@@ -19,9 +19,10 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(  "/", "/protoType/**", "/user/**", "/user/login").permitAll()//ログイン不要
-                        .requestMatchers(HttpMethod.POST, "/protoType/**", "/user/**").permitAll()//ログイン不要（POSTリクエストに対する表示）
-                        .anyRequest().authenticated())
+                        .requestMatchers(  "/", "/prototype/**", "/user/**", "/user/login").permitAll()//ログイン不要　許可範囲保留
+                        .requestMatchers(HttpMethod.POST, "/prototype/**", "/user/**").permitAll()//ログイン不要　許可範囲保留
+                        .anyRequest().permitAll())//一旦全ページログイン不要で表示できるよう許可しています。
+                        // .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginProcessingUrl("/login")
                         .loginPage("/users/login")
