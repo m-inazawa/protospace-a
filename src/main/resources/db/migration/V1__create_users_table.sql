@@ -1,0 +1,11 @@
+CREATE TABLE users (
+    id SERIAL NOT NULL,
+    email VARCHAR(128) NOT NULL,
+    user_name VARCHAR(256) NOT NULL,
+    password VARCHAR(512) NOT NULL,
+    profile VARCHAR(512) NOT NULL,
+    affiliation VARCHAR(512) NOT NULL,
+    position VARCHAR(128) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
