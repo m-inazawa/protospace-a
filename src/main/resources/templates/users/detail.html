@@ -17,11 +17,11 @@
         <tbody>
           <tr>
             <th class="table-col1">名前</th>
-            <td class="table-col2" th:text="${user.userName}">名前が入ります</td>
+            <td class="table-col2" th:text="${user.userName}">名前が入りますテキストテキストテキストテキスト</td>
           </tr>
           <tr>
             <th class="table-col1">プロフィール</th>
-            <td class="table-col2" th:text="${user.profile}">プロフィールが入ります</td>
+            <td class="table-col2" th:text="${user.profile}">プロフィールが入りますテキストテキストテキストテキスト</td>
           </tr>
           <tr>
             <th class="table-col1">所属</th>
@@ -37,15 +37,18 @@
 
     <div class="prototype-row">
       <div class="prototype-header" th:text="${user.userName} + 'さんのプロトタイプ'">名前さんのプロトタイプ</div>
-      <div th:each="prototype : ${prototypes}" class="prototypes">
-        <div class="prototype-image">
-          <img th:src="${prototype.image}" alt="プロトタイプ画像">
-        </div>
-          <p class="prototype-name" th:text="${prototype.prototypeName}">プロトタイプ名</p>
-          <p class="prototype-concept" th:text="${prototype.concept}">コンセプト</p>
+      <div class="prototype-contents">
+        <div th:each="prototype : ${prototypes}" class="prototypes">
+          <div class="prototype-image">
+            <img th:src="${prototype.image}" alt="プロトタイプ画像">
+          </div>
+          <p class="prototype-name" th:text="${prototype.prototypeName}">プロトタイプ名テキストテキストテキスト</p>
+          <p class="prototype-concept" th:text="${prototype.concept}">コンセプトテキストテキストテキストテキストテキストテキスト</p>
           <a th:href="@{/users/{userId}(userId=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.userName}">by ユーザー名</a>
+        </div>
       </div>
     </div>
+
   </div>
 
   <!-- <div th:insert="~{footer :: footer}"></div> -->
