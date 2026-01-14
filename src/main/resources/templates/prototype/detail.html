@@ -43,7 +43,7 @@
   <!-- コメント投稿機能 -->
   <div class="comments-row">
       <h2 class="comments-title">コメント</h2>
-      <form class="comments-form" th:action="${prototype/{prototypeId}/comments(prototypeId=${prototype.id})}" th:method="post">
+      <form class="comments-form" th:action="@{prototype/{prototypeId}/comments(prototypeId=${prototype.id})}" th:method="post">
         <textarea name="text" placeholder="コメントを入力してください" rows="2"></textarea>
         <div class="comment-btn-container">
           <input type="submit" class="comment-btn" value="送信する">
