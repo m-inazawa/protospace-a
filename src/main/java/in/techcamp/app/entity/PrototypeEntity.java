@@ -11,7 +11,6 @@ public class PrototypeEntity {
   private String concept;
   private String catchCopy;
   private String image;
-  private Timestamp createdAt;
   private Timestamp updatedAt;
   private UserEntity user;
 }
