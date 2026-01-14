@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.CommentEntity;
 import in.techcamp.app.form.CommentForm;
 import in.techcamp.app.repository.CommentRepository;
@@ -26,6 +28,7 @@ public class CommentController {
     @PathVariable("prototypeId") Integer prototypeId,
     @ModelAttribute("commentForm") CommentForm commentForm,
     BindingResult result,
+    @AuthenticationPrincipal CustomUserDetail currentUser,
     Model model
   ) {
     if (result.hasErrors()) {
@@ -39,7 +42,7 @@ public class CommentController {
     
     CommentEntity commentEntity = new CommentEntity();
     commentEntity.setPrototypeId(prototypeId);
-    commentEntity.setUserId(1);
+    commentEntity.setUserId(currentUser.getUserId());
     commentEntity.setComment(commentForm.getComment());
     
     try {
