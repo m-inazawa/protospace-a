@@ -1,5 +1,7 @@
 package in.techcamp.app.entity;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
@@ -11,4 +13,5 @@ public class UserEntity {
   private String profile;
   private String affiliation;
   private String position;
+  private LocalDateTime createdAt;
 }
