@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link th:href="@{/css/style/css}" rel="stylesheet" type="text/css">
+  <title>login.html</title>
+</head>
+
+<body>
+
+<!-- <div th:insert="~{header :: header}"></div> -->
+
+<div class="contents row">
+  <div class="container">
+    <h2>ユーザーログイン</h2>
+   <p  class="login-error" th:if="${loginError}" th:text="${loginError}"></p>
+
+    <form class="new-user" th:method="post" th:action="@{/users/login}" >
+
+      <div class="field">
+        <label class="column-title">メールアドレス</label><br />
+        <input type="text" id="email" name="email" autofocus="autofocus" required="required" />
+      </div>
+
+      <div class="field">
+        <label class="password">パスワード（6文字以上）</label><br />
+        <input type="password" name="password" required="required" autocomplete="off" />
+      </div>
+
+      <div class="actions">
+        <input type="submit" value="ログイン">
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- <div th:insert="~{footer :: footer}"></div> -->
+  
+</body>
+</html>
