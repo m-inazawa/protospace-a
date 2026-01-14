@@ -1,0 +1,48 @@
+.contents-row {
+  text-align: center;
+}
+
+.prototype-name,.catchcopy-title,.concept-title,.comments-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.prototype-user {
+  text-decoration: none;
+  color: #999;
+  font-size: 16px;
+  text-decoration: underline;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  gap: 10px;
+}
+
+.edit-btn a,.delete-btn {
+  width: 100px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 5px 0;
+  background-color: #fff;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.comments-row{
+  text-align: center;
+}
+
+.comments-lists {
+  list-style: none;
+}
+
+.comment-user {
+  text-decoration: none;
+  color: #999;
+  text-decoration: underline;
+}
