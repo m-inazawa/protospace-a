@@ -1,0 +1,56 @@
+package in.techcamp.app.controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import in.techcamp.app.entity.CommentEntity;
+import in.techcamp.app.form.CommentForm;
+import in.techcamp.app.repository.CommentRepository;
+import lombok.AllArgsConstructor;
+
+@Controller
+@AllArgsConstructor
+public class CommentController {
+  private final CommentRepository commentRepository;
+  
+  @PostMapping("prototype/{prototypeId}/comments")
+  public String createComment(
+    @PathVariable("prototypeId") Integer prototypeId,
+    @ModelAttribute("commentForm") CommentForm commentForm,
+    BindingResult result,
+    Model model
+  ) {
+    if (result.hasErrors()) {
+      List<String> errorMessages = result.getAllErrors().stream()
+        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+        .collect(Collectors.toList());
+      
+      model.addAttribute("errorMessages", errorMessages);
+      return "prototype/detail";
+    }
+    
+    CommentEntity commentEntity = new CommentEntity();
+    commentEntity.setPrototypeId(prototypeId);
+    commentEntity.setUserId(1);
+    commentEntity.setComment(commentForm.getComment());
+    
+    try {
+      commentRepository.insert(commentEntity);
+    } catch (Exception e) {
+      model.addAttribute("errorMessages", "システムエラーにより操作を完了できませんでした。");
+      System.out.println("エラー：" + e);
+      return "prototype/detail";
+    }
+
+    return "redirect:/prototype/" + prototypeId;
+
+  }
+}
