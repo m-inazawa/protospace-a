@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
   @GetMapping("/login")
-  public String showSignUp(@RequestParam(value = "error", required = false) String error, Model model) {
+  public String showLogin(@RequestParam(value = "error", required = false) String error, Model model) {
     if (error != null) {
       model.addAttribute("loginError", "invalid email or password.");
     }
