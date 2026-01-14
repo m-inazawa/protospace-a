@@ -8,21 +8,20 @@
   <title>ProtoSpace</title>
 </head>
 
-<!-- <div th:insert="~{header :: header}"></div> -->
 <body>
+<!-- <div th:insert="~{header :: header}"></div> -->
+
   <div class="contents-row">
     <div class="content-post">
-
-      <h1 class="prototype-name" th:text="${prototype.prototype_name}">ウェブアプリ名</h1>
-      <a th:href="@{/users/{id}(id=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.user_name}">by ユーザー名</a>
+      <h1 class="prototype-name" th:text="${prototype.prototypeName}">ウェブアプリ名</h1>
+      <a th:href="@{/users/{userId}(userId=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.userName}">by ユーザー名</a>
 
       <!-- 投稿したユーザーにのみ表示 -->
       <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getId() == prototype.user.id}">
-          <div class="edit-button">
-            <a th:href="@{/prototypes/{id}/edit(id=${prototype.id})}">編集する</a>
+          <div class="edit-btn"> 
+            <a th:href="@{/prototype/{prototypeId}/edit(prototypeId=${prototype.id})}">編集する</a>
           </div>
-          <form th:action="@{/prototypes/{id}/delete(id=${prototype.id})}" th:method="post">
-          <form action="#" method="post">
+          <form th:action="@{/prototype/{prototypeId}/delete(prototypeId=${prototype.id})}" th:method="post">
             <input type="submit" class="delete-btn" value="削除する">
           </form>
       </div>
@@ -33,7 +32,7 @@
 
       <div class="prototype-detail">
         <h2 class="catchcopy-title">キャッチコピー</h2>
-        <p class="catchcopy-text" th:text="${prototype.catch_copy}">キャッチコピーテキスト</p>
+        <p class="catchcopy-text" th:text="${prototype.catchCopy}">キャッチコピーテキスト</p>
 
         <h2 class="concept-title">コンセプト</h2>
         <p class="concept-text" th:text="${prototype.concept}">コンセプトテキスト</p>
@@ -44,7 +43,7 @@
   <!-- コメント投稿機能 -->
   <div class="comments-row">
       <h2 class="comments-title">コメント</h2>
-      <form class="comments-form" th:action="#" th:method="post">
+      <form class="comments-form" th:action="${prototype/{prototypeId}/comments(prototypeId=${prototype.id})}" th:method="post">
         <textarea name="text" placeholder="コメントを入力してください" rows="2"></textarea>
         <div class="comment-btn-container">
           <input type="submit" class="comment-btn" value="送信する">
@@ -56,15 +55,14 @@
       <ul class="comments-lists">
         <li class="comments_list">
           コメント１
-          <a href="#" class="comment-user">コメント１（名前）</a>
+          <a th:href="" class="comment-user">コメント１（名前）</a>
         </li>
         <li class="comments-list">
           コメント２
-          <a href="#" class="comment-user">コメント２（名前）</a>
+          <a th:href="#" class="comment-user">コメント２（名前）</a>
         </li>
       </ul>
     </div>
-
   </div>
 
   <!-- <div th:insert="~{footer :: footer}"></div> -->

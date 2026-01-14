@@ -1,5 +1,5 @@
 .contents-row {
-  text-align: center; /* タイトルや画像を中央寄せ */
+  text-align: center;
 }
 
 .prototype-name,.catchcopy-title,.concept-title,.comments-title {
@@ -11,6 +11,7 @@
   text-decoration: none;
   color: #999;
   font-size: 16px;
+  text-decoration: underline;
 }
 
 .button {
@@ -20,22 +21,15 @@
   gap: 10px;
 }
 
-.edit-button {
-  width: 70px;
-  color: #999;
+.edit-btn a,.delete-btn {
+  width: 100px;
   border: 1px solid #999;
-  padding: 5px 6px;
-  font-size: 12px;
-  text-decoration: none;
-}
-
-.delete-btn {
-  width: 70px;
-  color: #999;
-  border: 1px solid #999;
-  padding: 5px 6px;
+  border-radius: 4px;
+  padding: 5px 0;
   background-color: #fff;
+  color: #999;
   font-size: 12px;
+  text-align: center;
   text-decoration: none;
 }
 
@@ -50,5 +44,5 @@
 .comment-user {
   text-decoration: none;
   color: #999;
-  font-size: 10px;
+  text-decoration: underline;
 }
