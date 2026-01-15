@@ -61,4 +61,12 @@ public class PrototypeControllerUnitTest {
     assertThat(model.getAttribute("prototypes"), is(expectedPrototypeList));
   }
 
+  @Test
+  public void 新規投稿機能にリクエストすると新規投稿画面のビューファイルがレスポンスで返ってくる() {
+    Model model = new ExtendedModelMap();
+
+    String result = prototypeController.showPrototypeNew(model);
+
+    assertThat(result, is("prototype/new"));
+  }
 }
