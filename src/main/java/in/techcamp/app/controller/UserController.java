@@ -10,6 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+
+import in.techcamp.app.form.RegisterForm;
+import in.techcamp.app.service.UserService;
+import in.techcamp.app.validation.ValidationOrder;
+import in.techcamp.app.validation.ValidationPriority1;
+import in.techcamp.app.validation.ValidationPriority2;
+
 
 import in.techcamp.app.entity.UserEntity;
 import in.techcamp.app.form.RegisterForm;
