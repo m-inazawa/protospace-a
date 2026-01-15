@@ -49,7 +49,7 @@ public class PrototypeController {
               .collect(Collectors.toList());
       model.addAttribute("errorMessages", errorMessages);
       model.addAttribute("prototypeForm", prototypeForm);
-      return "/login";
+      return "prototype/new";
   }
 
   PrototypeEntity prototype = new PrototypeEntity();

@@ -7,9 +7,15 @@ import lombok.Data;
 @Data
 public class PrototypeForm {
   
-  @NotBlank(message = "空欄は無理です。",groups = ValidationPriority1.class)
-    private String prototypeName;
-    private String concept;
-    private String catchCopy;
-    private String image;
+  @NotBlank(message = "プロトタイプ名を入力してください。",groups = ValidationPriority1.class)
+  private String prototypeName;
+  
+  @NotBlank(message = "コンセプトを入力してください。", groups = ValidationPriority1.class)
+  private String concept;
+
+  @NotBlank(message = "キャッチコピーを入力してください。", groups = ValidationPriority1.class)
+  private String catchCopy;
+
+  @NotBlank(message = "画像を入力してください。", groups = ValidationPriority1.class)
+  private String image;
 }
