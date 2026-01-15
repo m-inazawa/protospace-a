@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
   <meta charset="UTF-8">
-  <link th:href="@{/css/users/style.css}" rel="stylesheet" type="text/css">
-  <link href="../../static/css/users/style.css" rel="stylesheet" type="text/css">
+  <link th:href="@{/css/users/detail.css}" rel="stylesheet" type="text/css">
   <title>ProtoSpace</title>
 </head>
 
@@ -12,70 +11,35 @@
 
   <div class="contents-row">
     <div class="user-row">
-      <div class="user-header" th:text="${user.userName} + 'さんの情報'">名前さんの情報</div>
+      <div class="user-header" th:text="${user.userName} + 'さんの情報'"></div>
       <table class="table">
         <tbody>
           <tr>
             <th class="table-col1">名前</th>
-            <td class="table-col2" th:text="${user.userName}">名前が入ります</td>
+            <td class="table-col2" th:text="${user.userName}"></td>
           </tr>
           <tr>
             <th class="table-col1">プロフィール</th>
-            <td class="table-col2" th:text="${user.profile}">プロフィールが入りますテキストテキストテキストテキスト</td>
+            <td class="table-col2" th:text="${user.profile}"></td>
           </tr>
           <tr>
             <th class="table-col1">所属</th>
-            <td class="table-col2" th:text="${user.affiliation}">所属が入ります</td>
+            <td class="table-col2" th:text="${user.affiliation}"></td>
           </tr>
           <tr>
             <th class="table-col1">役職</th>
-            <td class="table-col2" th:text="${user.position}">役職が入ります</td>
+            <td class="table-col2" th:text="${user.position}"></td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div class="prototype-row">
-      <div class="prototype-header" th:text="${user.userName} + 'さんのプロトタイプ'">名前さんのプロトタイプ</div>
+      <div class="prototype-header" th:text="${user.userName} + 'さんのプロトタイプ'"></div>
       <div class="prototype-contents">
         <div th:each="prototype : ${prototypes}" class="prototypes">
           <div th:replace="~{prototype :: content(prototype=${prototype})}"></div>
-          <!--フロント画面確認後消す-->
-          <div class="prototype-image">
-            <a th:href="@{/prototype/{prototypeId}(prototypeId=${prototype.id})}">
-              <!-- <img th:src="${prototype.image}" alt="プロトタイプ画像"> -->
-              <img src="../../static/images/sample1.png" alt="プロトタイプ画像">
-            </a>
-          </div>
-          <a th:href="@{/prototype/{prototypeId}(prototypeId=${prototype.id})}" class="prototype-name" th:text="${prototype.prototypeName}">プロトタイプ名テキストテキストテキスト</a>
-          <p class="prototype-concept" th:text="${prototype.concept}">コンセプトテキストテキストテキストテキスト</p>
-          <a th:href="@{/users/{userId}(userId=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.userName}">by ユーザー名</a>
-          <!-- -->
         </div>
-
-      <!--フロント画面確認後消す-->
-        <div th:each="prototype : ${prototypes}" class="prototypes">
-          <div class="prototype-image">
-            <a th:href="@{/prototype/{prototypeId}(prototypeId=${prototype.id})}">
-              <img th:src="${prototype.image}" alt="プロトタイプ画像">
-            </a>
-          </div>
-          <a th:href="@{/prototype/{prototypeId}(prototypeId=${prototype.id})}" class="prototype-name" th:text="${prototype.prototypeName}">プロトタイプ名2</a>
-          <p class="prototype-concept" th:text="${prototype.concept}">コンセプト</p>
-          <a th:href="@{/users/{userId}(userId=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.userName}">by ユーザー名</a>
-        </div>
-        <div th:each="prototype : ${prototypes}" class="prototypes">
-          <div class="prototype-image">
-            <a th:href="@{/prototype/{prototypeId}(prototypeId=${prototype.id})}">
-              <img th:src="${prototype.image}" alt="プロトタイプ画像">
-            </a>
-          </div>
-          <a th:href="@{/prototype/{prototypeId}(prototypeId=${prototype.id})}" class="prototype-name" th:text="${prototype.prototypeName}">プロトタイプ名3</a>
-          <p class="prototype-concept" th:text="${prototype.concept}">コンセプト</p>
-          <a th:href="@{/users/{userId}(userId=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.userName}">by ユーザー名</a>
-        </div>
-      <!-- -->
-
       </div>
     </div>
 
