@@ -1,0 +1,22 @@
+<header  class="header">
+  <div class="inner">
+    <div class="nav">
+      <div class="nav-left">
+        <a href="/" class="logo-title1">SHARE THE PROTOTYPE</a>
+        <a href="/" class="logo-title2">PRO<span class="text-accent">TO</span> SPACE</a>
+      </div>
+
+      <div class="nav-right" th:if="${#authorization.expression('!isAuthenticated()')}">
+        <a class="nav-btn" href="/users/login">ログイン</a>
+        <a class="nav-btn" th:href="@{/users/register}">新規登録</a>
+      </div>
+
+      <div class="nav-right" th:if="${#authorization.expression('isAuthenticated()')}">
+        <form th:action="@{/logout}" method="post" style="display:inline-block">
+          <input class="nav-btn-logout" type="submit" value="ログアウト"/>
+        </form>
+          <a class="nav-btn" th:href="@{/prototype/new}">New Proto</a>
+      </div>
+    </div>
+  </div>
+</header>
