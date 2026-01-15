@@ -5,11 +5,6 @@
         <a href="/" class="logo-title1">SHARE THE PROTOTYPE</a>
         <a href="/" class="logo-title2">PRO<span class="text-accent">TO</span> SPACE</a>
       </div>
-      <!-- </div>
-      <div class="nav-right">
-        <a class="nav-btn" href="/users/login">ログイン</a>
-        <a class="nav-btn" href="/users/register">新規登録</a>
-      </div> -->
 
       <div class="nav-right" th:if="${#authorization.expression('!isAuthenticated()')}">
         <a class="nav-btn" href="/users/login">ログイン</a>
