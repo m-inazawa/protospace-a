@@ -18,7 +18,7 @@
   
     <div class="contents">
       <div th:each="prototype : ${prototypes}" class="prototypes">
-        <div th:replace="~{prototype :: content(prototype=${prototype})}"></div>
+        <div th:replace="~{/users/prototype :: content(prototype=${prototype})}"></div>
       </div>
     </div>
   
