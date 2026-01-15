@@ -14,8 +14,8 @@
       <div class="nav-right" th:if="${#authorization.expression('isAuthenticated()')}">
         <form th:action="@{/logout}" method="post" style="display:inline-block">
           <input class="nav-btn-logout" type="submit" value="ログアウト"/>
-          <a class="nav-btn" th:href="@{/prptptype/new}">New Proto</a>
         </form>
+          <a class="nav-btn" th:href="@{/prototype/new}">New Proto</a>
       </div>
     </div>
   </div>
