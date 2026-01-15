@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+    <title>ProtoSpace</title>
+  </head>
+  
+  <body>
+  
+  <!--<div th:insert="~{header :: header}"></div>-->
+
+  <div class="top-page">
+  
+    <div class="greeting" sec:authorize="isAuthenticated()">
+      こんにちは、<a th:href="@{/users/{userId}(userId=${user.id})}" th:text="${user.userName} + 'さん'"></a>
+    </div><!--「こんにちは、ユーザー名さん」で、ユーザー名をクリックするとマイページに遷移する。-->
+  
+    <div class="contents">
+      <div th:each="prototype : ${prototypes}" class="prototypes">
+        <div th:replace="~{prototype :: content(prototype=${prototype})}"></div>
+      </div>
+    </div>
+  
+  </div>
+
+  <!--<div th:insert="~{footer :: footer}"></div>-->
+  
+  </body>
+  </html>
