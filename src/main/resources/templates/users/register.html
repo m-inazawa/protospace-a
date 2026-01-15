@@ -28,7 +28,7 @@
         </div>
 
         <div class="admin-form-password-confirmation">
-          <label for="password-confirmation">パスワード再入力</label><br />
+          <label for="password_confirmation">パスワード再入力</label><br />
           <input type="password" th:field="*{passwordConfirmation}" id="password_confirmation" autocomplete="off"/>
           <p th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="error-text"></p>
         </div>
