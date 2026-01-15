@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+    <title>userForm</title>
+</head>
+
+<body>
+<!-- <div th:insert="~{header :: header}"></div> -->
+
+<div class="contents row">
+  <div class="container">
+    <h2>ユーザー新規登録</h2>
+    <div class="form">
+      
+      <form class="new-admin" th:action="@{/users/register}" th:method="post" th:object="${registerForm}">
+        <div class="admin-form-field">
+          <label for="email">メールアドレス</label><br />
+          <input type="email" id="email" th:field="*{email}"  />
+          <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-password">
+          <label for="password">パスワード (6文字以上)</label><br />
+          <input type="password" id="password" th:field="*{password}" />
+          <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-password-confirmation">
+          <label for="password_confirmation">パスワード再入力</label><br />
+          <input type="password" th:field="*{passwordConfirmation}" id="password_confirmation" autocomplete="off"/>
+          <p th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-user-name">
+          <label for="userName">ユーザー名</label><br />
+          <input type="text" id="userName" th:field="*{userName}"  autofocus="autofocus" />
+          <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-profile">
+          <label for="profile">プロフィール</label><br />
+          <textarea type="text" id="profile" th:field="*{profile}"  autofocus="autofocus" ></textarea>
+          <p th:if="${#fields.hasErrors('profile')}" th:errors="*{profile}" class="error-text"></p>
+        </div>
+        
+        <div class="admin-form-affiliation">
+          <label for="affiliation">所属</label><br />
+          <textarea type="text" id="affiliation" th:field="*{affiliation}"  autofocus="autofocus" ></textarea>
+          <p th:if="${#fields.hasErrors('affiliation')}" th:errors="*{affiliation}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-position">
+          <label for="position">役職</label><br />
+          <textarea type="text" id="position" th:field="*{position}"  autofocus="autofocus" ></textarea>
+          <p th:if="${#fields.hasErrors('position')}" th:errors="*{position}" class="error-text"></p>
+        </div>
+
+        <div class="actions">
+          <input type="submit" value="新規登録">
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- <div th:insert="~{footer :: footer}"></div> -->
+</body>
+</html>

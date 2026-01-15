@@ -1,0 +1,92 @@
+/* プロトタイプ、コメント共通 */
+.contents-row, .comments-row {
+  width: 80vw;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* プロトタイプ詳細 */
+.contents-row {
+  text-align: center;
+  min-height: 60vh;
+}
+
+.prototype-name,.catchcopy-title,.concept-title,.comments-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.prototype-user {
+  text-decoration: none;
+  color: #999;
+  font-size: 16px;
+  text-decoration: underline;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  gap: 10px;
+}
+
+.edit-btn a,.delete-btn {
+  width: 100px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 5px;
+  background-color: #fff;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.edit-btn a:hover, .delete-btn:hover {
+  background: gray;
+  color: white;
+}
+
+.prototype-image img {
+  width: 30%;
+}
+
+
+/* コメント欄 */
+.comments-row {
+  background: #f3f7f7;
+}
+
+.comments-form textarea {
+  width: 40%;
+  padding: 5px;
+}
+
+.comment-user {
+  text-decoration: none;
+  color: #999;
+  text-decoration: underline;
+}
+
+.comment-btn-container {
+  margin: 5px 0;
+}
+
+/* 送信ボタン */
+.btn-submit {
+  background-color: #87ceeb;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5);
+}
