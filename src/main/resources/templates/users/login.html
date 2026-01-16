@@ -14,7 +14,7 @@
   <div class="main">
     <div class="inner">
       <h2>ユーザーログイン</h2>
-      <p  class="login-error" th:if="${loginError}" th:text="${param.error}"></p>
+      <p  class="login-error" th:if="${loginError}" th:text="${loginError}"></p>
 
       <form class="new-user" th:method="post" th:action="@{/users/login}" >
 
