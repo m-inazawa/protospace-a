@@ -10,7 +10,6 @@
 <body>
   <div th:replace="~{header :: header}"></div>
 
-
     <div class="contents-row">
       <div class="user-row">
         <div class="user-header" th:text="${user.userName} + 'さんの情報'"></div>
@@ -40,7 +39,7 @@
         <div class="prototype-header" th:text="${user.userName} + 'さんのプロトタイプ'"></div>
         <div class="prototype-contents">
           <div th:each="prototype : ${prototypes}" class="prototypes">
-            <div th:replace="~{prototype :: content(prototype=${prototype})}"></div>
+            <div th:replace="~{users/prototype :: content(prototype=${prototype})}"></div>
           </div>
         </div>
       </div>
