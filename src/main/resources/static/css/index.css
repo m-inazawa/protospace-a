@@ -1,16 +1,11 @@
-.header {
-  height: 80px;
-  margin-bottom: 50px;
-} /*削除*/
-
 .main {
-  margin-top: 50px;
-  padding: 0 300px 150px;
-  
+  padding-bottom: 150px;
+  flex: 1; /* ヘッダーとフッター以外の余白をすべて埋める */
+  box-sizing: border-box;
 }
 
-.inner {
-  width: 1024px;
+.inner-prototypes {
+  width: 80vw;
   margin: 0 auto;
 }
 
@@ -27,32 +22,31 @@
   min-height: calc(100vh - 160px);
 }
 
-.content1, .content2, .content3, .content4, .content5 {
+/* .content1, .content2, .content3, .content4, .content5 {
   display: flex;
   flex-direction: column;
   width: calc((100% - 50px) / 3);
   margin-bottom: 40px;
 } /*削除*/
 
-.prototype-image img{
+/* .prototype-image img{
   width: 100%;
   height: 370px;
-} /*削除*/
+} 削除 */
 
-.prototype-name {
+/* .prototype-name {
   text-decoration: none;
   font-size: 20px;
   margin-bottom: 8px;
   font-weight: bold;
-} /*削除*/
+} 削除 */
 
-.prototype-catchcopy {
+/* .prototype-catchcopy {
   font-size: 16px;
   margin: 0;
-} /*削除*/
+} 削除 */
 
-.by-user-name {
+/* .by-user-name {
   font-size: 12px;
   text-align: right;
-} /*削除*/
-
+} 削除 */
