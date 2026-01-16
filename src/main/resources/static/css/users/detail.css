@@ -1,4 +1,4 @@
-.contents-row, .prototype-row {
+.contents-row {
   flex: 1; /* ヘッダーとフッター以外の余白をすべて埋める */
 }
 

@@ -10,41 +10,41 @@
 <body>
   <div th:replace="~{header :: header}"></div>
 
-  <div class="contents-row">
-    <div class="user-row">
-      <div class="user-header" th:text="${user.userName} + 'さんの情報'"></div>
-      <table class="table">
-        <tbody>
-          <tr>
-            <th class="table-col1">名前</th>
-            <td class="table-col2" th:text="${user.userName}"></td>
-          </tr>
-          <tr>
-            <th class="table-col1">プロフィール</th>
-            <td class="table-col2" th:text="${user.profile}"></td>
-          </tr>
-          <tr>
-            <th class="table-col1">所属</th>
-            <td class="table-col2" th:text="${user.affiliation}"></td>
-          </tr>
-          <tr>
-            <th class="table-col1">役職</th>
-            <td class="table-col2" th:text="${user.position}"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
 
-    <div class="prototype-row">
-      <div class="prototype-header" th:text="${user.userName} + 'さんのプロトタイプ'"></div>
-      <div class="prototype-contents">
-        <div th:each="prototype : ${prototypes}" class="prototypes">
-          <div th:replace="~{prototype :: content(prototype=${prototype})}"></div>
+    <div class="contents-row">
+      <div class="user-row">
+        <div class="user-header" th:text="${user.userName} + 'さんの情報'"></div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th class="table-col1">名前</th>
+              <td class="table-col2" th:text="${user.userName}"></td>
+            </tr>
+            <tr>
+              <th class="table-col1">プロフィール</th>
+              <td class="table-col2" th:text="${user.profile}"></td>
+            </tr>
+            <tr>
+              <th class="table-col1">所属</th>                  
+              <td class="table-col2" th:text="${user.affiliation}"></td>
+            </tr>
+            <tr>
+              <th class="table-col1">役職</th>
+              <td class="table-col2" th:text="${user.position}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prototype-row">
+        <div class="prototype-header" th:text="${user.userName} + 'さんのプロトタイプ'"></div>
+        <div class="prototype-contents">
+          <div th:each="prototype : ${prototypes}" class="prototypes">
+            <div th:replace="~{prototype :: content(prototype=${prototype})}"></div>
+          </div>
         </div>
       </div>
     </div>
-
-  </div>
 
   <div th:replace="~{footer :: footer}"></div>
 
