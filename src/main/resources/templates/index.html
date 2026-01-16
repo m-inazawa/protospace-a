@@ -17,7 +17,7 @@
       <div class="inner">
         <div class="greeting" sec:authorize="isAuthenticated()">
           <!-- こんにちは、<a th:href="@{/users/{userId}(userId=${user.id})}" th:text="${user.userName} + 'さん'"></a> -->
-          <p>こんにちは、〇〇さん</p>
+          <p>こんにちは、<a href="">〇〇さん</a></p>
         </div><!--「こんにちは、ユーザー名さん」で、ユーザー名をクリックするとユーザー詳細ページに遷移する。コントローラー要修正。-->
   
         <div class="contents">
@@ -25,8 +25,11 @@
             <div th:replace="~{/users/prototype :: content(prototype=${prototype})}"></div>
           </div> -->
           <div class="content1">
-            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
-      
+            
+            <a href="" class="prototype-image" >
+              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
+            </a>
+
             <a href="" class="prototype-name">プロトタイプ名称</a><!--プロトタイプ詳細ページに移動-->
       
             <p class="prototype-catchcopy">てすとてすとてすと</p>
@@ -39,7 +42,9 @@
           </div>
 
           <div class="content2">
-            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
+            <a href="" class="prototype-image" >
+              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
+            </a>
       
             <a href="" class="prototype-name">プロトタイプ名称</a>
       
@@ -53,7 +58,9 @@
           </div>
 
           <div class="content3">
-            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
+            <a href="" class="prototype-image" >
+              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
+            </a>
       
             <a href="" class="prototype-name">プロトタイプ名称</a>
       
@@ -67,7 +74,9 @@
           </div>
 
           <div class="content4">
-            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
+            <a href="" class="prototype-image" >
+              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
+            </a>
       
             <a href="" class="prototype-name">プロトタイプ名称</a>
       
@@ -81,7 +90,9 @@
           </div>
 
           <div class="content5">
-            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
+            <a href="" class="prototype-image" >
+              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
+            </a>
       
             <a href="" class="prototype-name">プロトタイプ名称</a>
       
