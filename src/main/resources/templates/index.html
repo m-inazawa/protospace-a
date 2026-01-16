@@ -2,29 +2,102 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
   <head>
     <meta charset="UTF-8">
-    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+    <!-- <link th:href="@{../static/css/index.css}" rel="stylesheet" type="text/css"> -->
+    <link href="../static/css/index.css" rel="stylesheet" type="text/css">
     <title>ProtoSpace</title>
   </head>
   
   <body>
+
+    <div class="header">ヘッダー</div>
   
   <!--<div th:insert="~{header :: header}"></div>-->
 
-  <div class="top-page">
+    <div class="main">
+      <div class="inner">
+        <div class="greeting" sec:authorize="isAuthenticated()">
+          <!-- こんにちは、<a th:href="@{/users/{userId}(userId=${user.id})}" th:text="${user.userName} + 'さん'"></a> -->
+          <p>こんにちは、〇〇さん</p>
+        </div><!--「こんにちは、ユーザー名さん」で、ユーザー名をクリックするとユーザー詳細ページに遷移する。コントローラー要修正。-->
   
-    <div class="greeting" sec:authorize="isAuthenticated()">
-      こんにちは、<a th:href="@{/users/{userId}(userId=${user.id})}" th:text="${user.userName} + 'さん'"></a>
-    </div><!--「こんにちは、ユーザー名さん」で、ユーザー名をクリックするとマイページに遷移する。-->
-  
-    <div class="contents">
-      <div th:each="prototype : ${prototypes}" class="prototypes">
-        <div th:replace="~{/users/prototype :: content(prototype=${prototype})}"></div>
+        <div class="contents">
+          <!-- <div th:each="prototype : ${prototypes}" class="prototypes">
+            <div th:replace="~{/users/prototype :: content(prototype=${prototype})}"></div>
+          </div> -->
+          <div class="content1">
+            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
+      
+            <a href="" class="prototype-name">プロトタイプ名称</a><!--プロトタイプ詳細ページに移動-->
+      
+            <p class="prototype-catchcopy">てすとてすとてすと</p>
+      
+            <span class="by-user-name">
+              <a href=""> <!--ユーザー詳細ページに遷移-->
+                <span>"by" + 
+              </a>
+
+          </div>
+
+          <div class="content2">
+            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
+      
+            <a href="" class="prototype-name">プロトタイプ名称</a>
+      
+            <p class="prototype-catchcopy">てすとてすとてすと</p>
+      
+            <span class="by-user-name">
+              <a href=""> <!--ユーザー詳細ページに遷移-->
+                <span>"by" + 
+              </a>
+
+          </div>
+
+          <div class="content3">
+            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
+      
+            <a href="" class="prototype-name">プロトタイプ名称</a>
+      
+            <p class="prototype-catchcopy">てすとてすとてすと</p>
+      
+            <span class="by-user-name">
+              <a href=""> <!--ユーザー詳細ページに遷移-->
+                <span>"by" + 
+              </a>
+
+          </div>
+
+          <div class="content4">
+            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
+      
+            <a href="" class="prototype-name">プロトタイプ名称</a>
+      
+            <p class="prototype-catchcopy">てすとてすとてすと</p>
+      
+            <span class="by-user-name">
+              <a href=""> <!--ユーザー詳細ページに遷移-->
+                <span>"by" + 
+              </a>
+
+          </div>
+
+          <div class="content5">
+            <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" class="prototype-image" alt="画像">
+      
+            <a href="" class="prototype-name">プロトタイプ名称</a>
+      
+            <p class="prototype-catchcopy">てすとてすとてすと</p>
+      
+            <span class="by-user-name">
+              <a href=""> <!--ユーザー詳細ページに遷移-->
+                <span>"by" + 
+              </a>
+
+          </div>
+        </div>
       </div>
     </div>
-  
-  </div>
-
   <!--<div th:insert="~{footer :: footer}"></div>-->
+    <div class="footer">フッター</div>
   
   </body>
-  </html>
+</html>
