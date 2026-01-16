@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
   <meta charset="UTF-8">
-  <link th:href="@{/css/users/style.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/css/users/login.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
   <title>login.html</title>
 </head>
@@ -11,8 +11,8 @@
 
   <div th:replace="~{header :: header}"></div>
 
-  <div class="content">
-    <div class="container">
+  <div class="main">
+    <div class="inner">
       <h2>ユーザーログイン</h2>
       <p  class="login-error" th:if="${loginError}" th:text="${loginError}"></p>
 
@@ -20,12 +20,12 @@
 
         <div class="field">
           <label class="column-title">メールアドレス</label><br />
-          <input type="text" id="email" name="email" autofocus="autofocus" required="required" />
+          <input type="text" id="email" name="email" autofocus="autofocus" />
         </div>
 
         <div class="field">
           <label class="password">パスワード（6文字以上）</label><br />
-          <input type="password" name="password" required="required" autocomplete="off" />
+          <input type="password" name="password" autocomplete="off" />
         </div>
 
         <div class="actions">
