@@ -1,3 +1,7 @@
+.prototype-content{
+    flex: 1; /* ヘッダーとフッター以外の余白をすべて埋める */
+}
+
 .page-title {
     font-size: 24px;
     margin: 30px 0px 12px 160px;
