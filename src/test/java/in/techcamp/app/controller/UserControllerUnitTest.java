@@ -4,9 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.MatcherAssert;
 import static org.hamcrest.MatcherAssert.assertThat;
+import org.hamcrest.Matchers;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,19 +20,68 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.DirectFieldBindingResult;
 
 import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.entity.UserEntity;
+import in.techcamp.app.form.RegisterForm;
 import in.techcamp.app.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
 public class UserControllerUnitTest {
+
+  @BeforeEach
+  public void setup() {
+  }
+
   @Mock
   private UserRepository userRepository;
 
   @InjectMocks
   private UserController userController;
+
+  @Nested
+  class ユーザー管理機能の正常系{
+    @Test
+    public void ログイン画面のGETリクエストの戻り値がログイン画面Viewファイルであること() {
+      Model model = new ExtendedModelMap();
+      String errorMessage = "";
+      String result = userController.showLogin(errorMessage, model);
+      MatcherAssert.assertThat(result, Matchers.is("users/login"));
+    }
+
+    @Test
+    public void ユーザー新規登録画面のGETリクエストの戻り値がユーザー新規登録画面Viewファイルであること() {
+      Model model = new ExtendedModelMap();
+      String result = userController.showUserForm(model);
+      MatcherAssert.assertThat(result, Matchers.is("users/register"));
+    }
+
+    @Test
+    public void ユーザー新規登録に成功した場合の戻り値がログイン画面Viewファイルであること() {
+      Model model = new ExtendedModelMap();
+      RegisterForm form = new RegisterForm();
+      BindingResult bindingResult = new DirectFieldBindingResult(form, "registerForm");
+      String result = userController.registerUser(form, bindingResult, model);
+      MatcherAssert.assertThat(result, Matchers.is("redirect:/users/login"));
+    }
+  }
+
+  @Nested
+  class ユーザー管理機能の異常系 {
+    @Test
+    public void ユーザー新規登録に失敗した場合の戻り値がユーザー新規登録画面Viewファイルであること() {
+      Model model = new ExtendedModelMap();
+      RegisterForm form = new RegisterForm();
+      BindingResult bindingResult = new DirectFieldBindingResult(form, "registerForm");
+      bindingResult.reject(null, "ご入力いただいたメールアドレスは既に使用されています。");
+      String viewName = userController.registerUser(form, bindingResult, model);
+      MatcherAssert.assertThat(viewName, Matchers.is("/users/register"));
+    }
+  }
+
 
   @Test
   public void ユーザ詳細取得機能の戻り値がビューファイルであること() {
