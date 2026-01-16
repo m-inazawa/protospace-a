@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <link th:href="@{/css/users/detail.css}" rel="stylesheet" type="text/css">
+  <link href="../../static/css/users/detail.css" rel="stylesheet" type="text/css">
   <title>ProtoSpace</title>
 </head>
 
 <body>
-  <!-- <div th:insert="~{header :: header}"></div> -->
+  <div th:replace="~{header :: header}"></div>
 
   <div class="contents-row">
     <div class="user-row">
@@ -45,5 +46,6 @@
 
   </div>
 
-  <!-- <div th:insert="~{footer :: footer}"></div> -->
+  <div th:replace="~{footer :: footer}"></div>
+
 </body>

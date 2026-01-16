@@ -1,3 +1,7 @@
+.contents-row, .prototype-row {
+  flex: 1; /* ヘッダーとフッター以外の余白をすべて埋める */
+}
+
 .user-header,.prototype-header {
   font-size: 30px;
   margin-bottom: 30px;
