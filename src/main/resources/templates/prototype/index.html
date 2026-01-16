@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
-    <!-- <link href="../../static/css/index.css" rel="stylesheet" type="text/css"> -->
     <title>ProtoSpace</title>
   </head>
   
@@ -17,93 +16,13 @@
       <div class="inner-prototypes">
         <div class="greeting" sec:authorize="isAuthenticated()" th:if="${user != null}"> <!--ログインしている時のみ表示-->
           こんにちは、<a th:href="@{/users/{userId}(userId=${user.id})}" th:text="${user.userName} + 'さん'"></a>
-          <!-- <p>こんにちは、<a href="">〇〇さん</a></p> -->
         </div>
   
         <div class="contents">
           <div th:each="prototype : ${prototypes}" class="prototypes">
             <div th:replace="~{/users/prototype :: content(prototype=${prototype})}"></div>
           </div>
-          <!-- <div class="content1">
-            
-            <a href="" class="prototype-image" >
-              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
-            </a>
 
-            <a href="" class="prototype-name">プロトタイプ名称</a>
-      
-            <p class="prototype-catchcopy">てすとてすとてすと</p>
-      
-            <span class="by-user-name">
-              <a href=""> 
-                <span>"by" + 
-              </a>
-
-          </div>
-
-          <div class="content2">
-            <a href="" class="prototype-image" >
-              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
-            </a>
-      
-            <a href="" class="prototype-name">プロトタイプ名称</a>
-      
-            <p class="prototype-catchcopy">てすとてすとてすと</p>
-      
-            <span class="by-user-name">
-              <a href=""> 
-                <span>"by" + 
-              </a>
-
-          </div>
-
-          <div class="content3">
-            <a href="" class="prototype-image" >
-              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
-            </a>
-      
-            <a href="" class="prototype-name">プロトタイプ名称</a>
-      
-            <p class="prototype-catchcopy">てすとてすとてすと</p>
-      
-            <span class="by-user-name">
-              <a href=""> 
-                <span>"by" + 
-              </a>
-
-          </div>
-
-          <div class="content4">
-            <a href="" class="prototype-image" >
-              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
-            </a>
-      
-            <a href="" class="prototype-name">プロトタイプ名称</a>
-      
-            <p class="prototype-catchcopy">てすとてすとてすと</p>
-      
-            <span class="by-user-name">
-              <a href=""> 
-                <span>"by" + 
-              </a>
-
-          </div>
-
-          <div class="content5">
-            <a href="" class="prototype-image" >
-              <img src="https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg" alt="画像">
-            </a>
-      
-            <a href="" class="prototype-name">プロトタイプ名称</a>
-      
-            <p class="prototype-catchcopy">てすとてすとてすと</p>
-      
-            <span class="by-user-name">
-              <a href=""> 
-                <span>"by" + 
-              </a>
-
-          </div> -->
         </div>
       </div>
     </div>
