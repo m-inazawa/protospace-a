@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
+form {
+    display: block;
+    margin-top: 0px;
+    unicode-bidi: isolate;
+}
+
+.main {
+  flex: 1;
+}
