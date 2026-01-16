@@ -9,60 +9,63 @@
 </head>
 
 <body>
-<!-- <div th:insert="~{header :: header}"></div> -->
 
-  <div class="contents-row">
-    <div class="content-post">
-      <h1 class="prototype-name" th:text="${prototype.prototypeName}"></h1>
-      <a th:href="@{/users/{userId}(userId=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.userName}"></a>
+  <div th:replace="~{header :: header}"></div>
 
-      <!-- 投稿したユーザーにのみ表示 -->
-      <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getId() == prototype.user.id}">
-          <div class="edit-btn"> 
-            <a th:href="@{/prototype/{prototypeId}/edit(prototypeId=${prototype.id})}">編集する</a>
+  <div class="contents">
+    <div class="contents-row">
+      <div class="content-post">
+        <h1 class="prototype-name" th:text="${prototype.prototypeName}"></h1>
+        <a th:href="@{/users/{userId}(userId=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.userName}"></a>
+
+        <!-- 投稿したユーザーにのみ表示 -->
+        <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getId() == prototype.user.id}">
+            <div class="edit-btn"> 
+              <a th:href="@{/prototype/{prototypeId}/edit(prototypeId=${prototype.id})}">編集する</a>
+            </div>
+            <form th:action="@{/prototype/{prototypeId}/delete(prototypeId=${prototype.id})}" th:method="post">
+              <input type="submit" class="delete-btn" value="削除する">
+            </form>
+        </div>
+
+        <div class="prototype-image">
+          <span><img th:src="${prototype.image}" /></span>
+        </div>
+
+        <div class="prototype-detail">
+          <h2 class="catchcopy-title">キャッチコピー</h2>
+          <p class="catchcopy-text" th:text="${prototype.catchCopy}"></p>
+
+          <h2 class="concept-title">コンセプト</h2>
+          <p class="concept-text" th:text="${prototype.concept}"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- コメント投稿機能 -->
+    <div class="comments-row">
+        <h2 class="comments-title">コメント</h2>
+        <form class="comments-form" th:action="@{prototype/{prototypeId}/comments(prototypeId=${prototype.id})}" th:method="post">
+          <textarea name="comment" placeholder="コメントを入力してください" rows="2"></textarea>
+          <div class="comment-btn-container">
+            <input type="submit" class="btn-submit" value="送信する">
           </div>
-          <form th:action="@{/prototype/{prototypeId}/delete(prototypeId=${prototype.id})}" th:method="post">
-            <input type="submit" class="delete-btn" value="削除する">
-          </form>
-      </div>
+        </form>
 
-      <div class="prototype-image">
-        <span><img th:src="${prototype.image}" /></span>
-      </div>
-
-      <div class="prototype-detail">
-        <h2 class="catchcopy-title">キャッチコピー</h2>
-        <p class="catchcopy-text" th:text="${prototype.catchCopy}"></p>
-
-        <h2 class="concept-title">コンセプト</h2>
-        <p class="concept-text" th:text="${prototype.concept}"></p>
+      <!-- コメントテーブルから取得 -->
+      <div class="comment-list">
+        <ul class="comments-lists">
+          <div th:if="${!prototype.comments.isEmpty()}" th:each="comment : ${prototype.comments}">
+            <li class="comments_list" th:text="${comment.comment}">
+              <a th:href="@{/users/{userId}(userId=${comment.userId})}" class="comment-user" th:text="${comment.userName}"></a>
+            </li>
+          </div>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- コメント投稿機能 -->
-  <div class="comments-row">
-      <h2 class="comments-title">コメント</h2>
-      <form class="comments-form" th:action="@{prototype/{prototypeId}/comments(prototypeId=${prototype.id})}" th:method="post">
-        <textarea name="comment" placeholder="コメントを入力してください" rows="2"></textarea>
-        <div class="comment-btn-container">
-          <input type="submit" class="btn-submit" value="送信する">
-        </div>
-      </form>
-
-    <!-- コメントテーブルから取得 -->
-    <div class="comment-list">
-      <ul class="comments-lists">
-        <div th:if="${!prototype.comments.isEmpty()}" th:each="comment : ${prototype.comments}">
-          <li class="comments_list" th:text="${comment.comment}">
-            <a th:href="@{/users/{userId}(userId=${comment.userId})}" class="comment-user" th:text="${comment.userName}"></a>
-          </li>
-        </div>
-      </ul>
-    </div>
-  </div>
-
-  <!-- <div th:insert="~{footer :: footer}"></div> -->
+  <div th:replace="~{footer :: footer}"></div>
 
 </body>
 </html>

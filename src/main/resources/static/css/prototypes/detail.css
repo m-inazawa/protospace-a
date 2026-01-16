@@ -1,3 +1,7 @@
+.contents {
+  flex: 1; /* ヘッダーとフッター以外の余白をすべて埋める */
+}
+
 /* プロトタイプ、コメント共通 */
 .contents-row, .comments-row {
   width: 80vw;
