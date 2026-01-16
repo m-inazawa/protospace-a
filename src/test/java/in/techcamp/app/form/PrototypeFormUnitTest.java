@@ -3,11 +3,10 @@ package in.techcamp.app.form;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.apache.commons.lang3.builder.ToStringExclude;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 
 import in.techcamp.app.validation.ValidationPriority1;
@@ -31,7 +30,9 @@ public class PrototypeFormUnitTest {
         prototypeForm.setPrototypeName("プロトタイプ名");
         prototypeForm.setConcept("コンセプト");
         prototypeForm.setCatchCopy("キャッチコピー");
-        prototypeForm.setImage("画像");
+
+        MockMultipartFile mockFile = new MockMultipartFile("image", "test.jpg", "image/jpeg", "test data".getBytes());
+        prototypeForm.setImage(mockFile);
     }
 
     @Test  //正常系
@@ -72,7 +73,7 @@ public class PrototypeFormUnitTest {
 
       @Test
         public void 画像が空ではバリデーションエラーが発生する() {
-          prototypeForm.setImage("");
+          prototypeForm.setImage(null);
 
           Set<ConstraintViolation<PrototypeForm>> violations = validator.validate(prototypeForm, ValidationPriority1.class);          
           assertEquals(1, violations.size());

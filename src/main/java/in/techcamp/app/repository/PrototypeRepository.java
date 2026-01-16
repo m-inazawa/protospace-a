@@ -17,11 +17,11 @@ public interface PrototypeRepository {
   @Select("SELECT p.*, u.id AS user_id, u.user_name AS user_name FROM prototypes p JOIN users u ON p.user_id = u.id ORDER BY p.created_at DESC")
   @Results(value = {
     @Result(property = "user.id", column = "user_id"),
-    @Result(property = "user.name", column = "user_name")
+    @Result(property = "user.userName", column = "user_name")
   })
   List<PrototypeEntity> findAll();
 
-  @Insert("INSERT INTO prototypes (prototype_name, concept, catch_copy, image) VALUES (#{prototypeName}, #{concept}, #{catchCopy}, #{image})")
+  @Insert("INSERT INTO prototypes (prototype_name, concept, catch_copy, image, user_id) VALUES (#{prototypeName}, #{concept}, #{catchCopy}, #{image}, #{user.id})")
   @Options(useGeneratedKeys = true, keyProperty = "id")
   void insert(PrototypeEntity prototype);
 

@@ -1,5 +1,11 @@
 package in.techcamp.app.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,12 +18,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import in.techcamp.app.ImageUrl;
 import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.form.PrototypeForm;
 import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.repository.UserRepository;
+import in.techcamp.app.validation.ValidationOrder;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -25,6 +34,7 @@ import lombok.AllArgsConstructor;
 public class PrototypeController {
   private final PrototypeRepository prototypeRepository;
   private final UserRepository userRepository;
+  private final ImageUrl imageUrl;
 
   @GetMapping("/")
   public String showPrototypes(Model model) {
@@ -40,7 +50,7 @@ public class PrototypeController {
   }
   
   @PostMapping("prototype/new")
-  public String createPrototype(@ModelAttribute("prototypeForm") @Validated PrototypeForm prototypeForm,BindingResult result, 
+  public String createPrototype(@ModelAttribute("prototypeForm") @Validated(ValidationOrder.class) PrototypeForm prototypeForm,BindingResult result, 
                                 @AuthenticationPrincipal CustomUserDetail currentUser,Model model) {
       
     if (result.hasErrors()) {
@@ -57,7 +67,20 @@ public class PrototypeController {
     prototype.setPrototypeName(prototypeForm.getPrototypeName());
     prototype.setConcept(prototypeForm.getConcept());
     prototype.setCatchCopy(prototypeForm.getCatchCopy());
-    prototype.setImage(prototypeForm.getImage());
+
+  MultipartFile imageFile = prototypeForm.getImage();
+    if (imageFile != null && !imageFile.isEmpty()) {
+      try {
+        String uploadDir = imageUrl.getImageUrl();
+        String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "_" + imageFile.getOriginalFilename();
+        Path imagePath = Paths.get(uploadDir, fileName);
+        Files.copy(imageFile.getInputStream(), imagePath);
+        prototype.setImage("/uploads/" + fileName);
+      } catch (IOException e) {
+        System.out.println("エラー：" + e);
+        return "prototype/new";
+      }
+    }
 
     try {
       prototypeRepository.insert(prototype);
@@ -68,4 +91,5 @@ public class PrototypeController {
 
     return "redirect:/";
   }
+
 }
