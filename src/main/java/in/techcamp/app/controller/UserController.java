@@ -30,7 +30,7 @@ public class UserController {
   @GetMapping("/login")
   public String showLogin(@RequestParam(value = "error", required = false) String error, Model model) {
     if (error != null) {
-      model.addAttribute("loginError", "invalid email or password.");
+      model.addAttribute("loginError", "emailもしくはパスワードがまちがっています。");
     }
     return ("users/login");
   }
@@ -47,11 +47,11 @@ public class UserController {
       userService.createUserWithEncryptedPassword(registerForm, result);
       if (result.hasErrors()) {
         model.addAttribute("registerError", result);
-        return "/users/register";
+        return "users/register";
       }
     } catch (Exception e) {
       model.addAttribute("registerError", "システムエラーにより操作を完了できませんでした。");
-      return "/users/register";
+      return "users/register";
     }
       
     return "redirect:/users/login";

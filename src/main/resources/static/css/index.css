@@ -1,0 +1,23 @@
+.main {
+  padding-bottom: 150px;
+  flex: 1; /* ヘッダーとフッター以外の余白をすべて埋める */
+  box-sizing: border-box;
+}
+
+.inner-prototypes {
+  width: 80vw;
+  margin: 0 auto;
+}
+
+.greeting {
+  margin-bottom: 150px;
+}
+
+
+.contents {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: calc(100vh - 160px);
+}

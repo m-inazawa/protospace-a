@@ -9,13 +9,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
+import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.PrototypeEntity;
+import in.techcamp.app.entity.UserEntity;
 import in.techcamp.app.repository.PrototypeRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,4 +64,31 @@ public class PrototypeControllerUnitTest {
     assertThat(model.getAttribute("prototypes"), is(expectedPrototypeList));
   }
 
+  @Test
+  public void 新規投稿機能にリクエストすると新規投稿画面のビューファイルがレスポンスで返ってくる() {
+    Model model = new ExtendedModelMap();
+
+    String result = prototypeController.showPrototypeNew(model);
+
+    assertThat(result, is("prototype/new"));
+  }
+
+  @Test
+  public void 編集機能にリクエストすると編集画面のビューファイルがレスポンスで返ってくる() {
+    Model model = new ExtendedModelMap();
+    Integer prototypeId = 1;
+    CustomUserDetail mockUser = mock(CustomUserDetail.class);
+    when(mockUser.getUserId()).thenReturn(1);
+
+    PrototypeEntity mockPrototype = new PrototypeEntity();
+    UserEntity mockUserEntity = new UserEntity();
+    mockUserEntity.setId(1);
+    mockPrototype.setUser(mockUserEntity);
+
+    when(prototypeRepository.findById(prototypeId)).thenReturn(mockPrototype);
+
+    String result = prototypeController.showPrototypeEdit(prototypeId, mockUser, model);
+
+    assertThat(result, is("prototype/edit"));
+  }
 }
