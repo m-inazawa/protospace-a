@@ -98,10 +98,21 @@ a {
   text-decoration: none;
   background-color: #f1f8fe;
   user-select: none;
+  transition: all 0.5s ease;
+  cursor: pointer;
 }
 
 .nav-btn-logout {
   border: 0;
+}
+
+.nav-btn:hover {
+  background: #87CEFA;
+  color: white;
+}
+
+.nav-btn-logout:hover {
+  color: #cce8fa;
 }
 
 .footer {
