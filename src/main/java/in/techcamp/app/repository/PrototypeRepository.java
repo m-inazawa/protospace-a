@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import in.techcamp.app.entity.PrototypeEntity;
 
@@ -27,4 +28,10 @@ public interface PrototypeRepository {
 
   @Select("SELECT * FROM prototypes WHERE user_id = #{userId}")
   List<PrototypeEntity> findByUserId(Integer userId);
+
+  @Update("UPDATE prototypes SET prototypeName = #{prototypeName}, concept = #{concept}, catchCopy = #{catchCopy}, image = #{image}, WHERE id = #{id}")
+  void update(PrototypeEntity prototype);
+
+  @Select("SELECT * FROM prototypes WHERE id = #{id}")
+  PrototypeEntity findById(Integer id);
 }
