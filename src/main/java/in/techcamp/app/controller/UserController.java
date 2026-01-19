@@ -54,7 +54,7 @@ public class UserController {
       return "users/register";
     }
       
-    return "redirect:users/login";
+    return "redirect:/users/login";
   }
 
   @GetMapping("/{userId}")
