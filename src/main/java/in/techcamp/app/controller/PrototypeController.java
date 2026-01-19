@@ -73,8 +73,15 @@ public class PrototypeController {
     if (imageFile != null && !imageFile.isEmpty()) {
       try {
         String uploadDir = imageUrl.getImageUrl();
+
+        Path uploadPath = Paths.get(uploadDir);//不要になったら削除
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
         String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "_" + imageFile.getOriginalFilename();
         Path imagePath = Paths.get(uploadDir, fileName);
+
         Files.copy(imageFile.getInputStream(), imagePath);
         prototype.setImage("/uploads/" + fileName);
       } catch (IOException e) {
