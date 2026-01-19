@@ -96,7 +96,7 @@ public class RegisterFormUnitTest {
       registerForm.setUserName("");
       Set<ConstraintViolation<RegisterForm>> violations = validator.validate(registerForm, ValidationPriority1.class);
       assertEquals(1, violations.size());
-      assertEquals("名前欄を入力してください。", violations.iterator().next().getMessage());
+      assertEquals("ユーザー名を入力してください。", violations.iterator().next().getMessage());
     }
     
     @Test
@@ -104,7 +104,7 @@ public class RegisterFormUnitTest {
       registerForm.setProfile("");
       Set<ConstraintViolation<RegisterForm>> violations = validator.validate(registerForm, ValidationPriority1.class);
       assertEquals(1, violations.size());
-      assertEquals("プロフィール欄を入力してください。", violations.iterator().next().getMessage());
+      assertEquals("プロフィールを入力してください。", violations.iterator().next().getMessage());
     }
     
     @Test
@@ -112,7 +112,7 @@ public class RegisterFormUnitTest {
       registerForm.setAffiliation("");
       Set<ConstraintViolation<RegisterForm>> violations = validator.validate(registerForm, ValidationPriority1.class);
       assertEquals(1, violations.size());
-      assertEquals("所属欄を入力してください。", violations.iterator().next().getMessage());
+      assertEquals("所属を入力してください。", violations.iterator().next().getMessage());
     }
     
     @Test
@@ -120,7 +120,7 @@ public class RegisterFormUnitTest {
       registerForm.setPosition("");
       Set<ConstraintViolation<RegisterForm>> violations = validator.validate(registerForm, ValidationPriority1.class);
       assertEquals(1, violations.size());
-      assertEquals("役職欄を入力してください。", violations.iterator().next().getMessage());
+      assertEquals("役職を入力してください。", violations.iterator().next().getMessage());
     }
   }
 }
