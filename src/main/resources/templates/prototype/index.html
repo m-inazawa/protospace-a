@@ -10,7 +10,7 @@
   
   <body>
   
-    <div th:replace="~{header :: header}"></div>
+    <div th:insert="~{header :: header}"></div>
 
     <div class="main">
       <div class="inner-prototypes">
@@ -20,14 +20,14 @@
   
         <div class="contents">
           <div th:each="prototype : ${prototypes}" class="prototypes">
-            <div th:replace="~{/users/prototype :: content(prototype=${prototype})}"></div>
+            <div th:replace="~{users/prototype :: content(prototype=${prototype})}"></div>
           </div>
 
         </div>
       </div>
     </div>
 
-  <div th:replace="~{footer :: footer}"></div>
+  <div th:insert="~{footer :: footer}"></div>
   
   </body>
 </html>
