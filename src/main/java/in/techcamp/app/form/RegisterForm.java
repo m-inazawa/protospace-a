@@ -30,15 +30,15 @@ public class RegisterForm {
   }
 
   // @Length(max = 6, message = "Name is too long (maximum is 6 characters)", groups = ValidationPriority2.class)
-  @NotBlank(message = "名前欄を入力してください。", groups = ValidationPriority1.class)
+  @NotBlank(message = "ユーザー名を入力してください。", groups = ValidationPriority1.class)
   private String userName;
 
-  @NotBlank(message = "プロフィール欄を入力してください。", groups = ValidationPriority1.class)
+  @NotBlank(message = "プロフィールを入力してください。", groups = ValidationPriority1.class)
   private String profile;
 
-  @NotBlank(message = "所属欄を入力してください。", groups = ValidationPriority1.class)
+  @NotBlank(message = "所属を入力してください。", groups = ValidationPriority1.class)
   private String affiliation;
 
-  @NotBlank(message = "役職欄を入力してください。", groups = ValidationPriority1.class)
+  @NotBlank(message = "役職を入力してください。", groups = ValidationPriority1.class)
   private String position;
 }
