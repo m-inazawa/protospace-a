@@ -74,7 +74,8 @@ public class PrototypeController {
       try {
         String uploadDir = imageUrl.getImageUrl();
 
-        Path uploadPath = Paths.get(uploadDir);//不要になったら削除
+        Path uploadPath = Paths.get(imageUrl.getImageUrl()).toAbsolutePath().normalize();
+        System.out.println("画像の保存ディレクトリの絶対パス： " + uploadPath);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
