@@ -30,7 +30,7 @@ public class UserController {
   @GetMapping("/login")
   public String showLogin(@RequestParam(value = "error", required = false) String error, Model model) {
     if (error != null) {
-      model.addAttribute("loginError", "emailもしくはパスワードがまちがっています。");
+      model.addAttribute("loginError", "メールアドレスもしくはパスワードが間違っています。");
     }
     return ("users/login");
   }
