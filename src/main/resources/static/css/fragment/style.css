@@ -1,0 +1,137 @@
+*{
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN W3", sans-serif"
+}
+
+header {
+  width: 100vw;
+  max-height: 161px;
+  display: block;
+  unicode-bidi: isolate; /* 外部の設定によって、要素の中身の順序を変えない */
+}
+
+.header {
+  max-width: 100vw;
+  background-color: #f1f8fe;
+  margin-bottom: 48px;
+  padding: 16px 0;
+}
+
+.inner {
+  width: 80vw;
+  margin: 0 auto;
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-left {
+  width: 200px;
+  height: 37.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.nav-left a {
+  height: 50px;
+  display: inline-block; /* 幅や余白の指定を有効にするために必要 */
+  margin-top: 2px;         /* 外側の上の余白をゼロ */
+  margin-bottom: 1px;      /* 外側の下の余白をゼロ */
+  padding-top: 0px;        /* 内側の上の余白をゼロ */
+  padding-bottom: 0px;     /* 内側の下の余白をゼロ */
+  line-height: 1;        /* 行の高さ（文字自体の上下幅）を最小限にする */
+  vertical-align: top;
+}
+
+a {
+  text-decoration: none;
+}
+
+.logo-title1, .logo-title2 {
+  display: inline-block; 
+  text-align: justify;
+  text-align-last: justify;
+  white-space: nowrap;  /* 親要素をはみ出しても改行されない */
+  color: #3b4043;
+}
+
+.logo-title1 {
+  width: 160px;
+  font-size: 9px;
+  font-weight: 500;  /* 太字 */
+  letter-spacing: 4px;
+  margin-left: 3px;
+}
+
+.logo-title2 {
+  width: 164px;
+  font-size: 24px;
+  font-weight: 200;
+  letter-spacing: 3px;
+}
+
+.text-accent {
+  color: #7bb2c8;;
+}
+
+.nav-btn, .nav-btn-logout {
+  display: inline-block;
+  align-items: center;
+  border: 1px #87CEFA solid;
+  border-radius: 3px;
+  padding: 3px 19.5px;
+  font-size: 12px;
+  color: #87CEFA;
+  text-decoration: none;
+  background-color: #f1f8fe;
+  user-select: none;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.nav-btn-logout {
+  border: 0;
+}
+
+.nav-btn:hover {
+  background: #87CEFA;
+  color: white;
+}
+
+.nav-btn-logout:hover {
+  color: #cce8fa;
+}
+
+.footer {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  display: block;
+  background-color: #999;
+}
+
+.footer p {
+  text-align: center;
+  font-size: 10.3px;
+  line-height: 3;  /* font-sizeの1倍 */
+  margin-block-start: 0;  /* font-sizeの1倍 */
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  letter-spacing: -0.6px;
+  unicode-bidi: isolate;
+  color: #fff;
+}
