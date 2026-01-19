@@ -26,7 +26,11 @@ public interface PrototypeRepository {
   @Options(useGeneratedKeys = true, keyProperty = "id")
   void insert(PrototypeEntity prototype);
 
-  @Select("SELECT * FROM prototypes WHERE user_id = #{userId}")
+  @Select("SELECT p.*, u.id AS user_id, u.user_name AS user_name FROM prototypes p JOIN users u ON p.user_id = u.id WHERE user_id = #{userId} ORDER BY p.created_at DESC")
+  @Results(value = {
+    @Result(property = "user.id", column = "user_id"),
+    @Result(property = "user.userName", column = "user_name")
+  })
   List<PrototypeEntity> findByUserId(Integer userId);
 
   @Update("UPDATE prototypes SET prototypeName = #{prototypeName}, concept = #{concept}, catchCopy = #{catchCopy}, image = #{image}, WHERE id = #{id}")
