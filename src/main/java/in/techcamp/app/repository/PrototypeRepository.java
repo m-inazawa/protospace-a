@@ -36,7 +36,7 @@ public interface PrototypeRepository {
   })
   List<PrototypeEntity> findByUserId(Integer userId);
 
-  @Update("UPDATE prototypes SET prototypeName = #{prototypeName}, concept = #{concept}, catchCopy = #{catchCopy}, image = #{image}, WHERE id = #{id}")
+  @Update("UPDATE prototypes SET \"prototype_name\" = #{prototypeName}, \"concept\" = #{concept}, \"catch_copy\" = #{catchCopy}, \"image\" = #{image} WHERE id = #{id}")
   void update(PrototypeEntity prototype);
 
   //@Select("SELECT * FROM prototypes WHERE id = #{id}")

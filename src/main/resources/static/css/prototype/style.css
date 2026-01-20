@@ -48,3 +48,22 @@ input[type="file"] {
     font-size: 16px;
     margin: 12px 0px 12px 80px;
 }
+
+/* 追加部分 */
+
+.input-field-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.individual-error {
+    color: black;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.input-field-wrapper:has(textarea) {
+    align-items: flex-start;
+}
+
