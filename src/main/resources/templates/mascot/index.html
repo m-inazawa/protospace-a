@@ -1,0 +1,25 @@
+<!-- キャラクターを表示するメインページ -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Mascot</title>
+    <link rel="stylesheet" th:href="@{/css/mascot/mascot.css}">
+</head>
+<body>
+
+    <div id="mascot" class="mascot-container">
+        <div id="mascot-sprite" class="mascot-sprite"></div>
+    </div>
+
+    <div id="custom-menu" class="custom-menu" style="display:none;">
+        <ul>
+            <li onclick="app.setFood()">餌を置く</li>
+            <li onclick="app.changeCharacter()">キャラ変更</li>
+            <li onclick="app.toggleAnimation()">アニメON/OFF</li>
+        </ul>
+    </div>
+
+    <script type="module" th:src="@{/js/main.js}"></script>
+</body>
+</html>
