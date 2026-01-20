@@ -15,9 +15,7 @@ public class RegisterForm {
   @Email(message = "有効なメールアドレスを入力してください。", groups = ValidationPriority2.class)
   private String email;
 
-  // @Length(min = 6, max = 128, message = "Password should be between 6 and 128 characters", groups = ValidationPriority2.class)
-  @NotBlank(message = "パスワードを入力してください。", groups = ValidationPriority1.class)
-  @Length(min = 6, message = "6文字以上のパスワードを入力してください。", groups = ValidationPriority2.class)
+  @Length(min = 6, message = "6文字以上のパスワードを入力してください。", groups = ValidationPriority1.class)
   private String password;
 
   @NotBlank(message = "パスワードを再入力してください。", groups = ValidationPriority1.class)
