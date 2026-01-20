@@ -177,4 +177,15 @@ model.addAttribute("comments", prototype.getComments());
 return "prototype/detail";
 }
 
+  @PostMapping("/prototype/{prototypeId}/delete")
+  public String deletePrototype(@PathVariable("prototypeId") Integer prototypeId) {
+    try {
+      prototypeRepository.deleteById(prototypeId);
+    } catch (Exception e) {
+      System.out.println("エラー：" + e);
+      return  "redirect:/";
+    }
+    return "redirect:/";
+  }
+
 }
