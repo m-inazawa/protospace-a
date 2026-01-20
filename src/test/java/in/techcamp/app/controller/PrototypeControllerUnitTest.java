@@ -1,5 +1,6 @@
 package in.techcamp.app.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
 import in.techcamp.app.custom_user.CustomUserDetail;
+import in.techcamp.app.entity.CommentEntity;
 import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.entity.UserEntity;
 import in.techcamp.app.repository.PrototypeRepository;
@@ -90,5 +92,34 @@ public class PrototypeControllerUnitTest {
     String result = prototypeController.showPrototypeEdit(prototypeId, mockUser, model);
 
     assertThat(result, is("prototype/edit"));
+  }
+
+  @Test
+  public void 詳細表示機能にリクエストすると詳細画面のビューファイルがレスポンスで返ってくる() {
+    Model model = new ExtendedModelMap();
+    Integer prototypeId = 1;
+
+    PrototypeEntity mockPrototype = new PrototypeEntity();
+    mockPrototype.setId(prototypeId);
+    mockPrototype.setPrototypeName("プロトタイプ１");
+
+    List<CommentEntity> comments = new ArrayList<>();
+    // コメントデータをセット
+    CommentEntity comment = new CommentEntity();
+    comment.setComment("テストのコメント");
+    comment.setPrototypeId(prototypeId);
+    comments.add(comment);
+    comment.setComment("テストのコメント");
+    comment.setPrototypeId(prototypeId);
+    comments.add(comment);
+    // リストをmockPrototypeに追加
+    mockPrototype.setComments(comments);
+
+    when(prototypeRepository.findById(prototypeId)).thenReturn(mockPrototype);
+
+    String result = prototypeController.showPrototypeDetail(prototypeId, model);
+    
+    assertThat(result, is("prototype/detail"));
+    assertThat(model.getAttribute("prototype"), is(mockPrototype));
   }
 }
