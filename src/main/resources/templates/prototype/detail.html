@@ -44,13 +44,18 @@
 
     <!-- コメント投稿機能 -->
     <div class="comments-row">
+      <div th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() == prototype.user.id}">
         <h2 class="comments-title">コメント</h2>
+        <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
+          <div th:text="${error}"></div>
+        </div>
         <form class="comments-form" th:action="@{/prototype/{prototypeId}/comments(prototypeId=${prototype.id})}" th:method="post">
           <textarea name="comment" placeholder="コメントを入力してください" rows="2"></textarea>
           <div class="comment-btn-container">
             <input type="submit" class="btn-submit" value="送信する">
           </div>
         </form>
+      </div>
 
       <!-- コメントテーブルから取得 -->
       <div class="comment-list" th:if="${prototype.comments != null and !prototype.comments.isEmpty()}">
