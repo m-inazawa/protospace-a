@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.CommentEntity;
+import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.form.CommentForm;
 import in.techcamp.app.repository.CommentRepository;
+import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.validation.ValidationOrder;
 import lombok.AllArgsConstructor;
 
@@ -24,6 +26,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CommentController {
   private final CommentRepository commentRepository;
+  private final PrototypeRepository prototypeRepository;
   
   @PostMapping("/prototype/{prototypeId}/comments")
   public String createComment(
@@ -38,6 +41,10 @@ public class CommentController {
         .map(DefaultMessageSourceResolvable::getDefaultMessage)
         .collect(Collectors.toList());
       
+      PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
+
+      model.addAttribute("prototype", prototype);
+      model.addAttribute("comments", prototype.getComments());
       model.addAttribute("errorMessages", errorMessages);
       return "prototype/detail";
     }
