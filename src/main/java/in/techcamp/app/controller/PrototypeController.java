@@ -73,8 +73,16 @@ public class PrototypeController {
     if (imageFile != null && !imageFile.isEmpty()) {
       try {
         String uploadDir = imageUrl.getImageUrl();
+
+        Path uploadPath = Paths.get(imageUrl.getImageUrl()).toAbsolutePath().normalize();
+        System.out.println("画像の保存ディレクトリの絶対パス： " + uploadPath);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
         String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "_" + imageFile.getOriginalFilename();
         Path imagePath = Paths.get(uploadDir, fileName);
+
         Files.copy(imageFile.getInputStream(), imagePath);
         prototype.setImage("/uploads/" + fileName);
       } catch (IOException e) {
@@ -155,5 +163,18 @@ public class PrototypeController {
 
     return "prototype/{prototypeId}";
   }
+
+@GetMapping("/prototype/{prototypeId}")
+public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId, Model model) {
+PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
+
+if (prototype == null) {
+    return "redirect:/"; 
+}
+
+model.addAttribute("prototype", prototype);
+model.addAttribute("comments", prototype.getComments());
+return "prototype/detail";
+}
 
 }

@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <link th:href="@{/css/users/login.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
-  <title>login.html</title>
+  <title>ProtoSpace</title>
 </head>
 
 <body>
 
-  <div th:replace="~{header :: header}"></div>
+  <div th:insert="~{header :: header}"></div>
 
   <div class="main">
     <div class="inner">
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div th:replace="~{footer :: footer}"></div>
+  <div th:insert="~{footer :: footer}"></div>
   
 </body>
 </html>
