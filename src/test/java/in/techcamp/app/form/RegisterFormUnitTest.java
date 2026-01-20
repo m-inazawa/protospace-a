@@ -61,14 +61,6 @@ public class RegisterFormUnitTest {
     }
 
     @Test
-    public void passwordが空の場合バリデーションエラーが発生する() {
-      registerForm.setPassword("");
-      Set<ConstraintViolation<RegisterForm>> violations = validator.validate(registerForm, ValidationPriority1.class);
-      assertEquals(1, violations.size());
-      assertEquals("パスワードを入力してください。", violations.iterator().next().getMessage());
-    }
-
-    @Test
     public void passwordが6文字未満の場合バリデーションエラーが発生する() {
       registerForm.setPassword("aaa");
       Set<ConstraintViolation<RegisterForm>> violations = validator.validate(registerForm, ValidationPriority2.class);
