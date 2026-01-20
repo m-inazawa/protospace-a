@@ -16,7 +16,7 @@
 
 .contents {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
   min-height: calc(100vh - 160px);
