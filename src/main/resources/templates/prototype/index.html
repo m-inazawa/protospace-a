@@ -21,9 +21,6 @@
   
         <div class="contents">
           <div th:each="prototype : ${prototypes}" class="prototypes">
-            <!-- <div th:if="${prototype.image}">
-              <img th:src="@{${prototype.image}}" alt="メッセージ画像" style="width: 500px; height: 500px;"/>
-            </div> -->
             <div th:replace="~{users/prototype :: content(prototype=${prototype})}"></div>
           </div>
 
