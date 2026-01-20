@@ -8,4 +8,5 @@ public class CommentEntity {
   private Integer prototypeId;
   private Integer userId;
   private String comment;
+  private UserEntity user;
 }

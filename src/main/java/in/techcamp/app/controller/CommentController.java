@@ -18,7 +18,6 @@ import in.techcamp.app.entity.CommentEntity;
 import in.techcamp.app.form.CommentForm;
 import in.techcamp.app.repository.CommentRepository;
 import in.techcamp.app.validation.ValidationOrder;
-import in.techcamp.app.repository.CommentRepository;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -26,7 +25,7 @@ import lombok.AllArgsConstructor;
 public class CommentController {
   private final CommentRepository commentRepository;
   
-  @PostMapping("prototype/{prototypeId}/comments")
+  @PostMapping("/prototype/{prototypeId}/comments")
   public String createComment(
     @PathVariable("prototypeId") Integer prototypeId,
     @ModelAttribute("commentForm") @Validated(ValidationOrder.class) CommentForm commentForm,
