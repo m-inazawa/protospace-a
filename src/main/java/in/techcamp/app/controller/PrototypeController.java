@@ -164,4 +164,17 @@ public class PrototypeController {
     return "prototype/{prototypeId}";
   }
 
+@GetMapping("/prototype/{prototypeId}")
+public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId, Model model) {
+PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
+
+if (prototype == null) {
+    return "redirect:/"; 
+}
+
+model.addAttribute("prototype", prototype);
+model.addAttribute("comments", prototype.getComments());
+return "prototype/detail";
+}
+
 }

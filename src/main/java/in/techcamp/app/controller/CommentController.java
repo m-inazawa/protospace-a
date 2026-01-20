@@ -15,18 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.CommentEntity;
+import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.form.CommentForm;
 import in.techcamp.app.repository.CommentRepository;
+import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.validation.ValidationOrder;
-import in.techcamp.app.repository.CommentRepository;
 import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
 public class CommentController {
   private final CommentRepository commentRepository;
+  private final PrototypeRepository prototypeRepository;
   
-  @PostMapping("prototype/{prototypeId}/comments")
+  @PostMapping("/prototype/{prototypeId}/comments")
   public String createComment(
     @PathVariable("prototypeId") Integer prototypeId,
     @ModelAttribute("commentForm") @Validated(ValidationOrder.class) CommentForm commentForm,
@@ -39,6 +41,10 @@ public class CommentController {
         .map(DefaultMessageSourceResolvable::getDefaultMessage)
         .collect(Collectors.toList());
       
+      PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
+
+      model.addAttribute("prototype", prototype);
+      model.addAttribute("comments", prototype.getComments());
       model.addAttribute("errorMessages", errorMessages);
       return "prototype/detail";
     }

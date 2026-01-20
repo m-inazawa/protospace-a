@@ -19,7 +19,7 @@
         <a th:href="@{/users/{userId}(userId=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.userName}"></a>
 
         <!-- 投稿したユーザーにのみ表示 -->
-        <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getId() == prototype.user.id}">
+        <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() == prototype.user.id}">
             <div class="edit-btn"> 
               <a th:href="@{/prototype/{prototypeId}/edit(prototypeId=${prototype.id})}">編集する</a>
             </div>
@@ -44,22 +44,31 @@
 
     <!-- コメント投稿機能 -->
     <div class="comments-row">
+      <div th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() == prototype.user.id}">
         <h2 class="comments-title">コメント</h2>
-        <form class="comments-form" th:action="@{prototype/{prototypeId}/comments(prototypeId=${prototype.id})}" th:method="post">
+        <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
+          <div th:text="${error}"></div>
+        </div>
+        <form class="comments-form" th:action="@{/prototype/{prototypeId}/comments(prototypeId=${prototype.id})}" th:method="post">
           <textarea name="comment" placeholder="コメントを入力してください" rows="2"></textarea>
           <div class="comment-btn-container">
             <input type="submit" class="btn-submit" value="送信する">
           </div>
         </form>
+      </div>
 
       <!-- コメントテーブルから取得 -->
-      <div class="comment-list">
+      <div class="comment-list" th:if="${prototype.comments != null and !prototype.comments.isEmpty()}">
         <ul class="comments-lists">
-          <div th:if="${!prototype.comments.isEmpty()}" th:each="comment : ${prototype.comments}">
-            <li class="comments_list" th:text="${comment.comment}">
-              <a th:href="@{/users/{userId}(userId=${comment.userId})}" class="comment-user" th:text="${comment.userName}"></a>
-            </li>
-          </div>
+          <li class="comments_list" th:each="comment : ${prototype.comments}">
+            
+            <span th:text="${comment.comment}"></span>
+            
+            <a th:href="@{/users/{userId}(userId=${comment.user.id})}" 
+              class="comment-user" 
+              th:text="${'（' + comment.user.userName + '）'}"></a>
+              
+          </li>
         </ul>
       </div>
     </div>
