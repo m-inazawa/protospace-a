@@ -1,6 +1,7 @@
 package in.techcamp.app.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class PrototypeEntity {
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
   private UserEntity user;
+  private List<CommentEntity> comments;
 }
