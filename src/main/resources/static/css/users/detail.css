@@ -9,7 +9,8 @@
 }
 
 .contents-row {
-  padding: 0 20px;
+  width: 80vw;
+  margin: 0 auto;
 }
 
 .table {
