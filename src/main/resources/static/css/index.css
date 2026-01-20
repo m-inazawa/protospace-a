@@ -13,6 +13,10 @@
   margin-bottom: 150px;
 }
 
+.greeting a {
+  text-decoration: underline;
+}
+
 
 .contents {
   display: flex;

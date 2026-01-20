@@ -15,8 +15,8 @@
 
     <div class="main">
       <div class="inner-prototypes">
-        <div class="greeting" sec:authorize="isAuthenticated()" th:if="${user != null}"> <!--ログインしている時のみ表示-->
-          こんにちは、<a th:href="@{/users/{userId}(userId=${user.id})}" th:text="${user.userName} + 'さん'"></a>
+        <div class="greeting" sec:authorize="isAuthenticated()" th:if="${userName != null}"> <!--ログインしている時のみ表示 -->
+          こんにちは、<a th:href="@{/users/{userId}(userId=${#authentication.principal.userId})}" th:text="${userName} + 'さん'"></a>
         </div>
   
         <div class="contents">
