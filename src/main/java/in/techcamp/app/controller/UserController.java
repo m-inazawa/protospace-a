@@ -1,5 +1,7 @@
 package in.techcamp.app.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,17 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.validation.BindingResult;
 
-import in.techcamp.app.form.RegisterForm;
-import in.techcamp.app.service.UserService;
-import in.techcamp.app.validation.ValidationOrder;
-import in.techcamp.app.validation.ValidationPriority1;
-import in.techcamp.app.validation.ValidationPriority2;
-
-
+import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.entity.UserEntity;
 import in.techcamp.app.form.RegisterForm;
+import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.repository.UserRepository;
 import in.techcamp.app.service.UserService;
 import in.techcamp.app.validation.ValidationOrder;
@@ -34,11 +30,12 @@ import lombok.AllArgsConstructor;
 public class UserController {
   private final UserService userService;
   private final UserRepository userRepository;
+  private final PrototypeRepository prototypeRepository;
 
   @GetMapping("/login")
   public String showLogin(@RequestParam(value = "error", required = false) String error, Model model) {
     if (error != null) {
-      model.addAttribute("loginError", "invalid email or password.");
+      model.addAttribute("loginError", "メールアドレスもしくはパスワードが間違っています。");
     }
     return ("users/login");
   }
@@ -50,18 +47,16 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public String registerUser(@ModelAttribute("userForm") @Validated({ValidationOrder.class}) RegisterForm userForm, BindingResult result, Model model) {
+  public String registerUser(@ModelAttribute("registerForm") @Validated({ValidationOrder.class}) RegisterForm registerForm, BindingResult result, Model model) {
     try {
-      userService.createUserWithEncryptedPassword(userForm, result);
+      userService.createUserWithEncryptedPassword(registerForm, result);
       if (result.hasErrors()) {
-        System.out.println("★Error発生時のメッセージ内容" + result );
         model.addAttribute("registerError", result);
-        return "/users/register";
+        return "users/register";
       }
     } catch (Exception e) {
       model.addAttribute("registerError", "システムエラーにより操作を完了できませんでした。");
-      System.out.println("★通信エラー：" + e);
-      return "/users/register";
+      return "users/register";
     }
       
     return "redirect:/users/login";
@@ -70,7 +65,9 @@ public class UserController {
   @GetMapping("/{userId}")
   public String showUserDetail(@PathVariable("userId") Integer userId, Model model) {
     UserEntity userEntity = userRepository.findByUserId(userId);
+    List<PrototypeEntity> prototypeEntity = prototypeRepository.findByUserId(userId);
     model.addAttribute("user", userEntity);
+    model.addAttribute("prototypes", prototypeEntity);
     return "users/detail";
   }
 }

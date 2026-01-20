@@ -2,14 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
-    <title>userForm</title>
+    <link th:href="@{/css/users/register.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
+    <title>ProtoSpace</title>
 </head>
 
 <body>
-<!-- <div th:insert="~{header :: header}"></div> -->
+<div th:insert="~{header :: header}"></div>
 
-<div class="contents row">
+<div class="contents row inner">
   <div class="container">
     <h2>ユーザー新規登録</h2>
     <div class="form">
@@ -66,6 +67,6 @@
   </div>
 </div>
 
-<!-- <div th:insert="~{footer :: footer}"></div> -->
+<div th:insert="~{footer :: footer}"></div>
 </body>
 </html>

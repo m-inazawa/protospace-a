@@ -1,5 +1,6 @@
 package in.techcamp.app.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,13 +10,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
+import in.techcamp.app.custom_user.CustomUserDetail;
+import in.techcamp.app.entity.CommentEntity;
 import in.techcamp.app.entity.PrototypeEntity;
+import in.techcamp.app.entity.UserEntity;
 import in.techcamp.app.repository.PrototypeRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -68,5 +73,53 @@ public class PrototypeControllerUnitTest {
     String result = prototypeController.showPrototypeNew(model);
 
     assertThat(result, is("prototype/new"));
+  }
+
+  @Test
+  public void 編集機能にリクエストすると編集画面のビューファイルがレスポンスで返ってくる() {
+    Model model = new ExtendedModelMap();
+    Integer prototypeId = 1;
+    CustomUserDetail mockUser = mock(CustomUserDetail.class);
+    when(mockUser.getUserId()).thenReturn(1);
+
+    PrototypeEntity mockPrototype = new PrototypeEntity();
+    UserEntity mockUserEntity = new UserEntity();
+    mockUserEntity.setId(1);
+    mockPrototype.setUser(mockUserEntity);
+
+    when(prototypeRepository.findById(prototypeId)).thenReturn(mockPrototype);
+
+    String result = prototypeController.showPrototypeEdit(prototypeId, mockUser, model);
+
+    assertThat(result, is("prototype/edit"));
+  }
+
+  @Test
+  public void 詳細表示機能にリクエストすると詳細画面のビューファイルがレスポンスで返ってくる() {
+    Model model = new ExtendedModelMap();
+    Integer prototypeId = 1;
+
+    PrototypeEntity mockPrototype = new PrototypeEntity();
+    mockPrototype.setId(prototypeId);
+    mockPrototype.setPrototypeName("プロトタイプ１");
+
+    List<CommentEntity> comments = new ArrayList<>();
+    // コメントデータをセット
+    CommentEntity comment = new CommentEntity();
+    comment.setComment("テストのコメント");
+    comment.setPrototypeId(prototypeId);
+    comments.add(comment);
+    comment.setComment("テストのコメント");
+    comment.setPrototypeId(prototypeId);
+    comments.add(comment);
+    // リストをmockPrototypeに追加
+    mockPrototype.setComments(comments);
+
+    when(prototypeRepository.findById(prototypeId)).thenReturn(mockPrototype);
+
+    String result = prototypeController.showPrototypeDetail(prototypeId, model);
+    
+    assertThat(result, is("prototype/detail"));
+    assertThat(model.getAttribute("prototype"), is(mockPrototype));
   }
 }
