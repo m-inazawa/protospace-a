@@ -2,6 +2,7 @@ package in.techcamp.app.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
@@ -68,4 +69,7 @@ public interface PrototypeRepository {
     @Result(property = "user.userName", column = "user_name")
   })
   List<CommentEntity> findCommentsByPrototypeId(Integer prototypeId);
+
+  @Delete("DELETE FROM prototypes WHERE id = #{id}")
+  void deleteById(Integer id);
 }
