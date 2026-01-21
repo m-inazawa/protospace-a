@@ -1,7 +1,7 @@
 // マウス、ドラッグ、右クリック監視
 
 export class InputHandler {
-    constructor() {
+    constructor(targetElement) {
         this.mouseX = 0;
         this.mouseY = 0;
         this.isDragging = false;
@@ -13,6 +13,15 @@ export class InputHandler {
         });
 
         // ドラッグ開始（キャラクターの上でマウスが押された時）
+        targetElement.addEventListener('mousedown', () => {
+            this.isDragging = true;
+        });
+
+        // 画面のどこでもマウスが離されたらドラッグ終了
+        window.addEventListener('mouseup', () => {
+            this.isDragging = false;
+        });
+        
         // ※後ほどMascot.jsから呼び出すか、ここでイベント登録します
     }
 

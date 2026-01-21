@@ -10,11 +10,51 @@
 }
 
 .mascot-sprite {
-    width: 100%;
-    height: 100%;
-    background-color: #ff6b6b; /* 画像がない間は赤い四角 */
+    width: 64px;
+    height: 64px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* 背景画像の切り替え時に一瞬消えるのを防ぐ設定 */
+    transition: none; 
+}
+
+/* 向き（Y軸のオフセット） */
+.dir-n  { background-position-y: calc(-64px * 0); }
+.dir-ne { background-position-y: calc(-64px * 1); }
+.dir-e  { background-position-y: calc(-64px * 2); }
+.dir-se { background-position-y: calc(-64px * 3); }
+.dir-s  { background-position-y: calc(-64px * 4); }
+.dir-sw { background-position-y: calc(-64px * 5); }
+.dir-w  { background-position-y: calc(-64px * 6); }
+.dir-nw { background-position-y: calc(-64px * 7); }
+
+/* アニメーション状態 */
+.state-follow {
+    /* 4フレームを0.5秒でループ */
+    animation: walk-animation 0.5s steps(4) infinite;
+}
+
+.state-sleep {
+    /* 睡眠時はアニメーション停止、または別のアニメを適用 */
+    background-position-x: 0; 
+    filter: brightness(0.8);
+}
+
+@keyframes walk-animation {
+    from { background-position-x: 0; }
+    to { background-position-x: -256px; } /* 64px * 4枚分 */
+}
+
+
+
+
+ /* 画像がない間は赤い四角 */
+/* .mascot-sprite {
+    width: 64px;
+    height: 64px;
+    background-color: #ff6b6b;
     border-radius: 8px;
     transition: background 0.3s;
-}
+} */
 
 /* 方向確認用のデバッグテキスト表示などが必要ならここに追加 */
