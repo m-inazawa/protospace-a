@@ -1,6 +1,6 @@
 // エントリーポイント（初期化処理）
 
-import { Mascot } from './mascot/Mascot.js';
+import { Mascot } from '/js/mascot/Mascot.js';
 
 // グローバルからアクセスできるようにappとして定義（メニュー操作用）
 window.app = new Mascot();

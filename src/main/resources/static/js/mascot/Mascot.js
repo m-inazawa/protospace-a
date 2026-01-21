@@ -1,10 +1,10 @@
 // 司令塔（全体制御
 //メインループ（requestAnimationFrame）を回し、キャラクターを動かし続けるクラスです。
 
-import { InputHandler } from './InputHandler.js';
-import { Utils } from './Utils.js';
-import { CharacterConfigs } from './MascotEntity.js';
-import { StateManager } from './StateManager.js';
+import { InputHandler } from '/js/mascot/InputHandler.js';
+import { Utils } from '/js/mascot/Utils.js';
+import { CharacterConfigs } from '/js/mascot/MascotEntity.js';
+import { StateManager } from '/js/mascot/StateManager.js';
 
 export class Mascot {
   constructor() {
@@ -45,7 +45,11 @@ export class Mascot {
     directions.forEach(dir => {
       for (let i = 1; i <= this.config.frameCount; i++) {
         const img = new Image();
-        img.src = `${this.config.basePath}${dir}-${i}.png`;
+
+        // 向き(dir)を1文字目だけ大文字にする（例: s -> S）
+        const dirKey = dir.toUpperCase();
+
+        img.src = `${this.config.basePath}cat${dirKey}${i}.png`;
       }
     });
   }
@@ -102,10 +106,18 @@ export class Mascot {
     // 位置　CSSのtransformを使用して描画（パフォーマンスが良い）
     this.el.style.transform = `translate(${this.x}px, ${this.y}px)`;
 
+    // 1. 向き(currentDir)を大文字に変換（例: 's' -> 'S'）
+    const dirKey = this.currentDir.toUpperCase();
+
+    // 2. ファイル名を組み立てる（例: catS1.png）
     // 状態(state)と向き(dir)とコマ(frame)から画像パスを生成
     // 例: /images/characters/cat/sw-2.png
-    const fileName = `${this.currentDir}-${this.frame}.png`;
+    const fileName = `cat${this.currentDir}${this.frame}.png`;
     this.sprite.style.backgroundImage = `url('${this.config.basePath}${fileName}')`;
+
+    // 3. パスを結合
+    const fullPath = `${this.config.basePath}${fileName}`;
+    this.sprite.style.backgroundImage = `url('${fullPath}')`;
         
     // CSSクラスの適用 (状態管理用)
     // ドラッグ中などの状態クラスも一応維持
