@@ -61,12 +61,13 @@ public interface PrototypeRepository {
   PrototypeEntity findById(Integer id);
 
   //投稿についたコメントを取得(ユーザー名も合わせて取得)
-  @Select("SELECT c.*, u.user_name AS user_name " +
+  @Select("SELECT c.*, u.user_name AS user_name, u.id AS user_id " +
         "FROM comments c " +
         "JOIN users u ON c.user_id = u.id " +
         "WHERE c.prototype_id = #{prototypeId}")
   @Results(value = {
-    @Result(property = "user.userName", column = "user_name")
+    @Result(property = "user.userName", column = "user_name"),
+    @Result(property = "user.id", column = "user_id")
   })
   List<CommentEntity> findCommentsByPrototypeId(Integer prototypeId);
 
