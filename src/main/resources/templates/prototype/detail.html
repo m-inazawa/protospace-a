@@ -44,8 +44,8 @@
 
     <!-- コメント投稿機能 -->
     <div class="comments-row">
+      <h2 class="comments-title">コメント</h2>
       <div th:if="${#authorization.expression('isAuthenticated()')}">
-        <h2 class="comments-title">コメント</h2>
         <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
           <div th:text="${error}"></div>
         </div>
