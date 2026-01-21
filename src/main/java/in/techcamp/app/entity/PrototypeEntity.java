@@ -11,9 +11,9 @@ public class PrototypeEntity {
   private String prototypeName;
   private String concept;
   private String catchCopy;
-  private String image;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
   private UserEntity user;
   private List<CommentEntity> comments;
+  private Integer imageId;
 }

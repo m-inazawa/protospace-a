@@ -48,13 +48,11 @@ public class PrototypeControllerUnitTest {
   public void 一覧表示機能にリクエストするとレスポンスに投稿済みのプロトタイプがすべて含まれること() {
     PrototypeEntity prototype1 = new PrototypeEntity();
     prototype1.setId(1);
-    prototype1.setImage("image1.jpg");
     prototype1.setPrototypeName("プロトタイプ1");
     prototype1.setCatchCopy("キャッチコピー1");
 
     PrototypeEntity prototype2 = new PrototypeEntity();
     prototype2.setId(2);
-    prototype2.setImage("image2.jpg");
     prototype2.setPrototypeName("プロトタイプ2");
     prototype2.setCatchCopy("キャッチコピー2");
 

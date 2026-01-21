@@ -29,7 +29,7 @@
         </div>
 
         <div class="prototype-image">
-          <span><img th:src="${prototype.image}" /></span>
+          <span><img th:src="@{/prototype/{imageId}/image(imageId=${prototype.imageId})}" /></span>
         </div>
 
         <div class="prototype-detail">

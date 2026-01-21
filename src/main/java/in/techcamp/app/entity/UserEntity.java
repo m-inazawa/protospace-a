@@ -16,5 +16,4 @@ public class UserEntity {
   private String position;
   private LocalDateTime createdAt;
   private List<PrototypeEntity> prototypes;
-  private List<CommentEntity> comments;
 }
