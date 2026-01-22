@@ -33,8 +33,9 @@ export class Mascot {
     this.foodPos = null;
 
     this.jumpY = 0;       // ジャンプによる高さオフセット
+    this.jumpVelocity = 0;
     this.gravity = 0.8;   // 重力
-    this.jumpPower = -12; // 跳ねる力
+    this.jumpPower = -8; // 跳ねる力
     this.isJumping = false;
   }
 
@@ -155,7 +156,7 @@ export class Mascot {
     // 1. 位置の更新（中心を基準にするため translate の入れ子に注意）
     // CSSで -50% しているので、ここは単純に座標を指定するだけでOK
     this.el.style.left = `${this.x}px`;
-    this.el.style.top = `${this.y}px`;
+    this.el.style.top = `${this.y + this.jumpY}px`;
 
     // 2．ファイル名の組み立て（例: ne -> Ne, s -> S）
     const dirKey = this.currentDir.charAt(0).toUpperCase() + this.currentDir.slice(1);
