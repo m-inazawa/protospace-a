@@ -67,3 +67,7 @@ input[type="file"] {
     align-items: flex-start;
 }
 
+.conflictError {
+    color: red;
+    margin-left: 160px;
+}
