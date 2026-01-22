@@ -35,7 +35,9 @@
 }
 
 .edit-btn a,.delete-btn {
+  display: block;
   width: 100px;
+  box-sizing: border-box;
   border: 1px solid #999;
   border-radius: 4px;
   padding: 5px;

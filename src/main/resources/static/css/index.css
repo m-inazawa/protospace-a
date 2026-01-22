@@ -13,11 +13,15 @@
   margin-bottom: 150px;
 }
 
+.greeting a {
+  text-decoration: underline;
+}
+
 
 .contents {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  min-height: calc(100vh - 160px);
+  height: auto;
 }

@@ -108,7 +108,6 @@ public class UserControllerUnitTest {
     PrototypeEntity prototypeEntity1 = new PrototypeEntity();
     prototypeEntity1.setCatchCopy("テストカテゴリー");
     prototypeEntity1.setConcept("テストコンセプト");
-    prototypeEntity1.setImage("テスト画像");
     prototypeEntity1.setPrototypeName("テストプロトタイプ名");
     prototypeEntity1.setId(1);
     prototypeEntity1.setCreatedAt(LocalDateTime.now());

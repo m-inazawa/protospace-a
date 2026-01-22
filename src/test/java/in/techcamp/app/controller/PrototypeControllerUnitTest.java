@@ -34,9 +34,11 @@ public class PrototypeControllerUnitTest {
 
   @Test
   public void 一覧表示機能にリクエストするとプロトタイプ一覧表示のビューファイルがレスポンスで返ってくる() {
+    UserEntity user = new UserEntity(); 
+    CustomUserDetail currentUser = new CustomUserDetail(user);
     Model model = new ExtendedModelMap();
 
-    String result = prototypeController.showPrototypes(model);
+    String result = prototypeController.showPrototypes(currentUser, model);
 
     assertThat(result, is("prototype/index"));
 
@@ -46,13 +48,11 @@ public class PrototypeControllerUnitTest {
   public void 一覧表示機能にリクエストするとレスポンスに投稿済みのプロトタイプがすべて含まれること() {
     PrototypeEntity prototype1 = new PrototypeEntity();
     prototype1.setId(1);
-    prototype1.setImage("image1.jpg");
     prototype1.setPrototypeName("プロトタイプ1");
     prototype1.setCatchCopy("キャッチコピー1");
 
     PrototypeEntity prototype2 = new PrototypeEntity();
     prototype2.setId(2);
-    prototype2.setImage("image2.jpg");
     prototype2.setPrototypeName("プロトタイプ2");
     prototype2.setCatchCopy("キャッチコピー2");
 
@@ -61,7 +61,7 @@ public class PrototypeControllerUnitTest {
     when(prototypeRepository.findAll()).thenReturn(expectedPrototypeList);
 
     Model model = new ExtendedModelMap();
-    prototypeController.showPrototypes(model);
+    prototypeController.showPrototypes(null, model);
 
     assertThat(model.getAttribute("prototypes"), is(expectedPrototypeList));
   }
