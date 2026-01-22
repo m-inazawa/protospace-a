@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.PrototypeEntity;
@@ -30,10 +31,13 @@ public class PrototypeController {
   private final PrototypeService prototypeService;
 
   @GetMapping("/")
-  public String showPrototypes(@AuthenticationPrincipal CustomUserDetail currentUser,
+  public String showPrototypes(@RequestParam(name = "sort", defaultValue = "desc") String sort,
+                               @AuthenticationPrincipal CustomUserDetail currentUser,
                                Model model) {
-    List<PrototypeEntity> prototypes = prototypeRepository.findAll();
+    String order = "asc".equals(sort) ? "ASC" : "DESC"; //ascならASC、それ以外はすべてDESC
+    List<PrototypeEntity> prototypes = prototypeRepository.findAll(order);
     model.addAttribute("prototypes", prototypes);
+    model.addAttribute("sort",sort); //選択した順番で画面を維持
 
     if (currentUser != null) {
       model.addAttribute("userName", currentUser.getLoginUserName());
@@ -151,8 +155,5 @@ return "prototype/detail";
       return  "redirect:/";
     }
     return "redirect:/";
-  }
-
-
-
+  } 
 }

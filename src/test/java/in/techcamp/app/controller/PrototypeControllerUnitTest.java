@@ -38,7 +38,7 @@ public class PrototypeControllerUnitTest {
     CustomUserDetail currentUser = new CustomUserDetail(user);
     Model model = new ExtendedModelMap();
 
-    String result = prototypeController.showPrototypes(currentUser, model);
+    String result = prototypeController.showPrototypes("desc",currentUser, model);
 
     assertThat(result, is("prototype/index"));
 
@@ -58,10 +58,10 @@ public class PrototypeControllerUnitTest {
 
     List<PrototypeEntity> expectedPrototypeList = Arrays.asList(prototype1, prototype2);
 
-    when(prototypeRepository.findAll()).thenReturn(expectedPrototypeList);
+    when(prototypeRepository.findAll("DESC")).thenReturn(expectedPrototypeList);
 
     Model model = new ExtendedModelMap();
-    prototypeController.showPrototypes(null, model);
+    prototypeController.showPrototypes("desc",null, model);
 
     assertThat(model.getAttribute("prototypes"), is(expectedPrototypeList));
   }

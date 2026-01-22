@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/fragment/sort_menu.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/users/prototype.css}" rel="stylesheet" type="text/css">
     <title>ProtoSpace</title>
   </head>
@@ -15,6 +16,7 @@
 
     <div class="main">
       <div class="inner-prototypes">
+        <div th:replace="~{sort_menu :: sort_menu(@{/}, ${sort})}"></div>
         <div class="greeting" sec:authorize="isAuthenticated()" th:if="${userName != null}"> <!--ログインしている時のみ表示 -->
           こんにちは、<a th:href="@{/users/{userId}(userId=${#authentication.principal.userId})}" th:text="${userName} + 'さん'"></a>
         </div>
