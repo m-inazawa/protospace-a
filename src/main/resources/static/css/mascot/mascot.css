@@ -1,60 +1,50 @@
-/* キャラクター、エフェクト、メニューのCSS */
+/* mascot.css */
+
 .mascot-container {
     position: fixed;
-    top: -32px; /* キャラの中心をマウスに合わせるための調整 */
-    left: -32px;
-    width: 64px;
-    height: 64px;
+    top: 0;
+    left: 0;
+    width: 128px; 
+    height: 128px;
+    transition: width 0s, height 0s; /* サイズ変更を滑らかにする場合 */
+    z-index: 9999;
+    pointer-events: auto;
     cursor: grab;
-    will-change: transform; /* パフォーマンス向上 */
+    will-change: transform;
+    /* 中心を合わせるための調整 */
+    transform: translate(-50%, -50%);
+}
+
+.mascot-container.dir-ne,
+.mascot-container.dir-nw,
+.mascot-container.dir-se,
+.mascot-container.dir-sw {
+    width: 83px;
+    height: 83px;
 }
 
 .mascot-sprite {
-    width: 64px;
-    height: 64px;
+    width: 100%;
+    height: 100%;
+    /* 重要: JSでセットした画像をそのまま表示する設定 */
     background-size: contain;
     background-repeat: no-repeat;
-    /* 背景画像の切り替え時に一瞬消えるのを防ぐ設定 */
-    transition: none; 
+    background-position: center center;
+    /* これらを削除、または 0 0 に固定します */
+    background-position-x: 0 !important;
+    background-position-y: 0 !important;
 }
 
-/* 向き（Y軸のオフセット） */
-.dir-n  { background-position-y: calc(-64px * 0); }
-.dir-ne { background-position-y: calc(-64px * 1); }
-.dir-e  { background-position-y: calc(-64px * 2); }
-.dir-se { background-position-y: calc(-64px * 3); }
-.dir-s  { background-position-y: calc(-64px * 4); }
-.dir-sw { background-position-y: calc(-64px * 5); }
-.dir-w  { background-position-y: calc(-64px * 6); }
-.dir-nw { background-position-y: calc(-64px * 7); }
-
-/* アニメーション状態 */
-.state-follow {
-    /* 4フレームを0.5秒でループ */
-    animation: walk-animation 0.5s steps(4) infinite;
-}
-
+/* 状態別のエフェクト（任意） */
 .state-sleep {
-    /* 睡眠時はアニメーション停止、または別のアニメを適用 */
-    background-position-x: 0; 
-    filter: brightness(0.8);
+    filter: brightness(0.7) sepia(0.3);
 }
 
-@keyframes walk-animation {
-    from { background-position-x: 0; }
-    to { background-position-x: -256px; } /* 64px * 4枚分 */
+.state-rush {
+    /* 餌に向かう時のスピード感を出したい場合 */
+    filter: contrast(1.2);
 }
 
-
-
-
- /* 画像がない間は赤い四角 */
-/* .mascot-sprite {
-    width: 64px;
-    height: 64px;
-    background-color: #ff6b6b;
-    border-radius: 8px;
-    transition: background 0.3s;
-} */
-
-/* 方向確認用のデバッグテキスト表示などが必要ならここに追加 */
+/* 以前のスプライト用のアニメーション(@keyframes)や .dir-n などの 
+   background-position 指定はすべて削除するかコメントアウトしてください。
+   それらが残っていると画像が表示されない原因になります。 */
