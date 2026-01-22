@@ -45,6 +45,26 @@
     filter: contrast(1.2);
 }
 
-/* 以前のスプライト用のアニメーション(@keyframes)や .dir-n などの 
-   background-position 指定はすべて削除するかコメントアウトしてください。
-   それらが残っていると画像が表示されない原因になります。 */
+
+/* 以下はメニューと餌の見た目を整えます。 */
+.custom-menu {
+    position: fixed;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 10001;
+}
+.custom-menu ul { list-style: none; padding: 3px 0; margin: 0; }
+.custom-menu li { padding: 5px 20px; cursor: pointer; font-size: 12px; }
+.custom-menu li:hover { background: #f5f5f5; }
+
+.food-item {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: #ffcc00; /* 餌の画像がない間の代わり */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9998;
+}

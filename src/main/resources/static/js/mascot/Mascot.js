@@ -2,6 +2,7 @@ import { InputHandler } from '/js/mascot/InputHandler.js';
 import { Utils } from '/js/mascot/Utils.js';
 import { CharacterConfigs } from '/js/mascot/MascotEntity.js';
 import { StateManager } from '/js/mascot/StateManager.js';
+import { UIHandler } from '/js/mascot/UIHandler.js';
 
 export class Mascot {
   constructor() {
@@ -23,9 +24,12 @@ export class Mascot {
     this.y = window.innerHeight / 2;
     this.targetX = this.x;
     this.targetY = this.y;
-    this.speed = 0.06;
+    this.speed = 0.006;
 
     this.input = new InputHandler(this.el); 
+
+    this.ui = new UIHandler(this);
+    this.foodPos = null;
   }
 
   init() {
@@ -59,21 +63,26 @@ export class Mascot {
       this.x = mouse.x;
       this.y = mouse.y;
       this.isMoving = false;
+      this.foodPos = null; // 掴まれたら餌を諦める
     } else {
-      this.targetX = mouse.x;
-      this.targetY = mouse.y;
+      // 餌があれば餌を優先、なければマウスを追う
+      this.targetX = this.foodPos ? this.foodPos.x : mouse.x;
+      this.targetY = this.foodPos ? this.foodPos.y : mouse.y;
 
       const dx = this.targetX - this.x;
       const dy = this.targetY - this.y;
 
       const distance = Utils.getDistance(this.x, this.y, this.targetX, this.targetY);
-      this.isMoving = distance > 2;
+      this.isMoving = distance > 5;
 
       if (this.isMoving) {
         const nextDir = Utils.getDirection8(dx, dy);
         if (nextDir) this.currentDir = nextDir;
         this.x += dx * this.speed;
         this.y += dy * this.speed;
+      } else if (this.foodPos) {
+        // 餌に到着した場合
+        this.eatFood();
       }
     }
 
@@ -90,6 +99,19 @@ export class Mascot {
     }
   }
 
+  setTargetFood(x, y) {
+    this.foodPos = { x, y };
+  }
+
+  eatFood() {
+    this.foodPos = null;
+    const foodEl = document.getElementById('cat-food');
+    if (foodEl) foodEl.remove();
+    
+    // 食べた後に眠る状態へ（StateManagerに任せる）
+    this.stateManager.setState('sleep');
+  }
+
   // 方角を更新する関数の中のイメージ
   updateDirection(newDir) {
     const container = document.querySelector('.mascot-container');
@@ -100,7 +122,7 @@ export class Mascot {
 
     // 2. 新しい方角クラスを追加
     container.classList.add(`dir-${newDir}`);
-}
+  }
 
   draw() {
     // 1. 位置の更新（中心を基準にするため translate の入れ子に注意）

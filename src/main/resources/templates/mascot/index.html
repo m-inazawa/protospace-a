@@ -13,9 +13,10 @@
 
     <div id="custom-menu" class="custom-menu" style="display:none;">
         <ul>
-            <li onclick="app.setFood()">餌を置く</li>
+            <li onclick="app.ui.placeFoodAtMenu()">餌を置く</li>
             <li onclick="app.changeCharacter()">キャラ変更</li>
             <li onclick="app.toggleAnimation()">アニメON/OFF</li>
+            <li onclick="this.parentElement.parentElement.style.display='none'">閉じる</li>
         </ul>
     </div>
 
