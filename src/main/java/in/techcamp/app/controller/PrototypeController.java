@@ -1,11 +1,5 @@
 package in.techcamp.app.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,14 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.multipart.MultipartFile;
 
-import in.techcamp.app.ImageUrl;
 import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.form.PrototypeForm;
 import in.techcamp.app.repository.PrototypeRepository;
-import in.techcamp.app.repository.UserRepository;
+import in.techcamp.app.service.PrototypeService;
 import in.techcamp.app.validation.ValidationOrder;
 import lombok.AllArgsConstructor;
 
@@ -34,8 +26,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PrototypeController {
   private final PrototypeRepository prototypeRepository;
-  private final UserRepository userRepository;
-  private final ImageUrl imageUrl;
+  private final PrototypeService prototypeService;
 
   @GetMapping("/")
   public String showPrototypes(@AuthenticationPrincipal CustomUserDetail currentUser,
@@ -66,38 +57,10 @@ public class PrototypeController {
       model.addAttribute("errorMessages", errorMessages);
       model.addAttribute("prototypeForm", prototypeForm);
       return "prototype/new";
-  }
-
-  PrototypeEntity prototype = new PrototypeEntity();
-    prototype.setUser(userRepository.findByUserId(currentUser.getUserId()));
-    prototype.setPrototypeName(prototypeForm.getPrototypeName());
-    prototype.setConcept(prototypeForm.getConcept());
-    prototype.setCatchCopy(prototypeForm.getCatchCopy());
-
-  MultipartFile imageFile = prototypeForm.getImage();
-    if (imageFile != null && !imageFile.isEmpty()) {
-      try {
-        String uploadDir = imageUrl.getImageUrl();
-
-        Path uploadPath = Paths.get(imageUrl.getImageUrl()).toAbsolutePath().normalize();
-        System.out.println("画像の保存ディレクトリの絶対パス： " + uploadPath);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "_" + imageFile.getOriginalFilename();
-        Path imagePath = Paths.get(uploadDir, fileName);
-
-        Files.copy(imageFile.getInputStream(), imagePath);
-        prototype.setImage("/uploads/" + fileName);
-      } catch (IOException e) {
-        System.out.println("エラー：" + e);
-        return "prototype/new";
-      }
     }
 
     try {
-      prototypeRepository.insert(prototype);
+      prototypeService.createPrototype(prototypeForm, currentUser);
     } catch (Exception e) {
       System.out.println("エラー：" + e);
       return "prototype/new";
@@ -137,30 +100,10 @@ public class PrototypeController {
       model.addAttribute("errorMessages", errorMessages);
       model.addAttribute("prototypeForm", prototypeForm);
       return "prototype/edit";
-  }
-
-  PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
-    prototype.setUser(userRepository.findByUserId(currentUser.getUserId()));
-    prototype.setPrototypeName(prototypeForm.getPrototypeName());
-    prototype.setConcept(prototypeForm.getConcept());
-    prototype.setCatchCopy(prototypeForm.getCatchCopy());
-
-  MultipartFile imageFile = prototypeForm.getImage();
-    if (imageFile != null && !imageFile.isEmpty()) {
-      try {
-        String uploadDir = imageUrl.getImageUrl();
-        String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "_" + imageFile.getOriginalFilename();
-        Path imagePath = Paths.get(uploadDir, fileName);
-        Files.copy(imageFile.getInputStream(), imagePath);
-        prototype.setImage("/uploads/" + fileName);
-      } catch (IOException e) {
-        System.out.println("エラー：" + e);
-        return "prototype/edit";
-      }
     }
 
     try {
-      prototypeRepository.update(prototype);
+      prototypeService.updatePrototype(prototypeForm, currentUser, prototypeId);
     } catch (Exception e) {
       System.out.println("エラー：" + e);
       return "prototype/edit";

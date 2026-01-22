@@ -1,7 +1,7 @@
 <div xmlns:th="http://www.thymeleaf.org" th:fragment="content(prototype)">
   <div class="prototype-image">
     <a th:href="@{/prototype/{prototypeId}(prototypeId=${prototype.id})}">
-      <img th:src="@{${prototype.image}}" alt="プロトタイプ画像">
+      <img th:src="@{/prototype/{imageId}/image(imageId=${prototype.imageId})}" alt="プロトタイプ画像">
     </a>
   </div>
   <a th:href="@{/prototype/{prototypeId}(prototypeId=${prototype.id})}" class="prototype-name" th:text="${prototype.prototypeName}"></a>
