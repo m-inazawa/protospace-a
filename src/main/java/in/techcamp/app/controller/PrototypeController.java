@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -104,7 +105,15 @@ public class PrototypeController {
 
     try {
       prototypeService.updatePrototype(prototypeForm, currentUser, prototypeId);
-    } catch (Exception e) {
+    } 
+
+    catch (OptimisticLockingFailureException e) { //楽観ロックエラー
+        model.addAttribute("conflictError", "他のユーザーがこの投稿を更新しました。最新の状態を確認してから、再度入力してください。");
+        model.addAttribute("prototypeForm", prototypeForm); // 現在の入力内容を保持
+        return "prototype/edit";
+    }
+    
+    catch (Exception e) {
       System.out.println("エラー：" + e);
       return "prototype/edit";
     }
@@ -142,5 +151,7 @@ return "prototype/detail";
     }
     return "redirect:/";
   }
+
+
 
 }
