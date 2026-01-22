@@ -1,5 +1,9 @@
 package in.techcamp.app.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +15,7 @@ import in.techcamp.app.repository.ImageRepository;
 import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 
 @Service
 @AllArgsConstructor
@@ -28,9 +33,9 @@ public class PrototypeService {
     prototypeRepository.insert(prototype);
     // イメージをエンティティにセット
     ImageEntity image = new ImageEntity();
-    // フォーム内の画像のバイト配列を取得
-    byte[] byteImage = prototypeForm.getImage().getBytes();
-    image.setImage(byteImage);
+    // フォーム内の画像のバイト配列を取得、変換
+    byte[] resizedImage = reSizeImage(prototypeForm.getImage().getBytes());
+    image.setImage(resizedImage);
     image.setPrototypeId(prototype.getId());
     
     // イメージをインサート
@@ -51,11 +56,14 @@ public class PrototypeService {
     }
     // イメージをエンティティにセット
     ImageEntity image = imageRepository.findByImageId(prototypeId);
-    byte[] byteImage = prototypeForm.getImage().getBytes();
-    image.setImage(byteImage);
+    if (prototypeForm.getImage() != null && !prototypeForm.getImage().isEmpty()) {
+      byte[] resizedImage = reSizeImage(prototypeForm.getImage().getBytes());
+      image.setImage(resizedImage);
+  
+      // イメージをアップデート
+      imageRepository.update(image);
 
-    // イメージをアップデート
-    imageRepository.update(image);
+    }
 
   }
 
@@ -69,5 +77,21 @@ public class PrototypeService {
     prototype.setVersion(prototypeForm.getVersion());
 
     return prototype;
+  }
+
+  // 画像変換処理のプライベートメソッド
+  private byte[] reSizeImage(byte[] byteImage) throws IOException {
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    // Thumbnailatorを使ってリサイズ実行
+    Thumbnails.of(new ByteArrayInputStream(byteImage))
+      .scale(0.8)
+      .outputQuality(0.5)    // 画質を80%に（ファイルサイズが激減します）
+      .outputFormat("jpg")
+      .toOutputStream(outputStream);
+    byte[] resizedImage = outputStream.toByteArray();
+
+    System.out.println("リサイズ後: " + (resizedImage.length / 1024) + " KB");
+
+    return resizedImage;
   }
 }
