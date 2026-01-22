@@ -188,4 +188,23 @@ export class Mascot {
       console.log(`Changed to ${newConfig.name}`);
     }
   }
+
+  setVisibility(isVisible) {
+    if (this.el) {
+      this.el.style.display = isVisible ? 'block' : 'none';
+    }
+  }
+ 
+  toggleMascot() {
+  // 現在の display 状態を確認
+  const isHidden = this.el.style.display === 'none';
+  
+  if (isHidden) {
+    this.el.style.display = 'block';
+    console.log("猫を表示しました");
+  } else {
+      this.el.style.display = 'none';
+      console.log("猫を非表示にしました");
+  }
+  }
 }
