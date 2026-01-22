@@ -8,6 +8,7 @@ export class Mascot {
   constructor() {
     this.el = document.getElementById('mascot');
     this.sprite = document.getElementById('mascot-sprite');
+    this.isAnimationEnabled = true;
 
     if (this.sprite) {
       console.log("SUCCESS: mascot-sprite element found!");
@@ -30,6 +31,11 @@ export class Mascot {
 
     this.ui = new UIHandler(this);
     this.foodPos = null;
+
+    this.jumpY = 0;       // ジャンプによる高さオフセット
+    this.gravity = 0.8;   // 重力
+    this.jumpPower = -12; // 跳ねる力
+    this.isJumping = false;
   }
 
   init() {
@@ -86,6 +92,19 @@ export class Mascot {
       }
     }
 
+      // ジャンプの物理計算
+    if (this.isJumping) {
+      this.jumpY += this.jumpVelocity;
+      this.jumpVelocity += this.gravity;
+
+      if (this.jumpY >= 0) { // 着地判定
+        this.jumpY = 0;
+        this.isJumping = false;
+      }
+    }
+
+    
+
     this.stateManager.update(this.input.isDragging, this.isMoving);
 
     // アニメーション更新
@@ -110,6 +129,14 @@ export class Mascot {
     
     // 食べた後に眠る状態へ（StateManagerに任せる）
     this.stateManager.setState('sleep');
+  }
+
+  jump() {
+    if (!this.isJumping) {
+        this.isJumping = true;
+        this.jumpVelocity = this.jumpPower;
+        this.stateManager.setState('idle'); // 状態を一時的にリセット
+    }
   }
 
   // 方角を更新する関数の中のイメージ
@@ -148,5 +175,16 @@ export class Mascot {
     // 状態と向きをクラスに反映
     this.sprite.className = `mascot-sprite state-${this.stateManager.currentState}`;
     this.el.style.cursor = this.input.isDragging ? 'grabbing' : 'grab';
+  }
+
+  changeCharacter(charKey) {
+    const newConfig = CharacterConfigs[charKey];
+    if (newConfig) {
+      this.config = newConfig;
+      this.preloadImages(); // 新しいキャラの画像をプリロード
+      this.frame = 1;
+      this.speed = newConfig.speed;
+      console.log(`Changed to ${newConfig.name}`);
+    }
   }
 }
