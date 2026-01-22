@@ -17,7 +17,7 @@
 <h2 class="page-title">プロトタイプ編集</h2>
 
 <div th:if="${conflictError}">
-  <p th:text="${conflictError}" style="color: red;"></p>
+  <p class="conflictError" th:text="${conflictError}"></p>
 </div>
 
 <form th:action = "@{/prototype/{id}/edit(id=${prototypeId})}" th:method = "post" th:object = ${prototypeForm} class = "form-group" enctype="multipart/form-data">
