@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -18,13 +19,14 @@ import in.techcamp.app.entity.PrototypeEntity;
 @Mapper
 public interface PrototypeRepository {
 
-  @Select("SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id as image_id FROM prototypes p JOIN users u ON p.user_id = u.id JOIN images i ON p.id = i.prototype_id  ORDER BY p.created_at DESC")
+  @Select("<script> SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id as image_id FROM prototypes p JOIN users u ON p.user_id = u.id JOIN images i ON p.id = i.prototype_id  ORDER BY p.created_at " + 
+            "<choose> <when test=\"order == 'ASC'\">ASC</when> <otherwise>DESC</otherwise> </choose> </script>") //orderがASCの時はASC、それ以外の時はDESC
   @Results(value = {
     @Result(property = "user.id", column = "user_id"),
     @Result(property = "user.userName", column = "user_name"),
     @Result(property = "imageId", column = "image_id")
   })
-  List<PrototypeEntity> findAll();
+  List<PrototypeEntity> findAll(@Param("order") String order);
 
   @Insert("INSERT INTO prototypes (prototype_name, concept, catch_copy, user_id) VALUES (#{prototypeName}, #{concept}, #{catchCopy}, #{user.id})")
   @Options(useGeneratedKeys = true, keyProperty = "id")
@@ -66,7 +68,7 @@ public interface PrototypeRepository {
   @Select("SELECT c.*, u.user_name AS user_name, u.id AS user_id " +
         "FROM comments c " +
         "JOIN users u ON c.user_id = u.id " +
-        "WHERE c.prototype_id = #{prototypeId}")
+        "WHERE c.prototype_id = #{prototypeId} ORDER BY c.created_at DESC")
   @Results(value = {
     @Result(property = "user.userName", column = "user_name"),
     @Result(property = "user.id", column = "user_id")

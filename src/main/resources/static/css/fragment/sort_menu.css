@@ -1,0 +1,15 @@
+.sort-box {
+  display: flex;
+  justify-content: flex-end;
+  width: 80vw;
+  margin: 20px auto;
+}
+
+.sort-select {
+  border: 1px solid #999;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: white;
+}
