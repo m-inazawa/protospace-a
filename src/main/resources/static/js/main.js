@@ -2,10 +2,10 @@
 
 import { Mascot } from '/js/mascot/Mascot.js';
 
-// グローバルからアクセスできるようにappとして定義（メニュー操作用）
-window.app = new Mascot();
-
 // ページ読み込み完了後に初期化
 window.addEventListener('DOMContentLoaded', () => {
-    window.app.init();
+  const app = new Mascot();
+  app.init();
+  // グローバルからアクセスできるようにappとして定義して公開する（メニュー操作用）
+  window.app = app;
 });
