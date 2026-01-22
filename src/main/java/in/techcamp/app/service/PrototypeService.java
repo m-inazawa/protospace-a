@@ -42,8 +42,13 @@ public class PrototypeService {
     // エンティティを作成
     PrototypeEntity prototype = createPrototypeEntity(prototypeForm, currentUser);
     prototype.setId(prototypeId);
-    // プロトタイプをアップデート
-    prototypeRepository.update(prototype);
+    // プロトタイプをアップデート、戻り値（更新件数）を受け取る
+    int count = prototypeRepository.update(prototype);
+
+    // ★追記：更新件数が0なら、誰かが先に更新した（＝バージョンが不一致）とみなして例外を投げる
+    if (count == 0) {
+        throw new org.springframework.dao.OptimisticLockingFailureException("競合エラー：他のユーザーが更新しました。");
+    }
     // イメージをエンティティにセット
     ImageEntity image = imageRepository.findByImageId(prototypeId);
     byte[] byteImage = prototypeForm.getImage().getBytes();
