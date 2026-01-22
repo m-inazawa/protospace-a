@@ -83,6 +83,7 @@ public class PrototypeController {
     prototypeForm.setPrototypeName(prototype.getPrototypeName());
     prototypeForm.setConcept(prototype.getConcept());
     prototypeForm.setCatchCopy(prototype.getCatchCopy());
+    prototypeForm.setVersion(prototype.getVersion());
 
     model.addAttribute("prototypeForm", prototypeForm);
     model.addAttribute("prototypeId", prototypeId);

@@ -66,6 +66,7 @@ public class PrototypeService {
     prototype.setPrototypeName(prototypeForm.getPrototypeName());
     prototype.setConcept(prototypeForm.getConcept());
     prototype.setCatchCopy(prototypeForm.getCatchCopy());
+    prototype.setVersion(prototypeForm.getVersion());
 
     return prototype;
   }
