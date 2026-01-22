@@ -37,7 +37,7 @@
 
 /* 状態別のエフェクト（任意） */
 .state-sleep {
-    filter: brightness(0.7) sepia(0.3);
+  filter: brightness(0.98) sepia(0.05) grayscale(0.05);
 }
 
 .state-rush {
@@ -67,4 +67,31 @@
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 9998;
+}
+
+.state-roll {
+    /* 左右に少し揺れるようなアニメーション */
+    animation: rolling 1.5s ease-in-out infinite;
+}
+
+
+/* 以下はごろごろしている処理 */
+@keyframes rolling {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(15deg) translateX(5px); }
+}
+
+.state-sleep::after {
+    content: "Zzz...";
+    position: absolute;
+    top: -4s0px;
+    right: 0;
+    font-size: 12px;
+    animation: fadeUp 2s infinite;
+}
+
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(0); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-20px); }
 }
