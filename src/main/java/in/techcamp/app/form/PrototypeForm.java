@@ -21,4 +21,6 @@ public class PrototypeForm {
 
   @NotNull(message = "画像を入力してください。", groups = ValidationPriority1.class)
   private MultipartFile image;
+
+  private Integer version;
 }

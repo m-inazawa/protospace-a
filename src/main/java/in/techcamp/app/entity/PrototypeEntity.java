@@ -16,4 +16,5 @@ public class PrototypeEntity {
   private UserEntity user;
   private List<CommentEntity> comments;
   private Integer imageId;
+  private Integer version;
 }
