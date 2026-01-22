@@ -1,0 +1,29 @@
+<!-- キャラクターを表示するメインページ -->
+<div th:fragment="cursorStalker">
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Mascot</title>
+    <link rel="stylesheet" th:href="@{/css/mascot/mascot.css}">
+</head>
+<body>
+    <div id="mascot" class="mascot-container" th:fragment="cursorStalker">
+        <div id="mascot-sprite" class="mascot-sprite"></div>
+    </div>
+
+    <div id="custom-menu" class="custom-menu" style="display:none;">
+        <ul>
+            <li onclick="app.ui.placeFoodAtMenu()">餌を置く</li>
+            <!-- <li onclick="app.changeCharacter('CAT')">猫に変更</li> -->
+            <!-- <li onclick="app.changeCharacter('DOG')">犬に変更（画像がある場合）</li> -->
+            <li onclick="app.toggleMascot()">アニメON/OFF</li>
+            <li onclick="this.parentElement.parentElement.style.display='none'">閉じる</li>
+        </ul>
+    </div>
+
+    <script type="module" th:src="@{/js/main.js}"></script>
+</body>
+</html>
