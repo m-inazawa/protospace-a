@@ -17,6 +17,7 @@
 <h2 class="page-title">プロトタイプ編集</h2>
 
 <form th:action = "@{/prototype/{id}/edit(id=${prototypeId})}" th:method = "post" th:object = ${prototypeForm} class = "form-group" enctype="multipart/form-data">
+  <input type="hidden" th:field="*{version}"> <!--バージョンを含める-->
 
   <div class="form-group">
     <label for="prototypeName">プロトタイプの名称</label>
