@@ -14,11 +14,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ImageController {
   private final ImageRepository imageRepository;
-  /**
-   * imageIdから画像のバイナリデータを取得
-   * @param imageId
-   * @return
-   */
   @GetMapping("/prototype/{imageId}/image")
   public ResponseEntity<byte[]> getImageSrc(@PathVariable("imageId") Integer imageId) {
     ImageEntity imageEntity = imageRepository.findByImageId(imageId);
