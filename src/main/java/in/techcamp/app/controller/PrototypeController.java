@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -144,18 +145,24 @@ public class PrototypeController {
     return "redirect:/prototype/" + prototypeId;
   }
 
-@GetMapping("/prototype/{prototypeId}")
-public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId, Model model) {
-PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
+  @GetMapping("/prototype/{prototypeId}")
+  public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId, @AuthenticationPrincipal UserDetails loginUser,Model model) {
+    PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
 
-if (prototype == null) {
-    return "redirect:/"; 
-}
+    if (prototype == null) {
+      return "redirect:/";
+    }
 
-model.addAttribute("prototype", prototype);
-model.addAttribute("comments", prototype.getComments());
-return "prototype/detail";
-}
+    if (loginUser != null && !loginUser.getUsername().equals(prototype.getUser().getUserName())) {
+    } else {
+      prototypeRepository.incrementViews(prototypeId);
+      prototype.setViewsCount(prototype.getViewsCount() + 1);
+    }
+
+  model.addAttribute("prototype", prototype);
+  model.addAttribute("comments", prototype.getComments());
+  return "prototype/detail";
+  }
 
   @PostMapping("/prototype/{prototypeId}/delete")
   public String deletePrototype(@PathVariable("prototypeId") Integer prototypeId,

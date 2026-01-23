@@ -45,6 +45,9 @@ public interface PrototypeRepository {
   //@Select("SELECT * FROM prototypes WHERE id = #{id}")
   //PrototypeEntity findById(Integer id);
 
+  @Update("UPDATE prototypes SET views_count = views_count + 1 WHERE id = #{prototypeId}")
+  void incrementViews(@Param("prototypeId") Integer prototypeId);
+
   // ユーザー名を一緒に取得するためにJOINを追加
   @Select("SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id AS image_id " +
           "FROM prototypes p " +

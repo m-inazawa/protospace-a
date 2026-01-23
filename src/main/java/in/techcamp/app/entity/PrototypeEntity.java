@@ -17,4 +17,5 @@ public class PrototypeEntity {
   private List<CommentEntity> comments;
   private Integer imageId;
   private Integer version;
+  private Integer viewsCount;
 }
