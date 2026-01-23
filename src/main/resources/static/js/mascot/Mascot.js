@@ -46,13 +46,29 @@ export class Mascot {
 
   preloadImages() {
     const directions = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'];
+    
+    // 画像を保持するためのコンテナを初期化（クラスのプロパティとして持つ場合）
+    this.loadedImages = {}; 
+
     directions.forEach(dir => {
-      // フォルダ内の実際の数(config.frames[dir])か、デフォルト4枚
       const count = (this.config.frames && this.config.frames[dir]) || 2;
+        
       for (let i = 1; i <= count; i++) {
         const img = new Image();
-        const dirKey = dir.charAt(0).toUpperCase() + dir.slice(1);
-        img.src = `${this.config.basePath}cat${dirKey}${i}.png`;
+            
+        // 確実に 1文字目大文字、2文字目小文字にする (nw -> Nw)
+        const dirKey = dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase();
+        
+        const path = `${this.config.basePath}cat${dirKey}${i}.png`;
+        
+        // 重要：生成した img オブジェクトを配列やオブジェクトに保存する
+        this.loadedImages[`${dir}${i}`] = img; 
+        
+        // 最後に src を代入して読み込み開始
+        img.src = path;
+
+        // デバッグ用：パスが正しいかコンソールで確認
+        console.log(`Preloading: ${path}`);
       }
     });
   }
