@@ -1,0 +1,1 @@
+ALTER TABLE prototypes ADD COLUMN views_count INT DEFAULT 0;
