@@ -48,7 +48,7 @@ export class Mascot {
     const directions = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'];
     directions.forEach(dir => {
       // フォルダ内の実際の数(config.frames[dir])か、デフォルト4枚
-      const count = (this.config.frames && this.config.frames[dir]) || 4;
+      const count = (this.config.frames && this.config.frames[dir]) || 2;
       for (let i = 1; i <= count; i++) {
         const img = new Image();
         const dirKey = dir.charAt(0).toUpperCase() + dir.slice(1);
@@ -157,7 +157,6 @@ export class Mascot {
     // CSSで -50% しているので、ここは単純に座標を指定するだけでOK
     this.el.style.left = `${this.x}px`;
     this.el.style.top = `${this.y + this.jumpY}px`;
-
     // 2．ファイル名の組み立て（例: ne -> Ne, s -> S）
     const dirKey = this.currentDir.charAt(0).toUpperCase() + this.currentDir.slice(1);
     const fileName = `cat${dirKey}${this.frame}.png`;
