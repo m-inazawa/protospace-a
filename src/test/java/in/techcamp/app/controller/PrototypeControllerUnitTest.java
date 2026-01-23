@@ -21,6 +21,7 @@ import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.CommentEntity;
 import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.entity.UserEntity;
+import in.techcamp.app.factory.UserEntityFactory;
 import in.techcamp.app.repository.PrototypeRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -114,10 +115,14 @@ public class PrototypeControllerUnitTest {
     comments.add(comment);
     // リストをmockPrototypeに追加
     mockPrototype.setComments(comments);
+    mockPrototype.setUser(new UserEntity());
+
+    UserEntity userEntity = UserEntityFactory.createUser();
+    CustomUserDetail loginUser = new CustomUserDetail(userEntity);
 
     when(prototypeRepository.findById(prototypeId)).thenReturn(mockPrototype);
 
-    String result = prototypeController.showPrototypeDetail(prototypeId, model);
+    String result = prototypeController.showPrototypeDetail(prototypeId, loginUser, model);
     
     assertThat(result, is("prototype/detail"));
     assertThat(model.getAttribute("prototype"), is(mockPrototype));
