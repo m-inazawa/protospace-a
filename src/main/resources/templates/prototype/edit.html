@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <link th:href="@{/css/prototype/style.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
+  <script th:src="@{/js/imagePreview.js}" defer></script>
   <title>ProtoSpace</title>
 
   <style th:inline="css">
@@ -60,10 +61,12 @@
   </div>
 
   <div class="form-group">
-    <label for="image">プロトタイプの画像</label>
+    <label for="image">画像の変更</label>
+    <p>プレビュー</p>
     <div class="input-field-wrapper">
-      <input type="file" th:field="*{image}">
+      <input type="file" th:field="*{image}" id="image">
       <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="individual-error"></span>
+      <img id="preview">
     </div>
   </div>
 

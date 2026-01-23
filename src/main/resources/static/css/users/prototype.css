@@ -20,6 +20,7 @@
   width: 100%;
   height: 100%;     /* 親要素（.prototype-image）と同じ幅・高さにする */
   object-fit: cover; /* 縦横比を維持したまま枠にフィットさせる */
+  border-radius: 5px;
 }
 
 .prototype-name {
