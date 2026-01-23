@@ -87,7 +87,7 @@ public class UserControllerUnitTest {
   public void ユーザ詳細取得機能の戻り値がビューファイルであること() {
     Model model = new ExtendedModelMap();
     Integer testUserId = 1;
-    String result = userController.showUserDetail(testUserId, model);
+    String result = userController.showUserDetail(testUserId, model, null);
     assertEquals(result, "users/detail");
   }
 
@@ -119,7 +119,7 @@ public class UserControllerUnitTest {
     when(userRepository.findByUserId(testUserId)).thenReturn(userEntity);
 
     Model model = new ExtendedModelMap();
-    userController.showUserDetail(testUserId, model);
+    userController.showUserDetail(testUserId, model, null);
 
     assertThat(model.getAttribute("user"), is(userEntity));
 
