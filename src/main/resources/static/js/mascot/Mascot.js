@@ -59,15 +59,24 @@ export class Mascot {
         // 確実に 1文字目大文字、2文字目小文字にする (nw -> Nw)
         const dirKey = dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase();
         
-        const path = `${this.config.basePath}cat${dirKey}${i}.png`;
-        
-        // 重要：生成した img オブジェクトを配列やオブジェクトに保存する
-        this.loadedImages[`${dir}${i}`] = img; 
-        
-        // 最後に src を代入して読み込み開始
-        img.src = path;
+        // キャッシュを回避するためのクエリパラメータ
+        const cacheBuster = `?v=${new Date().getTime()}`;
 
-        // デバッグ用：パスが正しいかコンソールで確認
+        // ファイルパスの組み立て
+        const path = `${this.config.basePath}cat${dirKey}${i}.png`;
+        const fileName = `cat${dirKey}${i}.png`;
+        
+        // 絶対URLの生成（cacheBusterも付与）（originを付けてブラウザにファイルであることを確約させる）
+        const fullUrl = new URL(this.config.basePath + fileName + cacheBuster, window.location.origin).href;
+        console.log("Requesting file:", fullUrl);
+
+        // 生成した img オブジェクトを保存して、ブラウザが勝手に階層化するのを防ぐ
+        this.loadedImages[`${dir}${i}`] = img;
+
+        // 最後に src を代入して読み込み開始
+        img.src = fullUrl;
+
+        // デバッグ用
         console.log(`Preloading: ${path}`);
       }
     });
