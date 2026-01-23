@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.PrototypeEntity;
@@ -29,10 +31,13 @@ public class PrototypeController {
   private final PrototypeService prototypeService;
 
   @GetMapping("/")
-  public String showPrototypes(@AuthenticationPrincipal CustomUserDetail currentUser,
+  public String showPrototypes(@RequestParam(name = "sort", defaultValue = "desc") String sort,
+                               @AuthenticationPrincipal CustomUserDetail currentUser,
                                Model model) {
-    List<PrototypeEntity> prototypes = prototypeRepository.findAll();
+    String order = "asc".equals(sort) ? "ASC" : "DESC"; //ascならASC、それ以外はすべてDESC
+    List<PrototypeEntity> prototypes = prototypeRepository.findAll(order);
     model.addAttribute("prototypes", prototypes);
+    model.addAttribute("sort",sort); //選択した順番で画面を維持
 
     if (currentUser != null) {
       model.addAttribute("userName", currentUser.getLoginUserName());
@@ -82,6 +87,7 @@ public class PrototypeController {
     prototypeForm.setPrototypeName(prototype.getPrototypeName());
     prototypeForm.setConcept(prototype.getConcept());
     prototypeForm.setCatchCopy(prototype.getCatchCopy());
+    prototypeForm.setVersion(prototype.getVersion());
 
     model.addAttribute("prototypeForm", prototypeForm);
     model.addAttribute("prototypeId", prototypeId);
@@ -104,7 +110,15 @@ public class PrototypeController {
 
     try {
       prototypeService.updatePrototype(prototypeForm, currentUser, prototypeId);
-    } catch (Exception e) {
+    } 
+
+    catch (OptimisticLockingFailureException e) { //楽観ロックエラー
+        model.addAttribute("conflictError", "他のユーザーがこの投稿を更新しました。最新の状態を確認してから、再度入力してください。");
+        model.addAttribute("prototypeForm", prototypeForm); // 現在の入力内容を保持
+        return "prototype/edit";
+    }
+    
+    catch (Exception e) {
       System.out.println("エラー：" + e);
       return "prototype/edit";
     }
@@ -141,6 +155,5 @@ return "prototype/detail";
       return  "redirect:/";
     }
     return "redirect:/";
-  }
-
+  } 
 }

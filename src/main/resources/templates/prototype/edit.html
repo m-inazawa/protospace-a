@@ -7,6 +7,18 @@
   <link th:href="@{/css/prototype/style.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
   <title>ProtoSpace</title>
+
+  <style th:inline="css">
+      body {
+        background-image: url([[@{/images/7a2afcca4c1440f0c5137715284b8b7a_t.jpeg}]]);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        margin: 0;
+      }
+  </style>
+
 </head>
 
 <body>
@@ -16,7 +28,12 @@
 
 <h2 class="page-title">プロトタイプ編集</h2>
 
+<div th:if="${conflictError}">
+  <p class="conflictError" th:text="${conflictError}"></p>
+</div>
+
 <form th:action = "@{/prototype/{id}/edit(id=${prototypeId})}" th:method = "post" th:object = ${prototypeForm} class = "form-group" enctype="multipart/form-data">
+  <input type="hidden" th:field="*{version}"> <!--バージョンを含める-->
 
   <div class="form-group">
     <label for="prototypeName">プロトタイプの名称</label>

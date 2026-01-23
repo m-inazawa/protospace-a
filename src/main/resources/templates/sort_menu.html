@@ -1,0 +1,12 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+  <div th:fragment="sort_menu(targetUrl, currentSort)" class="sort-box">
+    <form th:action="${targetUrl}" method="get">
+      <select name="sort" onchange="this.form.submit()" class="sort-select">
+        <option value="desc" th:selected="${currentSort == 'desc'}">新しい順</option>
+        <option value="asc" th:selected="${currentSort == 'asc'}">古い順</option>
+      </select>
+    </form>
+  </div>
+</body>
+</html>
