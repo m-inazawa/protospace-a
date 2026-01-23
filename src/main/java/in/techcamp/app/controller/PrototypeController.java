@@ -1,6 +1,8 @@
 package in.techcamp.app.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -24,6 +26,7 @@ import in.techcamp.app.repository.ImageRepository;
 import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.service.PrototypeService;
 import in.techcamp.app.validation.ValidationOrder;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -146,22 +149,38 @@ public class PrototypeController {
   }
 
   @GetMapping("/prototype/{prototypeId}")
-  public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId, @AuthenticationPrincipal UserDetails loginUser,Model model) {
+  public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId, @AuthenticationPrincipal UserDetails loginUser, HttpSession session, Model model) {
     PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
 
     if (prototype == null) {
       return "redirect:/";
     }
 
-    if (loginUser != null && !loginUser.getUsername().equals(prototype.getUser().getUserName())) {
+    if (loginUser != null && loginUser.getUsername().equals(prototype.getUser().getUserName())) {
     } else {
       prototypeRepository.incrementViews(prototypeId);
       prototype.setViewsCount(prototype.getViewsCount() + 1);
     }
 
-  model.addAttribute("prototype", prototype);
-  model.addAttribute("comments", prototype.getComments());
-  return "prototype/detail";
+    Set<Integer> viewedPrototypes = (Set<Integer>) session.getAttribute("viewedPrototypes");
+    if (viewedPrototypes == null) {
+        viewedPrototypes = new HashSet<>();
+    }
+
+    boolean isNotAuthor = (loginUser == null || !loginUser.getUsername().equals(prototype.getUser().getUserName()));
+    boolean isFirstViewInSession = !viewedPrototypes.contains(prototypeId);
+
+    if (isNotAuthor && isFirstViewInSession) {
+      prototypeRepository.incrementViews(prototypeId);
+      prototype.setViewsCount(prototype.getViewsCount() + 1);
+      
+      viewedPrototypes.add(prototypeId);
+      session.setAttribute("viewedPrototypes", viewedPrototypes);
+    }
+
+    model.addAttribute("prototype", prototype);
+    model.addAttribute("comments", prototype.getComments());
+    return "prototype/detail";
   }
 
   @PostMapping("/prototype/{prototypeId}/delete")
