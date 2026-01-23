@@ -5,6 +5,7 @@
     </a>
   </div>
   <a th:href="@{/prototype/{prototypeId}(prototypeId=${prototype.id})}" class="prototype-name" th:text="${prototype.prototypeName}"></a>
+  <p class="prototype-views-count" th:text="'総閲覧者数： ' + ${prototype.viewsCount} + ' 人'"></p>
   <p class="prototype-concept" th:text="${prototype.concept}"></p>
   <a th:href="@{/users/{userId}(userId=${prototype.user.id})}" class="prototype-user" th:text="'by ' + ${prototype.user.userName}"></a>
 </div>
