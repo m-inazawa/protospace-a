@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.form.PrototypeForm;
+import in.techcamp.app.repository.ImageRepository;
 import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.service.PrototypeService;
 import in.techcamp.app.validation.ValidationOrder;
@@ -29,6 +30,10 @@ import lombok.AllArgsConstructor;
 public class PrototypeController {
   private final PrototypeRepository prototypeRepository;
   private final PrototypeService prototypeService;
+  private final ImageRepository imageRepository;
+
+  // DBのMAXサイズ800MB
+  private static final long MAX_SIZE_BYTE = 838860800L;
 
   @GetMapping("/")
   public String showPrototypes(@RequestParam(name = "sort", defaultValue = "desc") String sort,
@@ -54,7 +59,13 @@ public class PrototypeController {
   @PostMapping("prototype/new")
   public String createPrototype(@ModelAttribute("prototypeForm") @Validated(ValidationOrder.class) PrototypeForm prototypeForm,BindingResult result, 
                                 @AuthenticationPrincipal CustomUserDetail currentUser,Model model) {
-      
+    
+    // DBサイズチェック
+    long currentSize = imageRepository.getCurrentDatabaseSize();
+    if (currentSize + prototypeForm.getImage().getSize() > MAX_SIZE_BYTE ) {
+      result.reject("database.full","サーバーの容量不足です。管理者にお問い合わせください。");
+    }
+
     if (result.hasErrors()) {
       List<String> errorMessages = result.getAllErrors().stream()
               .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -98,7 +109,14 @@ public class PrototypeController {
   public String updatePrototype(@ModelAttribute("prototypeForm") @Validated(ValidationOrder.class) PrototypeForm prototypeForm,BindingResult result, 
                                 @PathVariable("prototypeId") Integer prototypeId,
                                 @AuthenticationPrincipal CustomUserDetail currentUser,Model model) {
-      
+    if (prototypeForm.getImage() != null && !prototypeForm.getImage().isEmpty()) {
+      // DBサイズチェック
+      long currentSize = imageRepository.getCurrentDatabaseSize();
+      if (currentSize + prototypeForm.getImage().getSize() > MAX_SIZE_BYTE ) {
+        result.reject("database.full","サーバーの容量不足です。管理者にお問い合わせください。");
+      }
+    }
+
     if (result.hasErrors()) {
       List<String> errorMessages = result.getAllErrors().stream()
               .map(DefaultMessageSourceResolvable::getDefaultMessage)

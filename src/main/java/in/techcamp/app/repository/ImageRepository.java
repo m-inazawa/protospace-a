@@ -20,4 +20,7 @@ public interface ImageRepository {
   @Update("UPDATE images SET image = #{image} WHERE prototype_id = #{prototypeId}")
   void update(ImageEntity imageEntity);
 
+  @Select("SELECT pg_database_size(current_database())")
+  long getCurrentDatabaseSize();
+
 }

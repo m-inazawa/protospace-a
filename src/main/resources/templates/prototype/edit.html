@@ -34,6 +34,9 @@
 </div>
 
 <form th:action = "@{/prototype/{id}/edit(id=${prototypeId})}" th:method = "post" th:object = ${prototypeForm} class = "form-group" enctype="multipart/form-data">
+  <div th:if="${#fields.hasGlobalErrors()}" class="form-group">
+    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="individual-error"></p>
+  </div>
   <input type="hidden" th:field="*{version}"> <!--バージョンを含める-->
 
   <div class="form-group">
@@ -61,8 +64,8 @@
   </div>
 
   <div class="form-group">
-    <label for="image">画像の変更</label>
-    <p>プレビュー</p>
+    <label for="image" class="image-label">画像の変更</label>
+    <p id="preview-label">プレビュー</p>
     <div class="input-field-wrapper">
       <input type="file" th:field="*{image}" id="image">
       <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="individual-error"></span>
