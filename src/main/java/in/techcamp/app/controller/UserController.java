@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.PrototypeEntity;
@@ -157,5 +158,16 @@ public class UserController {
     }
 
     return "redirect:/users/" + currentUser.getUserId();
+  }
+
+  @PostMapping("/clear-password-status")
+  @ResponseBody // 画面遷移させないために必要
+  public void clearPasswordStatus(HttpSession session) {
+    // 警告(WARNING)の時だけセッションから消す
+    // ※EXPIRED（期限切れ）は強制なので、消さずに毎回出しても良いかもしれません
+    String status = (String) session.getAttribute("PWD_STATUS");
+    if ("WARNING".equals(status)) {
+        session.removeAttribute("PWD_STATUS");
+    }
   }
 }

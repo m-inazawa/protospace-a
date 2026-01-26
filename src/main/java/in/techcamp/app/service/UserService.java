@@ -59,11 +59,24 @@ public class UserService {
     userEntity.setAffiliation(registerForm.getAffiliation());
     userEntity.setPosition(registerForm.getPosition());
 
-    // 3. パスワードが入力されている場合のみ更新
-    if (registerForm.getPassword() != null && !registerForm.getPassword().isEmpty()) {
-        userEntity.setPassword(passwordEncoder.encode(registerForm.getPassword()));
-        // ★重要：パスワード更新日時を「今」に設定
-        userEntity.setLastPasswordChange(LocalDateTime.now());
+    // 3. パスワードの判定と更新
+    String inputPassword = registerForm.getPassword();
+    String currentEncodedPassword = userEntity.getPassword(); // DBにある現在のパスワード
+
+    if (inputPassword != null && !inputPassword.isEmpty()) {
+        
+        // 入力されたパスワードが現在のパスワードと「異なる」かチェック
+        if (!passwordEncoder.matches(inputPassword, currentEncodedPassword)) {
+            // 新しいパスワードを暗号化してセット
+            userEntity.setPassword(passwordEncoder.encode(inputPassword));
+            
+            // ★パスワードが変更されたので、更新日時を「今」に設定
+            userEntity.setLastPasswordChange(LocalDateTime.now());
+        } else {
+            // 同じパスワードの場合は、パスワードフィールドも更新日時もそのまま
+            // (userEntity.setPassword は実行しないことで、無駄な上書きを防ぐ)
+            System.out.println("パスワードに変更がないため、期限日は更新しません。");
+        }
     }
 
     // 4. 画面から送られてきたバージョンをセット（楽観ロック用）

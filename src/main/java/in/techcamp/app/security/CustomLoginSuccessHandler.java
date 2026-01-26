@@ -29,7 +29,9 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         } else if (userDetail.isPasswordWarningPeriod()) {
             // 【期限間近】フラグを立てる（遷移先は通常通り）
             session.setAttribute("PWD_STATUS", "WARNING");
-        }
+        } else {
+            session.setAttribute("PWD_STATUS", "NONE");
+    }
 
         // 3. 通常の遷移先（デフォルトのトップ画面など）へ移動
         super.onAuthenticationSuccess(request, response, authentication);

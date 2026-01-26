@@ -23,9 +23,10 @@ public interface  UserRepository {
   @Select("SELECT * FROM users WHERE email = #{email}")
   UserEntity findByEmailForEntities(String email);
 
-  @Select("SELECT id, email, user_name, profile, affiliation, position, created_at, version, last_password_change FROM users WHERE id = #{userId}")
+  @Select("SELECT id, email, password, user_name, profile, affiliation, position, created_at, version, last_password_change FROM users WHERE id = #{userId}")
   @Results({
     @Result(property = "id", column = "id", id = true),
+    @Result(property = "password", column = "password"),
     @Result(property = "userName", column = "user_name"),
     @Result(property = "lastPasswordChange", column = "last_password_change"), 
     @Result(property = "version", column = "version"), 
