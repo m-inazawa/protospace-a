@@ -44,12 +44,20 @@ public class PrototypeController {
 
   @GetMapping("/")
   public String showPrototypes(@RequestParam(name = "sort", defaultValue = "desc") String sort,
+                               @RequestParam(name = "keyword", required = false) String keyword, //必須ではない(required=false)
+                               @RequestParam(name = "fromDate", required = false) String fromDate,
+                               @RequestParam(name = "toDate", required = false) String toDate,
                                @AuthenticationPrincipal CustomUserDetail currentUser,
                                Model model) {
+    String start = (fromDate == null || fromDate.isEmpty()) ? null : fromDate + " 00:00:00"; // 日付をSQL用に変更
+    String end = (toDate == null || toDate.isEmpty()) ? null : toDate + " 23:59:59";
     String order = "asc".equals(sort) ? "ASC" : "DESC"; //ascならASC、それ以外はすべてDESC
-    List<PrototypeEntity> prototypes = prototypeRepository.findAll(order);
+    List<PrototypeEntity> prototypes = prototypeRepository.findAllWithFilters(order, keyword, start, end);
     model.addAttribute("prototypes", prototypes);
     model.addAttribute("sort",sort); //選択した順番で画面を維持
+    model.addAttribute("keyword", keyword); // 入力した内容を画面維持
+    model.addAttribute("fromDate", fromDate);
+    model.addAttribute("toDate", toDate);
 
     if (currentUser != null) {
       model.addAttribute("userName", currentUser.getLoginUserName());

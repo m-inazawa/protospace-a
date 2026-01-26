@@ -1,11 +1,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-  <div th:fragment="sort_menu(targetUrl, currentSort)" class="sort-box">
-    <form th:action="${targetUrl}" method="get">
-      <select name="sort" onchange="this.form.submit()" class="sort-select">
+  <div th:fragment="sort_menu(targetUrl, currentSort)">
+    <form th:action="${targetUrl}" method="get" class="vertical-form">
+      <!--<select name="sort" onchange="this.form.submit()" class="sort-select">
         <option value="desc" th:selected="${currentSort == 'desc'}">新しい順</option>
         <option value="asc" th:selected="${currentSort == 'asc'}">古い順</option>
-      </select>
+      </select>-->
+
+    <div class="filter-section">
+      <p class="filter-label">表示順</p>
+      <label class="radio-label">
+        <input type="radio" name="sort" value="desc" th:checked="${currentSort == 'desc' || currentSort == null}"> 新着順
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="sort" value="asc" th:checked="${currentSort == 'asc'}"> 投稿順
+      </label>
+    </div>
+
+    <div class="filter-section">
+      <p class="filter-label">投稿日範囲</p>
+      <input type="date" name="fromDate" th:value="${fromDate}" class="form-input">
+      <div class="date-separator">〜</div>
+      <input type="date" name="toDate" th:value="${toDate}" class="form-input">
+    </div>
+
+    <div class="filter-section">
+      <p class="filter-label">キーワード</p>
+      <input type="text" name="keyword" th:value="${keyword}" placeholder="キーワードを入力" class="form-input">
+    </div>
+
+    <div class="button-group">
+      <button type="submit" class="search-btn">検索する</button>
+      <a th:href="${targetUrl}" class="clear-link">絞り込みを解除</a>
+    </div>
+
     </form>
   </div>
 </body>

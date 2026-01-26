@@ -24,16 +24,22 @@
   </head>
   
   <body>
+
   
     <div th:insert="~{header :: header}"></div>
 
     <div class="main">
       <div class="inner-prototypes">
-        <div th:replace="~{sort_menu :: sort_menu(@{/}, ${sort})}"></div>
+        <button id="search-toggle" class="search-toggle-btn">絞り込み検索</button>
+    
+        <div id="search-sidebar" class="sidebar-wrapper">
+          <button id="search-close" class="close-btn">×</button>
+          <div th:replace="~{sort_menu :: sort_menu(@{/}, ${sort})}"></div>
+        </div>
+
         <div class="greeting" sec:authorize="isAuthenticated()" th:if="${userName != null}"> <!--ログインしている時のみ表示 -->
           こんにちは、<a th:href="@{/users/{userId}(userId=${#authentication.principal.userId})}" th:text="${userName} + 'さん'"></a>
         </div>
-  
         <div class="contents">
           <div th:each="prototype : ${prototypes}" class="prototypes">
             <div th:replace="~{users/prototype :: content(prototype=${prototype})}"></div>
@@ -44,8 +50,33 @@
     </div>
 
   <div th:insert="~{footer :: footer}"></div>
-
+  
   <div th:replace="~{password_expiry_notification :: notification}"></div>
+
+  <script> //JavaScript
+  document.addEventListener('DOMContentLoaded', () => { // HTMLの読み込み完了を待つ
+    const sidebar = document.getElementById('search-sidebar'); //id="search-sidebar"の要素を取得
+    const openBtn = document.getElementById('search-toggle');
+    const closeBtn = document.getElementById('search-close');
+
+    // 開く処理
+    openBtn.addEventListener('click', () => {
+    sidebar.classList.add('open');
+    });
+
+    // 閉じる処理
+    closeBtn.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    });
+
+    // サイドバー以外のどこかをクリックしたら閉じる
+    document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && e.target !== openBtn && sidebar.classList.contains('open')) {
+      sidebar.classList.remove('open');
+    }
+    });
+  });
+  </script>
 
   </body>
 </html>
