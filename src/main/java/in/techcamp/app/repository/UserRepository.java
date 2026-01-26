@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import in.techcamp.app.entity.UserEntity;
 
@@ -22,12 +23,23 @@ public interface  UserRepository {
   @Select("SELECT * FROM users WHERE email = #{email}")
   UserEntity findByEmailForEntities(String email);
 
-  @Select("SELECT id, email, user_name, profile, affiliation, position, created_at FROM users WHERE id = #{userId}")
+  @Select("SELECT id, email, password, user_name, profile, affiliation, position, created_at, version, last_password_change FROM users WHERE id = #{userId}")
   @Results({
     @Result(property = "id", column = "id", id = true),
+    @Result(property = "password", column = "password"),
     @Result(property = "userName", column = "user_name"),
+    @Result(property = "lastPasswordChange", column = "last_password_change"), 
+    @Result(property = "version", column = "version"), 
     @Result(property = "prototypes", column = "id",
       many = @Many(select = "in.techcamp.app.repository.PrototypeRepository.findByUserId"))
   })
   UserEntity findByUserId(Integer userId);
+
+  @Update("UPDATE users SET " +
+          "email = #{email}, user_name = #{userName}, password = #{password}, " +
+          "profile = #{profile}, affiliation = #{affiliation}, position = #{position}, " +
+          "last_password_change = #{lastPasswordChange}, " +
+          "version = version + 1 " + // 保存時にバージョンを1つ上げる
+          "WHERE id = #{id} AND version = #{version}") // バージョンが一致する場合のみ更新
+  int updateUser(UserEntity userEntity);
 }

@@ -26,13 +26,13 @@
   <div class="container">
     <h2>ユーザー情報編集</h2>
 
-    <div th:if="${conflictError}">
-      <p class="conflictError" th:text="${conflictError}"></p>
+    <div th:if="${registerError}">
+      <p class="registerError" th:text="${registerError}"></p>
     </div>
 
     <div class="form">
       
-      <form class="new-admin" th:action="@{/users/{id}/edit(id=${userId})}" th:method="post" th:object="${editForm}">
+      <form class="new-admin" th:action="@{/users/update}" th:method="post" th:object="${registerForm}">
         <!--<input type="hidden" th:field="*{id}" />-->
         <input type="hidden" th:field="*{version}" />
         

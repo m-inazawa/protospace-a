@@ -7,6 +7,7 @@
     <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/fragment/sort_menu.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/users/prototype.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/password_expiry_notification.css}" rel="stylesheet" >
     <title>ProtoSpace</title>
 
     <style th:inline="css">
@@ -50,6 +51,8 @@
 
   <div th:insert="~{footer :: footer}"></div>
   
+  <div th:replace="~{password_expiry_notification :: notification}"></div>
+
   <script> //JavaScript
   document.addEventListener('DOMContentLoaded', () => { // HTMLの読み込み完了を待つ
     const sidebar = document.getElementById('search-sidebar'); //id="search-sidebar"の要素を取得

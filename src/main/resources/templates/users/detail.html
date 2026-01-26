@@ -31,7 +31,7 @@
 
         <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() == user.id}">
             <div class="edit-btn"> 
-              <a th:href="@{/users/{userId}/edit(userId=${user.id})}">編集する</a>
+              <a th:href="@{/users/edit}">編集する</a>
             </div>
         </div>
 
