@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
@@ -100,6 +102,9 @@ public class PrototypeControllerUnitTest {
     Model model = new ExtendedModelMap();
     Integer prototypeId = 1;
 
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    MockHttpServletResponse response = new MockHttpServletResponse();
+
     PrototypeEntity mockPrototype = new PrototypeEntity();
     mockPrototype.setId(prototypeId);
     mockPrototype.setPrototypeName("プロトタイプ１");
@@ -122,7 +127,7 @@ public class PrototypeControllerUnitTest {
 
     when(prototypeRepository.findById(prototypeId)).thenReturn(mockPrototype);
 
-    String result = prototypeController.showPrototypeDetail(prototypeId, loginUser, model);
+    String result = prototypeController.showPrototypeDetail(prototypeId, loginUser, request, response, model);
     
     assertThat(result, is("prototype/detail"));
     assertThat(model.getAttribute("prototype"), is(mockPrototype));
