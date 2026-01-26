@@ -1,11 +1,15 @@
 package in.techcamp.app.controller;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,9 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.form.PrototypeForm;
+import in.techcamp.app.repository.ImageRepository;
 import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.service.PrototypeService;
 import in.techcamp.app.validation.ValidationOrder;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -29,6 +37,10 @@ import lombok.AllArgsConstructor;
 public class PrototypeController {
   private final PrototypeRepository prototypeRepository;
   private final PrototypeService prototypeService;
+  private final ImageRepository imageRepository;
+
+  // DBのMAXサイズ800MB
+  private static final long MAX_SIZE_BYTE = 838860800L;
 
   @GetMapping("/")
   public String showPrototypes(@RequestParam(name = "sort", defaultValue = "desc") String sort,
@@ -62,7 +74,13 @@ public class PrototypeController {
   @PostMapping("prototype/new")
   public String createPrototype(@ModelAttribute("prototypeForm") @Validated(ValidationOrder.class) PrototypeForm prototypeForm,BindingResult result, 
                                 @AuthenticationPrincipal CustomUserDetail currentUser,Model model) {
-      
+    
+    // DBサイズチェック
+    long currentSize = imageRepository.getCurrentDatabaseSize();
+    if (currentSize + prototypeForm.getImage().getSize() > MAX_SIZE_BYTE ) {
+      result.reject("database.full","サーバーの容量不足です。管理者にお問い合わせください。");
+    }
+
     if (result.hasErrors()) {
       List<String> errorMessages = result.getAllErrors().stream()
               .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -106,7 +124,14 @@ public class PrototypeController {
   public String updatePrototype(@ModelAttribute("prototypeForm") @Validated(ValidationOrder.class) PrototypeForm prototypeForm,BindingResult result, 
                                 @PathVariable("prototypeId") Integer prototypeId,
                                 @AuthenticationPrincipal CustomUserDetail currentUser,Model model) {
-      
+    if (prototypeForm.getImage() != null && !prototypeForm.getImage().isEmpty()) {
+      // DBサイズチェック
+      long currentSize = imageRepository.getCurrentDatabaseSize();
+      if (currentSize + prototypeForm.getImage().getSize() > MAX_SIZE_BYTE ) {
+        result.reject("database.full","サーバーの容量不足です。管理者にお問い合わせください。");
+      }
+    }
+
     if (result.hasErrors()) {
       List<String> errorMessages = result.getAllErrors().stream()
               .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -134,18 +159,68 @@ public class PrototypeController {
     return "redirect:/prototype/" + prototypeId;
   }
 
-@GetMapping("/prototype/{prototypeId}")
-public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId, Model model) {
-PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
+  @GetMapping("/prototype/{prototypeId}")
+  public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId,
+                                    @AuthenticationPrincipal UserDetails loginUser,
+                                    HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    Model model) {
 
-if (prototype == null) {
-    return "redirect:/"; 
-}
+    PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
 
-model.addAttribute("prototype", prototype);
-model.addAttribute("comments", prototype.getComments());
-return "prototype/detail";
-}
+    if (prototype == null) {
+      return "redirect:/";
+    }
+    String safeUserName = (loginUser != null) 
+    ? loginUser.getUsername().replaceAll("[^a-zA-Z0-9]", "_") 
+    : "guest";
+    String cookieName = "viewed_prototypes_" + safeUserName;
+
+    Cookie[] cookies = request.getCookies();
+    String viewedValue = "";
+    if (cookies != null) {
+        for (Cookie c : cookies) {
+            if (cookieName.equals(c.getName())) {
+                viewedValue = c.getValue();
+                break;
+            }
+        }
+    }
+
+    Set<String> viewedIds = new HashSet<>();
+    if (viewedValue != null && !viewedValue.isEmpty()) {
+        // splitの結果を一度Listにしてから追加
+        String[] idArray = viewedValue.split("_");
+        Collections.addAll(viewedIds, idArray); 
+    }
+
+    if (loginUser != null && prototype.getUser() != null) {
+      System.out.println("ログインUserEmail中: [" + loginUser.getUsername() + "]");
+      System.out.println("投稿者Email: [" + prototype.getUser().getEmail() + "]");
+      System.out.println("判定結果(isAuthor): " + loginUser.getUsername().equals(prototype.getUser().getEmail()));
+    }
+
+    boolean isAuthor = loginUser != null && loginUser.getUsername().equals(prototype.getUser().getEmail());
+    boolean hasViewed = viewedIds.contains(prototypeId.toString());    
+
+    if (!isAuthor && !hasViewed) {
+      prototypeRepository.incrementViews(prototypeId);
+      prototype.setViewsCount(prototype.getViewsCount() + 1);
+
+      viewedIds.add(prototypeId.toString());
+      String newValue = String.join("_", viewedIds);
+
+      Cookie newCookie = new Cookie(cookieName, newValue);
+      newCookie.setMaxAge(24 * 60 * 60);
+      newCookie.setPath("/");
+      newCookie.setHttpOnly(true);
+      response.addCookie(newCookie);
+    }
+
+  model.addAttribute("prototype", prototype);
+  model.addAttribute("comments", prototype.getComments());
+  return "prototype/detail";
+  }
 
   @PostMapping("/prototype/{prototypeId}/delete")
   public String deletePrototype(@PathVariable("prototypeId") Integer prototypeId,

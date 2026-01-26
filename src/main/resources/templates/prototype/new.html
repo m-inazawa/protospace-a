@@ -6,7 +6,20 @@
   <meta charset="UTF-8">
   <link th:href="@{/css/prototype/style.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
+  <script th:src="@{/js/imagePreview.js}" defer></script>
   <title>ProtoSpace</title>
+
+  <style th:inline="css">
+      body {
+        background-image: url([[@{/images/7a2afcca4c1440f0c5137715284b8b7a_t.jpeg}]]);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        margin: 0;
+      }
+  </style>
+  
 </head>
 
 <body>
@@ -16,8 +29,12 @@
 
   <h2 class="page-title">新規プロトタイプ投稿</h2>
   
-  <form th:action = "@{/prototype/new}" th:method = "post" th:object = ${prototypeForm} class = "form-group" enctype="multipart/form-data">
   
+  <form th:action = "@{/prototype/new}" th:method = "post" th:object = ${prototypeForm} class = "form-group" enctype="multipart/form-data">
+    <div th:if="${#fields.hasGlobalErrors()}" class="form-group">
+      <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="individual-error"></p>
+    </div>
+
   <div class="form-group">
     <label for="prototypeName">プロトタイプの名称</label>
     <div class="input-field-wrapper">
@@ -43,10 +60,12 @@
   </div>
 
   <div class="form-group">
-    <label for="image">プロトタイプの画像</label>
+    <label for="image" class="image-label">画像を挿入</label>
+    <p id="preview-label">プレビュー</p>
     <div class="input-field-wrapper">
-      <input type="file" th:field="*{image}">
+      <input type="file" th:field="*{image}" id="image">
       <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="individual-error"></span>
+      <img id="preview">
     </div>
   </div>
   

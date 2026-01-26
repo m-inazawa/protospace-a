@@ -4,9 +4,21 @@
   <meta charset="UTF-8">
   <link th:href="@{/css/users/detail.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
-  <link th:href="@{/css/users/prototype.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/css/users/edit.css}" rel="stylesheet" type="text/css">
   <link href="../../static/css/users/detail.css" rel="stylesheet" type="text/css">
   <title>ProtoSpace</title>
+
+  <style th:inline="css">
+      body {
+        background-image: url([[@{/images/7a2afcca4c1440f0c5137715284b8b7a_t.jpeg}]]);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        margin: 0;
+      }
+  </style>
+  
 </head>
 
 <body>
@@ -14,7 +26,15 @@
 
     <div class="contents-row">
       <div class="user-row">
+        
         <div class="user-header" th:text="${user.userName} + 'さんの情報'"></div>
+
+        <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() == user.id}">
+            <div class="edit-btn"> 
+              <a th:href="@{/users/{userId}/edit(userId=${user.id})}">編集する</a>
+            </div>
+        </div>
+
         <table class="table">
           <tbody>
             <tr>
