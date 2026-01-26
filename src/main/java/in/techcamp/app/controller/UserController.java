@@ -2,6 +2,7 @@ package in.techcamp.app.controller;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.repository.UserRepository;
 import in.techcamp.app.service.UserService;
 import in.techcamp.app.validation.ValidationOrder;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 
@@ -105,5 +107,54 @@ public class UserController {
     }
 
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/edit")
+  public String showEditForm(@AuthenticationPrincipal CustomUserDetail currentUser, Model model) {
+    // ログイン中のユーザー情報をDBから取得（最新のversionを取得するため）
+    UserEntity userEntity = userRepository.findByUserId(currentUser.getUserId());
+    
+    // Entityの値をFormにコピー（一括でセットしてくれる）
+    RegisterForm registerForm = new RegisterForm();
+    BeanUtils.copyProperties(userEntity, registerForm);
+    // versionもセット（RegisterFormにversionフィールドを追加済みであること）
+    registerForm.setVersion(userEntity.getVersion());
+
+    model.addAttribute("registerForm", registerForm);
+    return "users/edit"; // 編集用のHTML
+  }
+
+  @PostMapping("/update")
+  public String updateUser(
+      @ModelAttribute("registerForm") @Validated({ValidationOrder.class}) RegisterForm registerForm, 
+      BindingResult result, 
+      @AuthenticationPrincipal CustomUserDetail currentUser,
+      HttpSession session,
+      Model model) {
+
+    // パスワード確認チェック
+    registerForm.validatePasswordConfirmation(result);
+
+    if (result.hasErrors()) {
+      return "users/edit";
+    }
+
+    try {
+      // ユーザー情報の更新（引数にログインユーザーIDを渡す）
+      userService.updateUser(registerForm, currentUser.getUserId());
+      
+      // 更新に成功したら、パスワード期限切れポップアップ用のセッションを消去
+      session.removeAttribute("PWD_STATUS");
+
+    } catch (ObjectOptimisticLockingFailureException e) {
+      // 楽観ロックエラーのキャッチ
+      model.addAttribute("registerError", "他の端末で更新されたため、保存できませんでした。一度画面を読み直してください。");
+      return "users/edit";
+    } catch (Exception e) {
+      model.addAttribute("registerError", "システムエラーにより更新に失敗しました。");
+      return "users/edit";
+    }
+
+    return "redirect:/users/" + currentUser.getUserId();
   }
 }
