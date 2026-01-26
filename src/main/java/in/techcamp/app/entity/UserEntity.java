@@ -16,4 +16,6 @@ public class UserEntity {
   private String position;
   private LocalDateTime createdAt;
   private List<PrototypeEntity> prototypes;
+  private LocalDateTime lastPasswordChange;
+  private Integer version;
 }
