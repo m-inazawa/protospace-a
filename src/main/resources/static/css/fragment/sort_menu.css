@@ -1,15 +1,109 @@
-.sort-box {
-  display: flex;
-  justify-content: flex-end;
-  width: 80vw;
-  margin: 20px auto;
-}
-
-.sort-select {
-  border: 1px solid #999;
-  padding: 3px 10px;
-  border-radius: 3px;
-  font-size: 12px;
+.search-toggle-btn {
+  display: block;
+  margin-left: auto;
+  padding: 8px 15px;
+  border: 1px #999 solid;
+  border-radius: 8px;
   cursor: pointer;
   background-color: white;
+  color: #999;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.search-toggle-btn:hover {
+  background-color: #ccc;
+}
+
+.vertical-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-wrapper {
+  position: fixed;
+  z-index: 1000; /*画面上の一番手前に表示する*/
+  top: 0;
+  display: none;
+  width: 300px;
+  height: 100vh;
+  background: white;
+  border-left: 1px solid #666;
+  padding: 40px 20px 20px;
+  box-sizing: border-box; /*padding、borderを含めて計算する*/
+}
+
+.sidebar-wrapper.open {
+  right: 0;
+  display: block;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-label {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+}
+
+.radio-label {
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.date-separator {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-btn {
+  width: 80%;
+  padding: 10px;
+  background-color: #999;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #666;
+}
+
+.clear-link {
+  font-size: 13px;
+  color: #007bff;
+  text-decoration: none;
 }
