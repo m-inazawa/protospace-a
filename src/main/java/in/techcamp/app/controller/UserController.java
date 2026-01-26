@@ -3,6 +3,7 @@ package in.techcamp.app.controller;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -146,7 +147,7 @@ public class UserController {
       // 更新に成功したら、パスワード期限切れポップアップ用のセッションを消去
       session.removeAttribute("PWD_STATUS");
 
-    } catch (ObjectOptimisticLockingFailureException e) {
+    } catch (OptimisticLockingFailureException e) {
       // 楽観ロックエラーのキャッチ
       model.addAttribute("registerError", "他の端末で更新されたため、保存できませんでした。一度画面を読み直してください。");
       return "users/edit";
