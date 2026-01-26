@@ -1,6 +1,9 @@
 package in.techcamp.app.controller;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -24,6 +27,9 @@ import in.techcamp.app.repository.ImageRepository;
 import in.techcamp.app.repository.PrototypeRepository;
 import in.techcamp.app.service.PrototypeService;
 import in.techcamp.app.validation.ValidationOrder;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -146,17 +152,61 @@ public class PrototypeController {
   }
 
   @GetMapping("/prototype/{prototypeId}")
-  public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId, @AuthenticationPrincipal UserDetails loginUser,Model model) {
+  public String showPrototypeDetail(@PathVariable("prototypeId") Integer prototypeId,
+                                    @AuthenticationPrincipal UserDetails loginUser,
+                                    HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    Model model) {
+
     PrototypeEntity prototype = prototypeRepository.findById(prototypeId);
 
     if (prototype == null) {
       return "redirect:/";
     }
+    String safeUserName = (loginUser != null) 
+    ? loginUser.getUsername().replaceAll("[^a-zA-Z0-9]", "_") 
+    : "guest";
+    String cookieName = "viewed_prototypes_" + safeUserName;
 
-    if (loginUser != null && !loginUser.getUsername().equals(prototype.getUser().getUserName())) {
-    } else {
+    Cookie[] cookies = request.getCookies();
+    String viewedValue = "";
+    if (cookies != null) {
+        for (Cookie c : cookies) {
+            if (cookieName.equals(c.getName())) {
+                viewedValue = c.getValue();
+                break;
+            }
+        }
+    }
+
+    Set<String> viewedIds = new HashSet<>();
+    if (viewedValue != null && !viewedValue.isEmpty()) {
+        // splitの結果を一度Listにしてから追加
+        String[] idArray = viewedValue.split("_");
+        Collections.addAll(viewedIds, idArray); 
+    }
+
+    if (loginUser != null && prototype.getUser() != null) {
+      System.out.println("ログインUserEmail中: [" + loginUser.getUsername() + "]");
+      System.out.println("投稿者Email: [" + prototype.getUser().getEmail() + "]");
+      System.out.println("判定結果(isAuthor): " + loginUser.getUsername().equals(prototype.getUser().getEmail()));
+    }
+
+    boolean isAuthor = loginUser != null && loginUser.getUsername().equals(prototype.getUser().getEmail());
+    boolean hasViewed = viewedIds.contains(prototypeId.toString());    
+
+    if (!isAuthor && !hasViewed) {
       prototypeRepository.incrementViews(prototypeId);
       prototype.setViewsCount(prototype.getViewsCount() + 1);
+
+      viewedIds.add(prototypeId.toString());
+      String newValue = String.join("_", viewedIds);
+
+      Cookie newCookie = new Cookie(cookieName, newValue);
+      newCookie.setMaxAge(24 * 60 * 60);
+      newCookie.setPath("/");
+      newCookie.setHttpOnly(true);
+      response.addCookie(newCookie);
     }
 
   model.addAttribute("prototype", prototype);

@@ -49,7 +49,7 @@ public interface PrototypeRepository {
   void incrementViews(@Param("prototypeId") Integer prototypeId);
 
   // ユーザー名を一緒に取得するためにJOINを追加
-  @Select("SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id AS image_id " +
+  @Select("SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id AS image_id, u.email AS user_email " +
           "FROM prototypes p " +
           "JOIN users u ON p.user_id = u.id " +
           "JOIN images i ON p.id = i.prototype_id " +
@@ -61,6 +61,7 @@ public interface PrototypeRepository {
       @Result(property = "user.id", column = "user_id"),
       // usersテーブルの名前(user_name)をprototype.user.userName にセット
       @Result(property = "user.userName", column = "user_name"),
+      @Result(property = "user.email", column = "user_email"),
       // プロトタイプのidを引数にしてコメントのメソッドを呼び出す
       @Result(property = "comments", column = "id", 
               many = @Many(select = "findCommentsByPrototypeId"))
