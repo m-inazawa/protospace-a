@@ -16,9 +16,10 @@
 
       <div class="nav-right" th:if="${#authorization.expression('isAuthenticated()')}">
         <form th:action="@{/logout}" method="post" style="display:inline-block">
-          <input class="nav-btn-logout" type="submit" value="ログアウト"/>
+          <input class="nav-btn-logout" type="submit" value="ログアウト" 
+                 onclick="sessionStorage.removeItem('pwd_notified');"/> <!--ログアウトボタン押下時にpwd_notifiedを削除-->
         </form>
-          <a class="nav-btn" th:href="@{/prototype/new}">New Proto</a>
+        <a class="nav-btn" th:href="@{/prototype/new}">New Proto</a>
       </div>
     </div>
   </div>

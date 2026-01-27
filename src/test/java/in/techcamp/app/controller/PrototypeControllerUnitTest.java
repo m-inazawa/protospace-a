@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ import in.techcamp.app.custom_user.CustomUserDetail;
 import in.techcamp.app.entity.CommentEntity;
 import in.techcamp.app.entity.PrototypeEntity;
 import in.techcamp.app.entity.UserEntity;
+import in.techcamp.app.factory.UserEntityFactory;
 import in.techcamp.app.repository.PrototypeRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +41,8 @@ public class PrototypeControllerUnitTest {
     CustomUserDetail currentUser = new CustomUserDetail(user);
     Model model = new ExtendedModelMap();
 
-    String result = prototypeController.showPrototypes("desc",currentUser, model);
+    //String result = prototypeController.showPrototypes("desc",currentUser, model);
+    String result = prototypeController.showPrototypes("desc", null, null, null, currentUser, model);
 
     assertThat(result, is("prototype/index"));
 
@@ -58,10 +62,12 @@ public class PrototypeControllerUnitTest {
 
     List<PrototypeEntity> expectedPrototypeList = Arrays.asList(prototype1, prototype2);
 
-    when(prototypeRepository.findAll("DESC")).thenReturn(expectedPrototypeList);
+    //when(prototypeRepository.findAll("DESC")).thenReturn(expectedPrototypeList);
+    when(prototypeRepository.findAllWithFilters("DESC", null, null, null)).thenReturn(expectedPrototypeList);
 
     Model model = new ExtendedModelMap();
-    prototypeController.showPrototypes("desc",null, model);
+    //prototypeController.showPrototypes("desc",null, model);
+    prototypeController.showPrototypes("desc", null, null, null,null, model);
 
     assertThat(model.getAttribute("prototypes"), is(expectedPrototypeList));
   }
@@ -99,6 +105,9 @@ public class PrototypeControllerUnitTest {
     Model model = new ExtendedModelMap();
     Integer prototypeId = 1;
 
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    MockHttpServletResponse response = new MockHttpServletResponse();
+
     PrototypeEntity mockPrototype = new PrototypeEntity();
     mockPrototype.setId(prototypeId);
     mockPrototype.setPrototypeName("プロトタイプ１");
@@ -114,10 +123,14 @@ public class PrototypeControllerUnitTest {
     comments.add(comment);
     // リストをmockPrototypeに追加
     mockPrototype.setComments(comments);
+    mockPrototype.setUser(new UserEntity());
+
+    UserEntity userEntity = UserEntityFactory.createUser();
+    CustomUserDetail loginUser = new CustomUserDetail(userEntity);
 
     when(prototypeRepository.findById(prototypeId)).thenReturn(mockPrototype);
 
-    String result = prototypeController.showPrototypeDetail(prototypeId, model);
+    String result = prototypeController.showPrototypeDetail(prototypeId, loginUser, request, response, model);
     
     assertThat(result, is("prototype/detail"));
     assertThat(model.getAttribute("prototype"), is(mockPrototype));

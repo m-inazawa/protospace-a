@@ -6,6 +6,7 @@
   <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/css/users/prototype.css}" rel="stylesheet" type="text/css">
   <script th:src="@{/js/userPage.js}"></script>
+  <link th:href="@{/css/users/edit.css}" rel="stylesheet" type="text/css">
   <title>ProtoSpace</title>
 
   <style th:inline="css">
@@ -43,6 +44,13 @@
           th:text="${follows.isFollow == 'follow' ? 'フォロー解除' : 'フォロー'}"
           th:class="${follows.isFollow == 'follow' ? 'follow-btn' : 'unFollow-btn'}"
         ></button>
+
+        <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() == user.id}">
+            <div class="edit-btn"> 
+              <a th:href="@{/users/edit}">編集する</a>
+            </div>
+        </div>
+
         <table class="table">
           <tbody>
             <tr>

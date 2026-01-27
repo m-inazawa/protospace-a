@@ -19,14 +19,49 @@ import in.techcamp.app.entity.PrototypeEntity;
 @Mapper
 public interface PrototypeRepository {
 
-  @Select("<script> SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id as image_id FROM prototypes p JOIN users u ON p.user_id = u.id JOIN images i ON p.id = i.prototype_id  ORDER BY p.created_at " + 
-            "<choose> <when test=\"order == 'ASC'\">ASC</when> <otherwise>DESC</otherwise> </choose> </script>") //orderがASCの時はASC、それ以外の時はDESC
+  // @Select("<script> SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id as image_id FROM prototypes p JOIN users u ON p.user_id = u.id JOIN images i ON p.id = i.prototype_id  ORDER BY p.created_at " + 
+  //           "<choose> <when test=\"order == 'ASC'\">ASC</when> <otherwise>DESC</otherwise> </choose> </script>") //orderがASCの時はASC、それ以外の時はDESC
+  // @Results(value = {
+  //   @Result(property = "user.id", column = "user_id"),
+  //   @Result(property = "user.userName", column = "user_name"),
+  //   @Result(property = "imageId", column = "image_id")
+  // })
+  // List<PrototypeEntity> findAll(@Param("order") String order);
+
+  @Select("<script> " +
+          "SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id as image_id FROM prototypes p JOIN users u ON p.user_id = u.id JOIN images i ON p.id = i.prototype_id " +
+          "WHERE 1=1 " + // 条件が1つもなくてもエラーにならないようにする
+          "<if test=\"keyword != null and keyword != ''\">" +
+          "  AND (" +
+        "    p.prototype_name LIKE CONCAT('%', #{keyword}, '%') " + // プロトタイプ名
+        "    OR p.concept LIKE CONCAT('%', #{keyword}, '%') " +    // コンセプト
+        "    OR p.catch_copy LIKE CONCAT('%', #{keyword}, '%') " + // キャッチコピー
+        "    OR u.user_name LIKE CONCAT('%', #{keyword}, '%') " +  // ユーザー名
+        "  ) " +
+          "</if>" +
+          "<if test=\"start != null\">" +
+          "  AND p.created_at &gt;= #{start} ::timestamp " + //timestamp型に変換
+          "</if>" +
+          "<if test=\"end != null\">" +
+          "  AND p.created_at &lt;= #{end} ::timestamp " +
+          "</if>" +
+          "ORDER BY p.created_at " + 
+          "<choose> " +
+            "<when test=\"order == 'ASC'\">ASC</when> " +
+            "<otherwise>DESC</otherwise> " +
+          "</choose> " +
+          "</script>")
   @Results(value = {
     @Result(property = "user.id", column = "user_id"),
     @Result(property = "user.userName", column = "user_name"),
     @Result(property = "imageId", column = "image_id")
   })
-  List<PrototypeEntity> findAll(@Param("order") String order);
+  List<PrototypeEntity> findAllWithFilters(
+      @Param("order") String order, 
+      @Param("keyword") String keyword, 
+      @Param("start") String start, 
+      @Param("end") String end
+  );
 
   @Insert("INSERT INTO prototypes (prototype_name, concept, catch_copy, user_id) VALUES (#{prototypeName}, #{concept}, #{catchCopy}, #{user.id})")
   @Options(useGeneratedKeys = true, keyProperty = "id")
@@ -45,8 +80,11 @@ public interface PrototypeRepository {
   //@Select("SELECT * FROM prototypes WHERE id = #{id}")
   //PrototypeEntity findById(Integer id);
 
+  @Update("UPDATE prototypes SET views_count = views_count + 1 WHERE id = #{prototypeId}")
+  void incrementViews(@Param("prototypeId") Integer prototypeId);
+
   // ユーザー名を一緒に取得するためにJOINを追加
-  @Select("SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id AS image_id " +
+  @Select("SELECT p.*, u.id AS user_id, u.user_name AS user_name, i.id AS image_id, u.email AS user_email " +
           "FROM prototypes p " +
           "JOIN users u ON p.user_id = u.id " +
           "JOIN images i ON p.id = i.prototype_id " +
@@ -58,6 +96,7 @@ public interface PrototypeRepository {
       @Result(property = "user.id", column = "user_id"),
       // usersテーブルの名前(user_name)をprototype.user.userName にセット
       @Result(property = "user.userName", column = "user_name"),
+      @Result(property = "user.email", column = "user_email"),
       // プロトタイプのidを引数にしてコメントのメソッドを呼び出す
       @Result(property = "comments", column = "id", 
               many = @Many(select = "findCommentsByPrototypeId"))

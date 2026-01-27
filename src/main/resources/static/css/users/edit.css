@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+
+.contents {
+  flex: 1;
+}
+
+.new-admin div {
+  margin: 10px 0;
+}
+
+.new-admin input[type="text"],
+.new-admin input[type="password"],
+.new-admin input[type="email"],
+.new-admin textarea {
+  padding-left: 5px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.new-admin input[type="text"],
+.new-admin input[type="password"],
+.new-admin input[type="email"] {
+  height: 25px;
+}
+
+.new-admin textarea {
+  width: 30vw;
+  height: 40px;
+}
+
+.new-admin input[type="submit"] {
+  background-color: #87ceeb;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.new-admin input[type=submit]:hover {
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5);
+}
+
+.registerError {
+  color: red;
+}

@@ -22,10 +22,12 @@ public class RegisterForm {
   private String passwordConfirmation;
 
   public void validatePasswordConfirmation(BindingResult result) {
-    if (!password.equals(passwordConfirmation)) {
-      result.rejectValue("passwordConfirmation", null, "パスワードが一致しません。");
-    }
-  }
+    if (password != null && !password.isEmpty()) { //「他の項目（所属や役職）だけ変えて、パスワードは変えない」という操作も発生するため、password が入力されている時だけ validatePasswordConfirmation を実行する。
+      if (!password.equals(passwordConfirmation)) {
+        result.rejectValue("passwordConfirmation", null, "パスワードが一致しません。");
+      }
+    }     
+  } 
 
   // @Length(max = 6, message = "Name is too long (maximum is 6 characters)", groups = ValidationPriority2.class)
   @NotBlank(message = "ユーザー名を入力してください。", groups = ValidationPriority1.class)
@@ -39,4 +41,6 @@ public class RegisterForm {
 
   @NotBlank(message = "役職を入力してください。", groups = ValidationPriority1.class)
   private String position;
+
+  private Integer version;
 }

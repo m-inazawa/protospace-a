@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/users/edit.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
+    <title>ProtoSpace</title>
+
+    <style th:inline="css">
+      body {
+        background-image: url([[@{/images/7a2afcca4c1440f0c5137715284b8b7a_t.jpeg}]]);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        margin: 0;
+      }
+  </style>
+  
+</head>
+
+<body>
+<div th:insert="~{header :: header}"></div>
+
+<div class="contents row inner">
+  <div class="container">
+    <h2>ユーザー情報編集</h2>
+
+    <div th:if="${registerError}">
+      <p class="registerError" th:text="${registerError}"></p>
+    </div>
+
+    <div class="form">
+      
+      <form class="new-admin" th:action="@{/users/update}" th:method="post" th:object="${registerForm}">
+        <!--<input type="hidden" th:field="*{id}" />-->
+        <input type="hidden" th:field="*{version}" />
+        
+        <div class="admin-form-field">
+          <label for="email">メールアドレス</label><br />
+          <input type="email" id="email" th:field="*{email}"  />
+          <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-password">
+          <label for="password">パスワード (6文字以上)</label><br />
+          <input type="password" id="password" th:field="*{password}" />
+          <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-password-confirmation">
+          <label for="password_confirmation">パスワード再入力</label><br />
+          <input type="password" th:field="*{passwordConfirmation}" id="password_confirmation" autocomplete="off"/>
+          <p th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-user-name">
+          <label for="userName">ユーザー名</label><br />
+          <input type="text" id="userName" th:field="*{userName}"  autofocus="autofocus" />
+          <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-profile">
+          <label for="profile">プロフィール</label><br />
+          <textarea type="text" id="profile" th:field="*{profile}"  autofocus="autofocus" ></textarea>
+          <p th:if="${#fields.hasErrors('profile')}" th:errors="*{profile}" class="error-text"></p>
+        </div>
+        
+        <div class="admin-form-affiliation">
+          <label for="affiliation">所属</label><br />
+          <textarea type="text" id="affiliation" th:field="*{affiliation}"  autofocus="autofocus" ></textarea>
+          <p th:if="${#fields.hasErrors('affiliation')}" th:errors="*{affiliation}" class="error-text"></p>
+        </div>
+
+        <div class="admin-form-position">
+          <label for="position">役職</label><br />
+          <textarea type="text" id="position" th:field="*{position}"  autofocus="autofocus" ></textarea>
+          <p th:if="${#fields.hasErrors('position')}" th:errors="*{position}" class="error-text"></p>
+        </div>
+
+        <div class="actions">
+          <input type="submit" value="情報編集">
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div th:insert="~{footer :: footer}"></div>
+<div th:insert="~{mascot/index :: cursorStalker}"></div>
+
+</body>
+</html>
