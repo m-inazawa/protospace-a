@@ -111,6 +111,7 @@ public class PrototypeControllerUnitTest {
     PrototypeEntity mockPrototype = new PrototypeEntity();
     mockPrototype.setId(prototypeId);
     mockPrototype.setPrototypeName("プロトタイプ１");
+    mockPrototype.setViewsCount(0);
 
     List<CommentEntity> comments = new ArrayList<>();
     // コメントデータをセット
