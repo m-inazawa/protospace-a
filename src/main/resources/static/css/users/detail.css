@@ -2,10 +2,9 @@
   flex: 1; /* ヘッダーとフッター以外の余白をすべて埋める */
 }
 
-.user-header,.prototype-header {
-  font-size: 30px;
-  margin-bottom: 30px;
-  font-weight: bold;
+.user-header {
+  display: flex;
+  align-items: center;
 }
 
 .contents-row {
@@ -41,3 +40,48 @@
   font-size: 16px;
 }
 
+/* フォローアイコンのCSS */
+.icon-following {
+  border: 1px solid #44c4f7;
+  border-radius: 15px;
+  padding: 3px;
+  font-size: 12px;
+  background: #44c4f7;
+  color: white;
+  margin-left: 5px;
+}
+
+.icon-not-following {
+  display: hidden;
+}
+
+/* フォローボタンのCSS */
+#follow-button {
+  border: 1px #87CEFA solid;
+  border-radius: 3px;
+  padding: 3px 19.5px;
+  font-size: 12px;
+  margin: 5px;
+}
+
+.unFollow-btn {
+  background: #87CEFA;
+  color: white;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.unFollow-btn:hover {
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5);
+}
+
+.follow-btn {
+  background: white;
+  color: #87CEFA;
+  transition: all 0.5s ease;
+}
+
+.follow-btn:hover {
+  background: #87CEFA;
+  color: white;
+}

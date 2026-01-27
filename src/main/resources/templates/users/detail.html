@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <link th:href="@{/css/users/detail.css}" rel="stylesheet" type="text/css">
   <link th:href="@{/css/fragment/style.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/css/users/prototype.css}" rel="stylesheet" type="text/css">
+  <script th:src="@{/js/userPage.js}"></script>
   <link th:href="@{/css/users/edit.css}" rel="stylesheet" type="text/css">
-  <link href="../../static/css/users/detail.css" rel="stylesheet" type="text/css">
   <title>ProtoSpace</title>
 
   <style th:inline="css">
@@ -26,8 +27,23 @@
 
     <div class="contents-row">
       <div class="user-row">
-        
-        <div class="user-header" th:text="${user.userName} + 'さんの情報'"></div>
+        <div class="user-header">
+          <h2 th:text="${user.userName} + 'さんの情報'"></h2>
+          <span th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() != user.id}"
+            th:class="${follows.isFollow == 'follow' ? 'icon-following' : 'icon-not-following'}"
+            th:text="${follows.isFollow == 'follow' ? 'フォロー中' : ''}"
+            id="follow-icon">
+          </span>
+        </div>
+        <button 
+          th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() != user.id}"
+          onclick="toggleFollow(this)"
+          id="follow-button"
+          th:data-id="${user.id}" 
+          th:data-flg="${follows.isFollow == 'follow' ? 'follow' : 'unFollow'}"
+          th:text="${follows.isFollow == 'follow' ? 'フォロー解除' : 'フォロー'}"
+          th:class="${follows.isFollow == 'follow' ? 'follow-btn' : 'unFollow-btn'}"
+        ></button>
 
         <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() == user.id}">
             <div class="edit-btn"> 
@@ -58,7 +74,7 @@
       </div>
 
       <div class="prototype-row">
-        <div class="prototype-header" th:text="${user.userName} + 'さんのプロトタイプ'"></div>
+        <h2 th:text="${user.userName} + 'さんのプロトタイプ'"></h2>
         <div class="prototype-contents">
           <div th:each="prototype : ${prototypes}" class="prototypes">
             <div th:replace="~{users/prototype :: content(prototype=${prototype})}"></div>
