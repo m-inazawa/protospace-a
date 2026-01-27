@@ -81,7 +81,7 @@ public class UserController {
     followForm.setFollowerCounts(followRepository.getFollowerCount(userId));
     if (currentUser != null) {
       boolean exists = followRepository.isExistedByPrimaryKey(currentUser.getUserId(), userId);
-      followForm.setExists(exists ? "unFollow" : "follow");
+      followForm.setIsFollow(exists ? "follow" : "unFollow");
     }
     model.addAttribute("follows", followForm);
     model.addAttribute("user", userEntity);
@@ -96,10 +96,10 @@ public class UserController {
     @AuthenticationPrincipal CustomUserDetail currentUser
   ) {
     // フォローかフォロー解除か判定
-    if (followFlg.equals("follow")) {
+    if (followFlg.equals("unFollow")) {
       // インサートのリポジトリ実行
       followRepository.insert(currentUser.getUserId(), followerId);
-    } else if (followFlg.equals("unFollow")) {
+    } else if (followFlg.equals("follow")) {
       // デリートのリポジトリ実行
       followRepository.delete(currentUser.getUserId(), followerId);
     }

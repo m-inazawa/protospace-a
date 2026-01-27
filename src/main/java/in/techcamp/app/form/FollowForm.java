@@ -6,5 +6,5 @@ import lombok.Data;
 public class FollowForm {
   private Long followCounts;
   private Long followerCounts;
-  private String exists;
+  private String isFollow;
 }
