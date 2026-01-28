@@ -67,8 +67,7 @@ public class UserController {
     } catch (Exception e) {
       model.addAttribute("registerError", "システムエラーにより操作を完了できませんでした。");
       return "users/register";
-    }
-      
+    } 
     return "redirect:/users/login";
   }
 

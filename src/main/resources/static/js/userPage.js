@@ -25,7 +25,7 @@ function toggleFollow(button) {
           button.innerText = 'フォロー解除';
           button.setAttribute('data-flg', 'follow');
           button.classList.replace('unFollow-btn', 'follow-btn');
-
+      
           if (iconElm) {
             iconElm.classList.replace('icon-not-following', 'icon-following');
             iconElm.innerText = 'フォロー中';
@@ -35,3 +35,4 @@ function toggleFollow(button) {
   })
   .catch(error => console.error('Error:', error));
 }
+
