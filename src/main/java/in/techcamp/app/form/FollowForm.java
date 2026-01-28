@@ -2,6 +2,7 @@ package in.techcamp.app.form;
 
 import lombok.Data;
 
+
 @Data
 public class FollowForm {
   private Long followCounts;
