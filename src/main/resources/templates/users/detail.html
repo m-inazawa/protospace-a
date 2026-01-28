@@ -34,6 +34,11 @@
             th:text="${follows.isFollow == 'follow' ? 'フォロー中' : ''}"
             id="follow-icon">
           </span>
+          <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() == user.id}">
+            <span class="edit-btn"> 
+              <a th:href="@{/users/edit}">編集する</a>
+            </span>
+          </div>
         </div>
         <button 
           th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() != user.id}"
@@ -45,11 +50,7 @@
           th:class="${follows.isFollow == 'follow' ? 'follow-btn' : 'unFollow-btn'}"
         ></button>
 
-        <div class="button" th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getUserId() == user.id}">
-            <div class="edit-btn"> 
-              <a th:href="@{/users/edit}">編集する</a>
-            </div>
-        </div>
+        
 
         <table class="table">
           <tbody>

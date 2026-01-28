@@ -85,3 +85,21 @@
   background: #87CEFA;
   color: white;
 }
+
+/* ユーザー編集ボタンのCSS */
+.edit-btn a {
+  display: block;
+  width: 100px;
+  box-sizing: border-box;
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 5px;
+  background-color: #fff;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  margin-left: 20px;
+}
