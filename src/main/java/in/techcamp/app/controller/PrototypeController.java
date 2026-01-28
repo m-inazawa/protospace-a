@@ -153,6 +153,20 @@ public class PrototypeController {
     
     catch (Exception e) {
       System.out.println("エラー：" + e);
+
+      try {
+          PrototypeEntity latest = prototypeRepository.findById(prototypeId);
+          if (latest != null) {
+              prototypeForm.setVersion(latest.getVersion());
+          }
+      } catch (Exception dbEx) {
+          // DB自体にアクセスできない場合は、ログを出力して何もしない
+          System.out.println("DB再取得失敗：" + dbEx.getMessage());
+      }
+
+      // エラーメッセージを画面に表示するための準備
+      model.addAttribute("errorMessages", List.of("予期せぬエラーが発生しました。再度お試しください。"));
+      model.addAttribute("prototypeForm", prototypeForm);
       return "prototype/edit";
     }
 
