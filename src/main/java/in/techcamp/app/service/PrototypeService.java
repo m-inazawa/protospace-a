@@ -55,7 +55,7 @@ public class PrototypeService {
         throw new org.springframework.dao.OptimisticLockingFailureException("競合エラー：他のユーザーが更新しました。");
     }
     // イメージをエンティティにセット
-    ImageEntity image = imageRepository.findByImageId(prototypeId);
+    ImageEntity image = imageRepository.findByPrototypeId(prototypeId);
     if (prototypeForm.getImage() != null && !prototypeForm.getImage().isEmpty()) {
       byte[] resizedImage = reSizeImage(prototypeForm.getImage().getBytes());
       image.setImage(resizedImage);

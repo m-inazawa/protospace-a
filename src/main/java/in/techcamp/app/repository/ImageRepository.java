@@ -23,4 +23,7 @@ public interface ImageRepository {
   @Select("SELECT pg_database_size(current_database())")
   long getCurrentDatabaseSize();
 
+  @Select("SELECT * FROM images WHERE prototype_id = #{prototypeId}")
+  ImageEntity findByPrototypeId(Integer prototypeId);
+
 }
